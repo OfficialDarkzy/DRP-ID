@@ -1,0 +1,76 @@
+html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+
+#DRP_Characters {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  border: 1px solid black;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  background-color: transparent !important;
+}
+
+/*---------------------------------------------------------------------------
+-- CHARACTER SELECTOR
+---------------------------------------------------------------------------*/
+#DRP_SelectCharacter {
+  position: absolute;
+  width: 1250px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+#DRP_Character_Header {
+  /* text-align: center; */
+  align-content: center;
+  font-size: 20px;
+  font-weight: 500;
+  color: white;
+}
+
+#DRP_Character_Body {
+  background-color: rgba(60, 62, 66, 0.8);
+  overflow-y: auto;
+  max-height: 700px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 1px solid rgb(60, 62, 66);
+}
+/*---------------------------------------------------------------------------
+-- SPAWN MENU
+---------------------------------------------------------------------------*/
+#DRP_SpawnMenu_Header {
+  width: 100%;
+  background-color: rgb(0, 110, 255);
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  padding: 20px;
+  text-align: center;
+  font-size: 20px;
+  color: white;
+  font-weight: bold;
+}
+
+/*---------------------------------------------------------------------------
+-- MISC SETTINGS
+---------------------------------------------------------------------------*/
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+::-webkit-scrollbar-thumb {
+  border-radius: 5px;
+  background-color: rgba(81, 81, 81, 100);
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background-color: rgba(61, 61, 61, 255);
+}
