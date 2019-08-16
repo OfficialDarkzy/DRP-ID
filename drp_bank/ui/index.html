@@ -1,0 +1,128 @@
+<html>
+  <head>
+    <title>CADOJRP Banking</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+    />
+    <link rel="stylesheet" href="libraries/vuetify.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+
+  <body>
+    <v-app id="ATM_Menu" v-show="showMenu">
+      <v-content>
+        <div id="ATM_Menu_Base">
+          <div id="ATM_Menu_Header">
+            <div id="ATM_Character_Information">
+              <div>Welcome, {{ character_name }}</div>
+              <div>Bank Balance: ${{ account }}: Cash Balance: ${{ cash }}</div>
+            </div>
+            <v-icon dark x-large left>account_balance</v-icon>
+            City Banking
+            <v-btn
+              color="red"
+              slot="activator"
+              absolute
+              right
+              top
+              fab
+              dark
+              small
+              @click="CloseMenu()"
+            >
+              <v-icon>clear</v-icon>
+            </v-btn>
+          </div>
+          <div id="ATM_Menu_Body">
+            <v-container grid-list-md>
+              <v-form ref="depositForm" v-model="depositFormValid">
+                <v-layout row>
+                  <v-flex xs12>
+                    <v-text-field
+                      label="Amount"
+                      type="number"
+                      :rules="inputRules"
+                      v-model="depositAmount"
+                      dark
+                      color="white"
+                      prefix="$"
+                      :disabled="loading"
+                      :loading="loading"
+                      min="1"
+                    ></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout row>
+                  <v-flex xs12>
+                    <v-btn
+                      color="green"
+                      block
+                      dark
+                      :loading="loading"
+                      @click="DepositMoney()"
+                      >Deposit (Enter Amount)
+                    </v-btn>
+                    <v-btn
+                      color="green"
+                      block
+                      dark
+                      :loading="loading"
+                      @click="DepositAll()"
+                      >Deposit All</v-btn
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-form>
+            </v-container>
+            <v-container grid-list-md>
+              <v-form ref="withdrawForm" v-model="withdrawFormValid">
+                <v-layout row>
+                  <v-flex xs12>
+                    <v-text-field
+                      label="Amount"
+                      type="number"
+                      :rules="inputRules"
+                      v-model="withdrawAmount"
+                      dark
+                      color="white"
+                      prefix="$"
+                      :disabled="loading"
+                      :loading="loading"
+                      min="1"
+                    ></v-text-field>
+                  </v-flex>
+                </v-layout>
+                <v-layout row>
+                  <v-flex xs12>
+                    <v-btn
+                      color="green"
+                      block
+                      dark
+                      :loading="loading"
+                      @click="WithdrawMoney()"
+                      >Withdraw
+                    </v-btn>
+                    <v-btn
+                      color="green"
+                      block
+                      dark
+                      :loading="loading"
+                      @click="Quick250()"
+                      >Quick $250</v-btn
+                    >
+                  </v-flex>
+                </v-layout>
+              </v-form>
+            </v-container>
+          </div>
+        </div>
+      </v-content>
+    </v-app>
+
+    <script src="libraries/axios.min.js"></script>
+    <script src="libraries/vue.min.js"></script>
+    <script src="libraries/vuetify.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

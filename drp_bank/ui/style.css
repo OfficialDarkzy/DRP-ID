@@ -1,0 +1,56 @@
+html {
+  overflow-x: hidden;
+  overflow-y: hidden;
+}
+/*---------------------------------------------------------------------------
+-- Vuetify Base
+---------------------------------------------------------------------------*/
+#ATM_Menu {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background-color: transparent !important;
+}
+
+/*---------------------------------------------------------------------------
+-- Menu Base
+---------------------------------------------------------------------------*/
+#ATM_Menu_Base {
+  position: absolute;
+  width: 960px;
+  height: 450px;
+  max-height: 450px;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+}
+
+/*---------------------------------------------------------------------------
+-- Menu Header
+---------------------------------------------------------------------------*/
+#ATM_Menu_Header {
+  background-color: rgba(60, 62, 66, 0.8);
+  padding: 20px;
+  color: white;
+  font-size: 20px;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  text-align: center;
+}
+
+/*---------------------------------------------------------------------------
+-- Menu Body
+---------------------------------------------------------------------------*/
+#ATM_Menu_Body {
+  background-color: rgba(60, 62, 66, 0.8);
+  padding: 20px;
+}
+
+/*---------------------------------------------------------------------------
+-- Top left character data
+---------------------------------------------------------------------------*/
+#ATM_Character_Information {
+  position: absolute;
+  font-size: 15px;
+  text-align: left;
+}
