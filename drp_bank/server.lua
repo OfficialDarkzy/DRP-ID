@@ -186,6 +186,7 @@ AddEventHandler("DRP_Bank:AddCashMoney", function(source, amount)
                     }
                 }, function(results)
                     TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance)
+                    TriggerClientEvent("DRP_Core:Info", src, "Bank", "You picked up $"..amount.." of Cash", 2500, false, "leftCenter")
                 end)
             end)
         end)
