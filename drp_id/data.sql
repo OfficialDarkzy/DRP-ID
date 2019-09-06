@@ -20,43 +20,20 @@ USE `drp`;
 -- Dumping structure for table drp.characters
 CREATE TABLE
 IF NOT EXISTS `characters`
-(
-  `id` int
-(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar
-(255) NOT NULL,
-  `age` int
-(255) NOT NULL,
-  `gender` varchar
-(255) NOT NULL,
-  `cash` bigint
-(20) NOT NULL,
-  `bank` bigint
-(20) NOT NULL,
-  `dirtyCash` bigint
-(20) NOT NULL,
-  `paycheck` bigint
-(11) NOT NULL,
+  `id` int(11) NOT NULL,
+  `name` varchar(255) NOT NULL,
+  `age` int(255) NOT NULL,
+  `gender` varchar(255) NOT NULL,
+  `cash` bigint(20) NOT NULL DEFAULT '0',
+  `bank` bigint(20) NOT NULL DEFAULT '0',
+  `dirtyCash` bigint(20) NOT NULL DEFAULT '0',
+  `paycheck` bigint(20) NOT NULL DEFAULT '0',
   `licenses` text NOT NULL,
-  `phonenumber` mediumint
-(11) NOT NULL,
-  `isDead` int
-(11) NOT NULL DEFAULT '0',
-  `lastLocation` varchar
-(255) DEFAULT '{433.42, -628.88, 28.72}',
-  `playerid` int
-(11) NOT NULL,
-  PRIMARY KEY
-(`id`),
-  KEY `player_id`
-(`playerid`) USING BTREE,
-  CONSTRAINT `characters_ibfk_1` FOREIGN KEY
-(`playerid`) REFERENCES `users`
-(`id`) ON
-DELETE CASCADE ON
-UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET
-=utf8;
+  `phonenumber` mediumint(11) NOT NULL,
+  `isDead` int(11) NOT NULL DEFAULT '0',
+  `lastLocation` varchar(255) DEFAULT '{433.42, -628.88, 28.72}',
+  `playerid` int(11) NOT NULL
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 /*!40101 SET SQL_MODE=IFNULL(@OLD_SQL_MODE, '') */;
 /*!40014 SET FOREIGN_KEY_CHECKS=IF(@OLD_FOREIGN_KEY_CHECKS IS NULL, 1, @OLD_FOREIGN_KEY_CHECKS) */;
