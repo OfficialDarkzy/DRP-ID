@@ -197,14 +197,14 @@ end)
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_Bank:RemoveCashMoney", function(source, amount)
     local src = source
+    print("removing cash "..amount)
     TriggerEvent("DRP_ID:GetCharacterData", src, function(characterData)
         TriggerEvent("DRP_Bank:GetCharacterMoney", characterData.charid, function(characterMoney)
-            local moneyRemoved = 25
-            local newCashBalance = characterMoney.data[1].cash - tonumber(amount)
+            local playerCash = characterMoney.data[1].cash - amount
             exports["externalsql"]:DBAsyncQuery({
                 string = "UPDATE `characters` SET `cash` = :cash WHERE `id` = :charid",
                 data = {
-                    cash = newCashBalance,
+                    cash = playerCash,
                     charid = characterData.charid
                 }
             }, function(results)
@@ -270,6 +270,18 @@ AddEventHandler("DRP_Bank:GetCharacterMoney", function(charid, callback)
 		callback(results)
 	end)
 end)
+
+function GetCharacterMoney(charid, callback)
+    local src = source
+		exports["externalsql"]:DBAsyncQuery({
+			string = "SELECT * FROM `characters` WHERE `id` = :char_id",
+			data = {
+				char_id = charid
+			}
+		}, function(results)
+		callback(results)
+	end)
+end
 ---------------------------------------------------------------------------
 -- All Commands For Banking
 ---------------------------------------------------------------------------
