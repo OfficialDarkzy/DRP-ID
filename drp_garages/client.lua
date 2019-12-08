@@ -22,19 +22,26 @@ Citizen.CreateThread(function()
 		EndTextCommandSetBlipName(item.blip)
 	end
 	while true do
+	local waitTime = 1000
 	for _, garage in pairs(garages) do
-			DrawMarker(25, garage.x, garage.y, garage.z, 0, 0, 0, 0, 0, 0, 3.001, 3.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
-			if GetDistanceBetweenCoords(garage.x, garage.y, garage.z, GetEntityCoords(GetPlayerPed(PlayerId()))) < 3 and IsPedInAnyVehicle(GetPlayerPed(PlayerId()), true) == false then
-				drawTxt("Press ~g~E~s~ to open the garage system",0,1,0.5,0.8,0.6,255,255,255,255)
-				if IsControlJustPressed(1, 86) then
-					garageSelected.x = garage.x 
-					garageSelected.y = garage.y
-					garageSelected.z = garage.z
-					TriggerServerEvent("DRP_Garages:RequestOpenMenu")
+			local ped = GetPlayerPed(PlayerId())
+			local pedCoords = GetEntityCoords(ped, false)
+			local distance = Vdist(garage.x, garage.y, garage.z, pedCoords.x, pedCoords.y, pedCoords.z)
+			if distance < 25 then
+				waitTime = 1
+				DrawMarker(25, garage.x, garage.y, garage.z, 0, 0, 0, 0, 0, 0, 3.001, 3.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
+				if distance < 3 and not IsPedInAnyVehicle(ped, true) then
+					drawTxt("Press ~g~E~s~ to open the garage system",0,1,0.5,0.8,0.6,255,255,255,255)
+					if IsControlJustPressed(1, 86) then
+						garageSelected.x = garage.x 
+						garageSelected.y = garage.y
+						garageSelected.z = garage.z
+						TriggerServerEvent("DRP_Garages:RequestOpenMenu")
+					end
 				end
 			end
 		end
-		Citizen.Wait(0)
+		Citizen.Wait(waitTime)
 	end
 end)
 ---------------------------------------------------------------------------
@@ -65,12 +72,8 @@ function SpawnPersonalVehicle(data)
 	for a = 1, #data, 1 do
 		local state = tostring(data[a].state)
 		local modelLabel = data[a]["modelLabel"]
-		plate = data[a].plate
-		print(plate)
-		
+		local plate = data[a].plate		
 		local allVehicleMods = data[a]["vehicleMods"]
-
-		
 		local car = allVehicleMods["model"]
 		
 		if state == "IN" then
@@ -141,11 +144,6 @@ AddEventHandler("DRP_Garages:StoreVehicle", function()
 		deleteCar(vehicle)
 		drawNotification("Vehicle Stored")
 	end)
-end)
-
-RegisterNetEvent("DRP_Garages:StoreVehicleFalse")
-AddEventHandler("DRP_Garages:StoreVehicleFalse", function()
-	drawNotification("Vehicle Cant Be Stored")
 end)
 ---------------------------------------------------------------------------
 -- NUI CALLBACKS

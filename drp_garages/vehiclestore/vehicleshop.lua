@@ -550,11 +550,10 @@ function CloseCreator( veh, price)
 			end
 			
 			local personalvehicle = CreateVehicle(model,pos[1],pos[2],pos[3],pos[4],true,false)
-			SetModelAsNoLongerNeeded(model)
 			SetVehicleOnGroundProperly(personalvehicle)
-			
-			SetVehicleHasBeenOwnedByPlayer(personalvehicle,true)
+			SetVehicleHasBeenOwnedByPlayer(personalvehicle, true)
 			SetEntityAsMissionEntity(personalvehicle, true, true)
+			
 			local id = NetworkGetNetworkIdFromEntity(personalvehicle)
 			SetNetworkIdCanMigrate(id, true)
 			Citizen.InvokeNative(0x629BFA74418D6239,Citizen.PointerValueIntInitialized(personalvehicle))
@@ -776,15 +775,19 @@ end
 
 Citizen.CreateThread(function()
 	while true do
-		Citizen.Wait(0)
-		if IsControlJustPressed(1,38) and IsPlayerInRangeOfVehshop() then
-			if vehshop.opened then
-				CloseCreator()
-			else
-				OpenCreator()
+		local sleepTimer = 1000
+		if IsPlayerInRangeOfVehshop() then
+			sleepTimer = 1
+			if IsControlJustPressed(1,38) then
+				if vehshop.opened then
+					CloseCreator()
+				else
+					OpenCreator()
+				end
 			end
 		end
 		if vehshop.opened then
+			sleepTimer = 1
 			local ped = LocalPed()
 			local menu = vehshop.menu[vehshop.currentmenu]
 			drawTxt(vehshop.title,1,1,vehshop.menu.x,vehshop.menu.y,1.0, 255,255,255,255)
@@ -892,7 +895,7 @@ Citizen.CreateThread(function()
 				end
 			end
 		end
-
+		Citizen.Wait(sleepTimer)
 	end
 end)
 

@@ -57,8 +57,6 @@ AddEventHandler("DRP_Garages:RequestStoreVehicle", function(plate)
 					local allVehicleMods = json.decode(allVehicleData[a]["vehicleMods"])
 					if plate == allVehicleMods.plate then
 						TriggerClientEvent("DRP_Garages:StoreVehicle", src)
-					else
-						TriggerClientEvent("DRP_Garages:StoreVehicleFalse", src)
 					end
 				end
 			else

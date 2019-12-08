@@ -83,6 +83,7 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn, spawnInHote
 	TriggerServerEvent("DRP_Garages:CheckLockPicking")
 	TriggerServerEvent("DRP_Auction:GetVehicleList")
 	TriggerServerEvent("DRP_Housing:InitializePlayer", spawnInHotel)
+	TriggerServerEvent("DRP_Farming:SyncData") -- If Farming Is Installed
 	TriggerServerEvent("DRP_Doors:StartSync") -- If Doors is Installed
 	TriggerServerEvent("DRP_Tattoos:GetTattoos") -- If Tattoos is Installed
 	---------------------------------------------------------------------------

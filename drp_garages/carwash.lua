@@ -15,14 +15,15 @@ if DRPGarages.Carwash then
 			AddTextComponentString(item.name)
 			EndTextCommandSetBlipName(item.blip)
 		end
-		while true do 
-			Citizen.Wait(0)
+		while true do
+			local sleepTime = 1000
 			for a = 1, #carWashLocations do
 			local ped = GetPlayerPed(PlayerId())
 			local pedPos = GetEntityCoords(ped, false)
 			local distance = Vdist(pedPos.x, pedPos.y, pedPos.z, carWashLocations[a].x, carWashLocations[a].y, carWashLocations[a].z)
 			if distance <= 20.0 then
-				DrawMarker(1,carWashLocations[a].x, carWashLocations[a].y, carWashLocations[a].z, 0,0,0,0,0,0,2.001,2.0001,0.5001,0,155,255,200,0,0,0,0)
+				sleepTime = 5
+				DrawMarker(1, carWashLocations[a].x, carWashLocations[a].y, carWashLocations[a].z, 0,0,0,0,0,0,2.001,2.0001,0.5001,0,155,255,200,0,0,0,0)
 					if distance <= 4.0 then 
 					local pedVehicle = GetVehiclePedIsIn(ped)
 					local carWashCost = 25
@@ -35,6 +36,7 @@ if DRPGarages.Carwash then
 					end
 				end
 			end
+			Citizen.Wait(sleepTime)
 		end
 	end)
 end

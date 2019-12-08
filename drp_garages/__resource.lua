@@ -27,7 +27,6 @@ client_script "managers/managers.lua"
 client_script "managers/entityier.lua"
 client_script "vehiclestore/vehicleshop.lua"
 
-
 server_script "config.lua"
 server_script "server.lua"
 server_script "vehiclestore/vehicleshop_server.lua"
