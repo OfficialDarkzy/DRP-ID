@@ -28,7 +28,7 @@ Citizen.CreateThread(function()
 			local pedCoords = GetEntityCoords(ped, false)
 			local distance = Vdist(garage.x, garage.y, garage.z, pedCoords.x, pedCoords.y, pedCoords.z)
 			if distance < 25 then
-				waitTime = 1
+				waitTime = 5
 				DrawMarker(25, garage.x, garage.y, garage.z, 0, 0, 0, 0, 0, 0, 3.001, 3.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
 				if distance < 3 and not IsPedInAnyVehicle(ped, true) then
 					drawTxt("Press ~g~E~s~ to open the garage system",0,1,0.5,0.8,0.6,255,255,255,255)
