@@ -1,0 +1,152 @@
+<html>
+  <head>
+    <title>CADOJRP Interaction Menus</title>
+    <link
+      href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700|Material+Icons"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="libraries/vuetify.css" />
+    <link rel="stylesheet" href="style.css" />
+  </head>
+  <body>
+    <v-app id="ISRP_Interactions">
+      <div id="ISRP_Interactions_Base" v-show="showMenu">
+        <div id="ISRP_Interactions_Header">
+          Toolbox
+        </div>
+        <div id="ISRP_Interactions_Body">
+          <!-- MAIN MENU -->
+          <div id="ISRP_Interactions_Main" v-show="currentMenu == 'main'">
+            <v-container grid-list-xs>
+              <v-btn dark color="success" block @click="ChangeMenu('regular')"
+                >Regular Interactions</v-btn
+              >
+              <v-btn dark color="success" block @click="ChangeMenu('inventory')"
+                >Inventory</v-btn
+              >
+
+              <v-btn
+                dark
+                color="success"
+                block
+                @click="ChangeMenu('leo')"
+                v-if="job == 'SHERIFF'"
+                >LEO Interactions</v-btn
+              >
+              <v-btn
+                dark
+                color="success"
+                block
+                @click="ChangeMenu('leo')"
+                v-if="job == 'POLICE'"
+                >LEO Interactions</v-btn
+              >
+              <v-btn
+                dark
+                color="success"
+                block
+                @click="ChangeMenu('leo')"
+                v-if="job == 'STATE'"
+                >LEO Interactions</v-btn
+              >
+
+              <v-btn
+                dark
+                color="warning"
+                block
+                @click="ChangeMenu('medical')"
+                v-if="job == 'MEDIC'"
+                >Medical Interactions</v-btn
+              >
+
+              <v-btn dark color="red" block @click="CloseMenu()">Close</v-btn>
+            </v-container>
+          </div>
+
+          <!-- REGULAR MENU -->
+          <div id="ISRP_Interactions_Regular" v-show="currentMenu == 'regular'">
+            <v-container grid-list-xs>
+              <!-- <v-btn dark block @click="Blindfold()">Blind Fold</v-btn>
+                            <v-btn dark block @click="Ziptie()">Zip-Tie</v-btn> -->
+              <v-btn dark block @click="Drag()">Drag</v-btn>
+              <!-- <v-btn dark block @click="PutInVehicle()">Put In Vehicle</v-btn> -->
+              <v-btn dark color="red" block @click="ChangeMenu('main')"
+                >Back</v-btn
+              >
+              <v-btn dark color="red" block @click="CloseMenu()">Close</v-btn>
+            </v-container>
+          </div>
+
+          <!-- INVENTORY MENU
+                    <div id="ISRP_Interactions_Inventory" v-show="currentMenu == 'inventory'">
+                        <v-container grid-list-xs>
+                                <v-alert type="error" :value="items.length <= 0">
+                                        Empty Inventory
+                                    </v-alert>
+
+                                    <v-layout row wrap>
+                                            <v-flex xs12 v-for="(item, itemIndex) in items" :key="itemIndex">
+                                                <v-card style="border: 1px solid grey;">
+                                                    <v-card-text style="position: relative; top: 50%; transform: translateY(15%);" d-inline>
+                                                        <v-layout row wrap>
+                                                            <v-flex xs8>
+                                                                <h3>{{ item.name }}: {{ item.quantity }}</h3>
+                                                            </v-flex>
+                                                            <v-flex style="position: relative; top: 50%; right: 2%; transform: translateY(-25%);" xs2>
+                                                                <v-btn dark color="green" small fab @click="UseSelectedItem(itemIndex)"><v-icon>pan_tool</v-icon></v-btn>
+                                                            </v-flex>
+                                                            <v-flex style="position: relative; top: 50%; right: 2%; transform: translateY(-25%);" xs2>
+                                                                <v-btn dark color="red" small fab @click="DropSelectedItem(itemIndex)"><v-icon>delete</v-icon></v-btn>
+                                                            </v-flex>
+                                                        </v-layout>
+                                                    </v-card-text>
+                                                </v-card>
+                                            </v-flex>
+                                        </v-layout>
+
+                            <v-btn dark color="red" block @click="ChangeMenu('main')">Back</v-btn>
+                            <v-btn dark color="red" block @click="CloseMenu()">Close</v-btn>
+                        </v-container>
+                    </div> -->
+
+          <!-- LEO MENU -->
+          <div id="ISRP_Interactions_Leo" v-show="currentMenu == 'leo'">
+            <v-container grid-list-xs>
+              <v-btn dark block @click="ShowBadge()">Show Badge</v-btn>
+              <v-btn dark block @click="Handcuff()">Handcuff</v-btn>
+              <v-btn dark block @click="Drag()">Escort</v-btn>
+              <v-btn dark block @click="PutInVehicle()">Put In Vehicle</v-btn>
+              <v-btn dark block @click="UnseatFromVehicle()"
+                >Unseat From Vehicle</v-btn
+              >
+              <v-btn dark block @click="Search()">Search</v-btn>
+              <v-btn dark block @click="Fine()">Fine</v-btn>
+              <v-btn dark block @click="Revive()">Revive</v-btn>
+              <v-btn dark color="red" block @click="ChangeMenu('main')"
+                >Back</v-btn
+              >
+              <v-btn dark color="red" block @click="CloseMenu()">Close</v-btn>
+            </v-container>
+          </div>
+
+          <!-- MEDICAL MENU -->
+          <div id="ISRP_Interactions_Medical" v-show="currentMenu == 'medical'">
+            <v-container grid-list-xs>
+              <v-btn dark block @click="Revive()">Revive</v-btn>
+              <v-btn dark block @click="Heal()">Heal</v-btn>
+              <v-btn dark color="red" block @click="ChangeMenu('main')"
+                >Back</v-btn
+              >
+              <v-btn dark color="red" block @click="CloseMenu()">Close</v-btn>
+            </v-container>
+          </div>
+        </div>
+      </div>
+    </v-app>
+
+    <script src="libraries/axios.min.js"></script>
+    <script src="libraries/vue.min.js"></script>
+    <script src="libraries/vuetify.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>
