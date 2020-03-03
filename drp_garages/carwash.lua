@@ -63,8 +63,6 @@ function drawText(text,font,centre,x,y,scale,r,g,b,a)
     DrawText(x , y)
 end
 
-
--- Shows a notification on the player's screen 
 function ShowNotification( text )
 	SetNotificationTextEntry( "STRING" )
 	AddTextComponentString( text )

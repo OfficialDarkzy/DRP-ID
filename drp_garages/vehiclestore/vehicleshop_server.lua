@@ -28,7 +28,7 @@ AddEventHandler("DRP_Garages:PurchaseVehicle", function(price, model, plate, veh
 			local vehicle = vehicle
 			local vehicleMods = vehicleMods
 			if price == 0 or price == 1 then
-				TriggerEvent("ISRP_Admin:ManualBan", src, cheatengine, true)
+				TriggerEvent("DRP_Admin:ManualBan", src, cheatengine, true) -- This Don't work yet :)
 			else
 				exports["externalsql"]:DBAsyncQuery({
 					string = [[
