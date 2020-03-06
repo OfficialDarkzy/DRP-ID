@@ -116,15 +116,15 @@ AddEventHandler("DRP_Garages:StateChangeIn", function(id)
 		end)
 	end)
 end)
-
+--Changed ID to plate , as the call via client was returning network entity id , not usable in db--
 RegisterServerEvent("DRP_Garages:StateChangeOut")
-AddEventHandler("DRP_Garages:StateChangeOut", function(id)
+AddEventHandler("DRP_Garages:StateChangeOut", function(plate)
 	local src = source
 	TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
 		exports["externalsql"]:DBAsyncQuery({
-            string = "UPDATE vehicles SET `state` = :state WHERE `id` = :id",
+            string = "UPDATE vehicles SET `state` = :state WHERE `plate` = :plate",
             data = {
-                id = id,
+                plate = plate,
                 state = "OUT"
             }
         }, function(results)
