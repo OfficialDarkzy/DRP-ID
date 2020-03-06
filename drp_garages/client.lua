@@ -128,6 +128,7 @@ function UpdateVehicle(veh)
 		local allVehicleMods = VehicleData(veh)
 		local plate = GetVehicleNumberPlateText(veh)
 		TriggerServerEvent("DRP_Garages:UpdateVehicle", plate, allVehicleMods)
+		TriggerServerEvent("DRP_Garages:StateChangeIn", plate)
 	else
 		drawNotification("Can't update this Vehicle!")
 	end
