@@ -8,6 +8,7 @@ games { 'rdr3', 'gta5' }
 
 
 dependencies {
+    "drp_id"
 	"externalsql"
 }
 
