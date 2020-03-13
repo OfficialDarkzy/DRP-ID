@@ -75,11 +75,11 @@ const DRP_Characters = new Vue({
         .catch(error => {});
     },
 
-    ApartmentSpawn() {
+    ClothingSpawn() {
       axios
-        .post(`http://${this.ResourceName}/ApartmentSpawn`, {
+        .post(`http://${this.ResourceName}/ClothingSpawn`, {
           ped: this.ped,
-          spawn: [1000.0, 1000.0, 1000.0]
+          spawn: [71.88147, -1398.833, 29.37616]
         })
         .then(response => {
           this.showCharacterSpawnMenu = false;
@@ -87,9 +87,69 @@ const DRP_Characters = new Vue({
         .catch(error => {});
     },
 
-    TrainStationSpawn() {
+    GarageSpawn() {
       axios
-        .post(`http://${this.ResourceName}/spawnInLocation`, {
+        .post(`http://${this.ResourceName}/GarageSpawn`, {
+          ped: this.ped,
+          spawn: [279.7169, -345.4529, 44.91983]
+        })
+        .then(response => {
+          this.showCharacterSpawnMenu = false;
+        })
+        .catch(error => {});
+    },
+
+    HospitalSpawn() {
+      axios
+        .post(`http://${this.ResourceName}/HospitalSpawn`, {
+          ped: this.ped,
+          spawn: [306.795, -619.6395, 43.44999]
+        })
+        .then(response => {
+          this.showCharacterSpawnMenu = false;
+        })
+        .catch(error => {});
+    },
+
+    TrainSpawn() {
+      axios
+        .post(`http://${this.ResourceName}/TrainSpawn`, {
+          ped: this.ped,
+          spawn: [295.5171, -1204.268, 38.90181]
+        })
+        .then(response => {
+          this.showCharacterSpawnMenu = false;
+        })
+        .catch(error => {});
+    },
+
+    PaletoSpawn() {
+      axios
+        .post(`http://${this.ResourceName}/PaletoSpawn`, {
+          ped: this.ped,
+          spawn: [-161.9633, 6421.395, 31.91187]
+        })
+        .then(response => {
+          this.showCharacterSpawnMenu = false;
+        })
+        .catch(error => {});
+    },
+
+    SandySpawn() {
+      axios
+        .post(`http://${this.ResourceName}/SandySpawn`, {
+          ped: this.ped,
+          spawn: [1141.746, 2663.611, 38.16086]
+        })
+        .then(response => {
+          this.showCharacterSpawnMenu = false;
+        })
+        .catch(error => {});
+    },
+
+    AirportSpawn() {
+      axios
+        .post(`http://${this.ResourceName}/AirportSpawn`, {
           ped: this.ped,
           spawn: [-211.3702, -1021.899, 30.14071]
         })
