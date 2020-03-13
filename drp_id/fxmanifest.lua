@@ -10,9 +10,7 @@ games { 'rdr3', 'gta5' }
 
 dependencies {
 	"externalsql",
-	"drp_core",
-	"drp_clothing",
-	"drp_bank"
+	"drp_core"
 }
 
 ui_page "ui/index.html"
