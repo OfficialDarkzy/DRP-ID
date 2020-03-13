@@ -49,7 +49,49 @@ RegisterNUICallback("DisconnectMe", function(callback)
 	callback("ok")
 end)
 
-RegisterNUICallback("ApartmentSpawn", function(data, callback)
+RegisterNUICallback("ClothingSpawn", function(data, callback)
+	characterSpawnedIn = true
+	SetNuiFocus(false, false)
+	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
+	callback("ok")
+end)
+
+RegisterNUICallback("GarageSpawn", function(data, callback)
+	characterSpawnedIn = true
+	SetNuiFocus(false, false)
+	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
+	callback("ok")
+end)
+
+RegisterNUICallback("HospitalSpawn", function(data, callback)
+	characterSpawnedIn = true
+	SetNuiFocus(false, false)
+	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
+	callback("ok")
+end)
+
+RegisterNUICallback("TrainSpawn", function(data, callback)
+	characterSpawnedIn = true
+	SetNuiFocus(false, false)
+	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
+	callback("ok")
+end)
+
+RegisterNUICallback("PaletoSpawn", function(data, callback)
+	characterSpawnedIn = true
+	SetNuiFocus(false, false)
+	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
+	callback("ok")
+end)
+
+RegisterNUICallback("SandySpawn", function(data, callback)
+	characterSpawnedIn = true
+	SetNuiFocus(false, false)
+	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
+	callback("ok")
+end)
+
+RegisterNUICallback("AirportSpawn", function(data, callback)
 	characterSpawnedIn = true
 	SetNuiFocus(false, false)
 	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
