@@ -26,6 +26,19 @@ end)
 
 AddEventHandler("DRP_Clothing:AddCharacterClothing", function(charid)
 	exports["externalsql"]:DBAsyncQuery({
+		string = "SELECT * FROM `characters` WHERE `id` = :charid",
+		data = {
+			charid = charid,
+			gender = gender
+		}
+	}, function(results)
+		gender = results["data"][1].gender
+		if gender == "Female" then
+			model = "mp_f_freemode_01"
+		else
+			model = "mp_m_freemode_01"
+		end	
+	exports["externalsql"]:DBAsyncQuery({
 		string = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
 		data = {
 			charid = charid
@@ -38,7 +51,7 @@ AddEventHandler("DRP_Clothing:AddCharacterClothing", function(charid)
 			exports["externalsql"]:DBAsyncQuery({
 				string = "INSERT INTO `character_clothing` SET `model` = :model, `clothing_drawables` = :clothing_drawables, `clothing_textures` = :clothing_textures, `clothing_palette` = :clothing_palette, `props_drawables` = :props_drawables, `props_textures` = :props_textures, `overlays_drawables` = :overlays_drawables, `overlays_opacity` = :overlays_opacity, `overlays_colours` = :overlays_colours, `char_id` = :charid",
 				data = {
-					model = "mp_m_freemode_01",
+					model = model,
 					clothing_drawables = json.encode(clothing.drawables),
 					clothing_textures = json.encode(clothing.textures),
 					clothing_palette = json.encode(clothing.palette),
@@ -53,6 +66,7 @@ AddEventHandler("DRP_Clothing:AddCharacterClothing", function(charid)
 			end)
 		end
 	end)
+end)
 end)
 
 RegisterServerEvent("DRP_Clothing:SaveModel")
