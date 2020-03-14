@@ -200,11 +200,11 @@ AddEventHandler("DRP_Bank:RemoveCashMoney", function(source, amount)
     print("removing cash "..amount)
     TriggerEvent("DRP_ID:GetCharacterData", src, function(characterData)
         TriggerEvent("DRP_Bank:GetCharacterMoney", characterData.charid, function(characterMoney)
-            local playerCash = characterMoney.data[1].cash - amount
+            -- local playerCash = characterMoney.data[1].cash - amount
             exports["externalsql"]:DBAsyncQuery({
                 string = "UPDATE `characters` SET `cash` = :cash WHERE `id` = :charid",
                 data = {
-                    cash = playerCash,
+                    cash = amount,
                     charid = characterData.charid
                 }
             }, function(results)

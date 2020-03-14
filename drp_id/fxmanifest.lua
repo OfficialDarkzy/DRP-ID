@@ -30,6 +30,7 @@ server_script "config.lua"
 server_script "server.lua"
 
 client_script "config.lua"
+client_script "NUICallbacks.lua"
 client_script "characterOnLoadEvents.lua"
 client_script "client.lua"
 
