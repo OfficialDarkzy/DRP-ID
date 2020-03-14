@@ -571,6 +571,8 @@ function CloseCreator( veh, price)
 			SetVehicleExtraColours(personalvehicle, currentVhl.extra, currentVhl.wheelcolor)
 			TaskWarpPedIntoVehicle(GetPlayerPed(PlayerId()), personalvehicle,-1)
 			SetEntityVisible(ped,true)
+			SetVehicleNumberPlateText(personalvehicle, plate)
+			
 			Citizen.Wait(200)
 			TriggerServerEvent('DRP_Garages:PurchaseVehicle', price, theRealModelName, plate, allVehicleMods)
 			TriggerServerEvent("DRP_Garages:GiveKeys", id, plate)

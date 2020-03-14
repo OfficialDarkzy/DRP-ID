@@ -44,6 +44,7 @@ end)
 RegisterServerEvent("DRP_Garages:RequestStoreVehicle")
 AddEventHandler("DRP_Garages:RequestStoreVehicle", function(plate)
  local src = source
+ print(plate)
  TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
 	exports["externalsql"]:DBAsyncQuery({
 		string = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
