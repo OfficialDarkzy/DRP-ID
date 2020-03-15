@@ -50,7 +50,7 @@ player_data  = {
     },
 }
 local clothing_shops = {
-    {name="Clothing Store", id=73, x=1932.76989746094, y=3727.73510742188, z=32.8444557189941},
+   {name="Clothing Store", id=73, x = 74.847686767578, y = -1399.1446533203, z = 29.376159667969},
     {name="Clothing Store", id=73, x=1693.26, y=4822.27, z=42.06},
     {name="Clothing Store", id=73, x=125.83, y=-223.16, z=54.55},
     {name="Clothing Store", id=73, x=-710.16, y=-153.26, z=37.41},
