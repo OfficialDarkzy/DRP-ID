@@ -238,3 +238,10 @@ RegisterCommand("trunk", function()
         end
     end
 end, false)
+
+RegisterCommand('engine', function()
+    local Veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+    if DoesEntityExist(Veh) then
+        SetVehicleEngineOn(Veh, (GetIsVehicleEngineRunning(Veh)), false, true)
+    end
+end, false)
