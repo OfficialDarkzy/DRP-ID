@@ -20,7 +20,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `cash` bigint(20) NOT NULL,
   `bank` bigint(20) NOT NULL,
   `dirtyCash` bigint(20) NOT NULL,
-  `paycheck` bigint(11) NOT NULL DEFAULT NULL,
+  `paycheck` bigint(11) NOT NULL,
   `licenses` text NOT NULL,
   `phonenumber` mediumint(11) NOT NULL DEFAULT NULL,
   `isDead` int(11) NOT NULL DEFAULT '0',
