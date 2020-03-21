@@ -58,10 +58,10 @@ Citizen.CreateThread(function()
         for a = 1, #atm_models do
             local atm = GetClosestObjectOfType(pedPos.x, pedPos.y, pedPos.z, 3.0, GetHashKey(atm_models[a]), false, 1, 1)
                 if atm ~= 0 and not atmOpen then
-                sleeper = 5 
+                sleeper = 7
                 local atmOffset = GetOffsetFromEntityInWorldCoords(atm, 0.0, -0.7, 0.0)
                 local atmHeading = GetEntityHeading(atm)
-                local distance = Vdist(pedPos.x, pedPos.y, pedPos.z, atmOffset.x, atmOffset.y, atmOffset.z)
+                local distance = Vdist2(pedPos.x, pedPos.y, pedPos.z, atmOffset.x, atmOffset.y, atmOffset.z)
                 -- DrawMarker(29, atmOffset.x, atmOffset.y, atmOffset.z + 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 1.0, 1.0, 1.0, 30, 144, 255, 0.8, 1, 0, 0, 1, 0, 0, 0)
                 if distance <= 1.2 then
                     textDisplay("Press ~INPUT_PICKUP~ to use the ATM")
