@@ -186,7 +186,7 @@ AddEventHandler("DRP_Bank:AddCashMoney", function(source, amount)
                     }
                 }, function(results)
                     TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance)
-                    TriggerClientEvent("DRP_Core:Info", src, "Bank", "You picked up $"..amount.." of Cash", 2500, false, "leftCenter")
+                    TriggerClientEvent("DRP_Core:Info", src, "Bank", "You picked up $"..amount.." cash", 2500, false, "leftCenter")
                 end)
             end)
         end)
@@ -200,15 +200,16 @@ AddEventHandler("DRP_Bank:RemoveCashMoney", function(source, amount)
     print("removing cash "..amount)
     TriggerEvent("DRP_ID:GetCharacterData", src, function(characterData)
         TriggerEvent("DRP_Bank:GetCharacterMoney", characterData.charid, function(characterMoney)
-            -- local playerCash = characterMoney.data[1].cash - amount
+            local playerCash = characterMoney.data[1].cash - amount
             exports["externalsql"]:DBAsyncQuery({
                 string = "UPDATE `characters` SET `cash` = :cash WHERE `id` = :charid",
                 data = {
-                    cash = amount,
+                    cash = playerCash,
                     charid = characterData.charid
                 }
             }, function(results)
                 TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance)
+                TriggerClientEvent("DRP_Core:Info", src, "Bank", "You have spent $"..amount.." cash", 2500, false, "leftCenter")
             end)
         end)
     end)
