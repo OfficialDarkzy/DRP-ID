@@ -29,20 +29,21 @@ end, false)
 -- Main Server Event To Change And Add People To Jobs  ONLY FOR BUILTIN JOBS
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Jobs:StartWork")
-AddEventHandler("DRP_Jobs:StartWork", function(jobTitle)
-    local src = source
-    local characterInfo = exports["drp_id"]:GetCharacterData(src)
+AddEventHandler("DRP_Jobs:StartWork", function(vals, jobTitle)
+    local vals = src
+    local characterInfo = exports["drp_id"]:GetCharacterData(vals)
     local job = jobTitle
-    local jobLabel = JobsCoreConfig.JobLabels[job] -- Gets The Job Label To Display In The Notifications
-    local jobRequirement = JobsCoreConfig.Requirements[job] -- Gets If You Are Enabled To Do This Job
+    local jobLabel = JobsCoreConfig.StaticJobLabels[job] -- Gets The Job Label To Display In The Notifications
+    --local jobRequirement = JobsCoreConfig.Requirements[job] -- Gets If You Are Enabled To Do This Job | Removed as there is no defined requirements
     local currentPlayerJob = GetPlayerJob(src)
         if currentPlayerJob.job == job then
             TriggerClientEvent("DRP_Core:Error", src, "Job Manager", tostring("You are already on duty"), 2500, false, "leftCenter")
         else
         if DoesJobExist(job) then
-            if jobRequirement ~= false then
+                --Removed this check for the time being as stated above , no way for requirement to be checked.
+           -- if jobRequirement ~= false then 
                 SetPlayerJob(src, job, jobLabel, false)
-            end
+           -- end
         end
     end
 end)
