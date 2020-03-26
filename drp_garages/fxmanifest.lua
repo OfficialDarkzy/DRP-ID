@@ -25,6 +25,7 @@ files {
 }
 
 client_script "client.lua"
+client_script "locking.lua"
 client_script "config.lua"
 client_script "carwash.lua"
 client_script "managers/managers.lua"

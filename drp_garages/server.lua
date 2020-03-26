@@ -66,12 +66,28 @@ AddEventHandler("DRP_Garages:RequestStoreVehicle", function(plate)
 		end)
 	end)
 end)
-
-
---  THESE ARE DONE     enginedamage, damage, plate, plateindex, primarycolor, secondarycolor, pearlescentcolor, wheelcolor, neoncolor1, neoncolor2, neoncolor3, windowtint, xenon, turbo, mods0, mods1, mods2, mods3, mods4, mods5, mods6, mods7, mods8, mods9, mods10, mods11, mods12, mods13, mods14, mods15, mods16, 
-
---  THESE NEED DOING,, neon0, neon1, neon2, neon3, bulletproof, smokecolor1, smokecolor2, smokecolor3, variation
-
+---------------------------------------------------------------------------
+-- Carwash Money Checker
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_CarWash:CheckMoney")
+AddEventHandler("DRP_CarWash:CheckMoney", function(cost)
+    local src = source
+    TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
+        TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
+            local carWashCost = cost
+            if tonumber(characterMoney.data[1].cash) >= tonumber(carWashCost) then
+				TriggerClientEvent("DRP_CarWash:YesCleanCar", src)
+                TriggerClientEvent("DRP_Core:Info", src, "Car Wash", tostring("Car has been Washed!"), 2500, false, "leftCenter")
+                TriggerEvent("DRP_Bank:RemoveCashMoney", src, carWashCost)
+            else
+                TriggerClientEvent("DRP_Core:Error", src, "Car Wash", tostring("You don't have enough Cash!"), 2500, false, "leftCenter")
+            end
+        end)
+    end)
+end)
+---------------------------------------------------------------------------
+-- Update Vehicle Mods On Car (Called everytime car is stored)
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:UpdateVehicle")
 AddEventHandler("DRP_Garages:UpdateVehicle", function(plate, data)
 	local src = source
@@ -101,8 +117,9 @@ AddEventHandler("DRP_Garages:UpdateVehicle", function(plate, data)
 		end
 	end)
 end)
-
---Changed ID to plate , as the call via client returning network entity id , not usable in db--
+---------------------------------------------------------------------------
+-- Change Vehicle State In Garage
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:StateChangeIn")
 AddEventHandler("DRP_Garages:StateChangeIn", function(plate)
 	local src = source
@@ -117,7 +134,9 @@ AddEventHandler("DRP_Garages:StateChangeIn", function(plate)
 		end)
 	end)
 end)
---Changed ID to plate , as the call via client was returning network entity id , not usable in db--
+---------------------------------------------------------------------------
+-- Change Vehicle State Out Garage
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:StateChangeOut")
 AddEventHandler("DRP_Garages:StateChangeOut", function(plate)
 	local src = source
@@ -132,7 +151,38 @@ AddEventHandler("DRP_Garages:StateChangeOut", function(plate)
 		end)
 	end)
 end)
-
+---------------------------------------------------------------------------
+-- GIVE KEYS TO VEHICLE
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_Garages:GiveKeys")
+AddEventHandler("DRP_Garages:GiveKeys", function(id, plate)
+    local src = source
+    local vehPlate = string.lower(plate)
+    table.insert(vehicleKeys, {owner = src, net = id, vehiclePlate = vehPlate})
+    print(json.encode(vehicleKeys))
+end)
+---------------------------------------------------------------------------
+-- Check Vehicle Owner
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_Garages:CheckVehicleOwner")
+AddEventHandler("DRP_Garages:CheckVehicleOwner", function(netid, plate)
+    local src = source
+    local plate = string.lower(plate)
+    for a = 1, #vehicleKeys do
+        if vehicleKeys[a].net == netid  then
+            if vehicleKeys[a].owner == src then
+                if vehicleKeys[a].vehiclePlate == plate then
+                    TriggerClientEvent("DRP_Garages:ToggleExternalLock", src, netid, true)
+                    return
+                end
+            end
+        end
+    end
+    TriggerClientEvent("DRP_Garages:ToggleExternalLock", src, netid, false)
+end)
+---------------------------------------------------------------------------
+-- Handlers
+---------------------------------------------------------------------------
 AddEventHandler("playerDropped", function()
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
@@ -142,31 +192,14 @@ AddEventHandler("playerDropped", function()
 				charid = character.charid,
 				state = "IN"
 			}
-		}, function(results)
-		for a = 1, #vehicles do
+		}, function(yayeeet)
+		for a = 1, #vehicles, 1 do
 			if vehicles[a].charid == character.charid then
 				table.remove(vehicles, a)
 			end
 		end
 		print("Player left, now changing vehicles to go back into your Garage!")
 	end)
-end)
-
-RegisterServerEvent("DRP_CarWash:CheckMoney")
-AddEventHandler("DRP_CarWash:CheckMoney", function(cost)
-    local src = source
-    TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
-        TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
-            local carWashCost = cost
-            if tonumber(characterMoney.data[1].cash) >= tonumber(carWashCost) then
-				TriggerClientEvent("DRP_CarWash:YesCleanCar", src)
-                TriggerClientEvent("DRP_Core:Info", src, "Car Wash", tostring("Car has been Washed!"), 2500, false, "leftCenter")
-                TriggerEvent("DRP_Bank:RemoveCashMoney", src, carWashCost)
-            else
-                TriggerClientEvent("DRP_Core:Error", src, "Car Wash", tostring("You don't have enough Cash!"), 2500, false, "leftCenter")
-            end
-        end)
-    end)
 end)
 
 function GetAllCharacterVehicles(charid)
