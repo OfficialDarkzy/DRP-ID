@@ -35,7 +35,7 @@ AddEventHandler('DRP_Soda:getSoda', function()
     TaskPlayAnim(GetPlayerPed(PlayerId()), 'amb@medic@standing@kneel@base', 'base', 0.7, 0.7, 2000, 0, 1, true, true, true)
     DisplayHelpText("Purchasing a "..DRPSoda.Item)
     Citizen.Wait(3000)
-    TriggerServerEvent("DRP_Inventory:addInventoryItem", DRPSoda.Item, tonumber(DRPSoda.Price))
+    TriggerServerEvent("DRP_Inventory:addInventoryItem", DRPSoda.Item, tonumber(1))
     ClearPedTasks(PlayerPedId())
     buyingSoda = false
 
