@@ -12,9 +12,9 @@ Citizen.CreateThread(function()
             local object = nil
             if DoesEntityExist(sodaMachine) then
                 sleeper = 5
-                DisplayHelpText("Press E For Water $1")
+                DisplayHelpText("Press E For "..DRPSoda.Item.." $"..DRPSoda.Price)
                 if IsControlJustPressed(1, 38) then
-                    BuySoda()
+                    TriggerServerEvent("DRP_Soda:checkAccounts")
                 end
                 break
             else
@@ -25,19 +25,21 @@ Citizen.CreateThread(function()
     end
 end)
 
-function BuySoda()
+RegisterNetEvent('DRP_Soda:getSoda')
+AddEventHandler('DRP_Soda:getSoda', function()
     buyingSoda = true
     RequestAnimDict('amb@medic@standing@kneel@base')  
     while not HasAnimDictLoaded('amb@medic@standing@kneel@base') do
         Citizen.Wait(0)
     end
     TaskPlayAnim(GetPlayerPed(PlayerId()), 'amb@medic@standing@kneel@base', 'base', 0.7, 0.7, 2000, 0, 1, true, true, true)
-    DisplayHelpText("Purchasing a Water")
-	Citizen.Wait(3000)
-    TriggerServerEvent("DRP_Inventory:AddItem", "water", 1)
-	ClearPedTasks(PlayerPedId())
-	buyingSoda = false
-end
+    DisplayHelpText("Purchasing a "..DRPSoda.Item)
+    Citizen.Wait(3000)
+    TriggerServerEvent("DRP_Inventory:addInventoryItem", DRPSoda.Item, tonumber(1))
+    ClearPedTasks(PlayerPedId())
+    buyingSoda = false
+
+end)
 
 function DisplayHelpText(str)
 	SetTextComponentFormat("STRING")
