@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS `character_clothing` (
   `props_textures` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `overlays_drawables` varchar(255) COLLATE utf8_bin DEFAULT NULL,
   `overlays_opacity` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `overlays_colours` varchar(255) COLLATE utf8_bin DEFAULT NULL,
+  `overlays_colours` longtext COLLATE utf8_bin DEFAULT NULL,
   `char_id` int(11) DEFAULT NULL,
   PRIMARY KEY (`id`),
   KEY `FK_character_clothing_characters` (`char_id`),
