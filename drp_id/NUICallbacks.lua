@@ -42,7 +42,6 @@ RegisterNUICallback("TrainStationPreview", function(data, callback)
 end)
 
 RegisterNUICallback("SpawnLocation", function(data, callback)
-	print(json.encode(data))
 	SetNuiFocus(false, false)
 	local spawn = {x = DRPCharacters.SpawnSelectionLocations[data.locationName].x, y = DRPCharacters.SpawnSelectionLocations[data.locationName].y, z = DRPCharacters.SpawnSelectionLocations[data.locationName].z}
 	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, spawn, true)
