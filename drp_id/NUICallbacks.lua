@@ -28,14 +28,12 @@ RegisterNUICallback("DisconnectMe", function(callback)
 end)
 
 RegisterNUICallback("GarageSpawnPreview", function(data, callback)
-	characterSpawnedIn = true
 	local pos = {x = data.spawn[1], y = data.spawn[2], z = data.spawn[3]}
 	TriggerEvent("DRP_ID:SpawnSelectionCameraChange", pos)
 	callback("ok")
 end)
 
 RegisterNUICallback("TrainStationPreview", function(data, callback)
-	characterSpawnedIn = true
 	local pos = {x = data.spawn[1], y = data.spawn[2], z = data.spawn[3]}
 	TriggerEvent("DRP_ID:SpawnSelectionCameraChange", pos)
 	callback("ok")
