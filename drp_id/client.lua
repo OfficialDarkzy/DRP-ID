@@ -48,8 +48,8 @@ end)
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:SpawnSelection")
 AddEventHandler("DRP_ID:SpawnSelection", function(ped, spawn)
-	TriggerEvent("DRP_ID:StartSpawnSelectionCamera", spawn)
 	SetNuiFocus(true, true)
+	TriggerEvent("DRP_ID:StartSpawnSelectionCamera", spawn)
 	SendNUIMessage({
 		type = "open_spawnselection_menu",
 		ped = ped,
