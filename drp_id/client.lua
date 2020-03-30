@@ -7,9 +7,10 @@ RegisterNetEvent("DRP_ID:OpenMenu")
 AddEventHandler("DRP_ID:OpenMenu", function(characters)
 	SetNuiFocus(true, true)
 	Citizen.Wait(2500)
-	SetEntityCoords(PlayerId(), -505.09, -1224.11, 232.2, 0, 0, 0, 0)
-	FreezeEntityPosition(PlayerId(), true)
-	SetEntityVisible(PlayerId(), false, false)
+	local ped = PlayerPedId()
+	SetEntityCoords(ped, -505.09, -1224.11, 232.2, 0, 0, 0, 0)
+	FreezeEntityPosition(ped, true)
+	SetEntityVisible(ped, false, false)
 	SetPlayerInvincible(PlayerId(), true)
 	SendNUIMessage({
 		type = "open_character_menu",
@@ -32,12 +33,12 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn, spawnInHote
 	characterSpawnedIn = true
 	exports["spawnmanager"]:spawnPlayer({x = spawn.x, y = spawn.y, z = spawn.z, heading = 0.0, model = ped})
 	Citizen.Wait(4000)
-	local ped = GetPlayerPed(ped)
-    SetPlayerInvisibleLocally(ped, false)
-    SetEntityVisible(ped, true)
-	SetPlayerInvincible(ped, false)
-	SetPedDefaultComponentVariation(ped)
-	FreezeEntityPosition(ped, false)
+	local playerPed = PlayerPedId()
+    SetPlayerInvisibleLocally(PlayerId(), false)
+    SetEntityVisible(playerPed, true)
+	SetPlayerInvincible(PlayerId(), false)
+	SetPedDefaultComponentVariation(playerPed)
+	FreezeEntityPosition(playerPed, false)
 	TriggerEvent("DRP_ID:DestroySpawnSelectionCamera")
 	---------------------------------------------------------------------------
 	OnCharacterLoadEvents(spawnInHotel)
@@ -83,7 +84,7 @@ Citizen.CreateThread(function()
 	while true do
 		Citizen.Wait(20000)
 		if SpawnedInAndLoaded() then
-			local ped = GetPlayerPed(PlayerId())
+			local ped = PlayerPedId()
 			local coords = GetEntityCoords(ped)
 			TriggerServerEvent("DRP_ID:SaveCharacterLocation", coords.x, coords.y, coords.z)
 		else
