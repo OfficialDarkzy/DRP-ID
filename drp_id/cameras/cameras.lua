@@ -71,7 +71,7 @@ end)
 RegisterNetEvent("DRP_ID:SpawnSelectionCameraChange")
 AddEventHandler("DRP_ID:SpawnSelectionCameraChange", function(coords)
     pos = {x = coords.x, y = coords.y, z = coords.z}
-    SetEntityCoords(PlayerId(), pos.x, pos.y, pos.z, 0, 0, 0, 0)
+    SetEntityCoords(PlayerPedId(), pos.x, pos.y, pos.z, 0, 0, 0, 0)
     DoScreenFadeOut(500)
     Citizen.Wait(500)
     SetCamRot(cam, 270.0)
@@ -86,7 +86,7 @@ local camera = nil
 
 RegisterNetEvent("DRP_ID:StartCreatorCamera")
 AddEventHandler("DRP_ID:StartCreatorCamera", function()
-    local ped = GetPlayerPed(PlayerId())
+    local ped = PlayerPedId()
     SetEntityCoords(ped, 402.75, -996.77, -99.0, 0.0, 0.0, 0.0, 0)
     SetEntityHeading(ped, 178.72)
     local pedOffset = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, -0.5)
