@@ -21,6 +21,7 @@ const DRP_Characters = new Vue({
     selectedGender: "",
     selectedAge: "",
     selectedDeleteCharacter: "",
+    selectedSpawnArea: "",
 
     spawn: "",
     ped: "",
@@ -66,20 +67,11 @@ const DRP_Characters = new Vue({
         .catch(error => {});
     },
 
-    CloseSpawnMenu() {
+    SpawnLocation() {
       axios
-        .post(`http://${this.ResourceName}/CloseMenu`, {})
-        .then(response => {
-          this.showCharacterSpawnMenu = false;
-        })
-        .catch(error => {});
-    },
-
-    ClothingSpawn() {
-      axios
-        .post(`http://${this.ResourceName}/ClothingSpawn`, {
-          ped: this.ped,
-          spawn: [71.88147, -1398.833, 29.37616]
+        .post(`http://${this.ResourceName}/SpawnLocation`, {
+          locationName: this.selectedSpawnArea,
+          ped: this.ped
         })
         .then(response => {
           this.showCharacterSpawnMenu = false;
@@ -87,75 +79,23 @@ const DRP_Characters = new Vue({
         .catch(error => {});
     },
 
-    GarageSpawn() {
+    GarageSpawnPreview() {
       axios
-        .post(`http://${this.ResourceName}/GarageSpawn`, {
+        .post(`http://${this.ResourceName}/GarageSpawnPreview`, {
           ped: this.ped,
           spawn: [279.7169, -345.4529, 44.91983]
         })
-        .then(response => {
-          this.showCharacterSpawnMenu = false;
-        })
+        .then(response => {})
         .catch(error => {});
     },
 
-    HospitalSpawn() {
+    TrainStationPreview() {
       axios
-        .post(`http://${this.ResourceName}/HospitalSpawn`, {
-          ped: this.ped,
-          spawn: [306.795, -619.6395, 43.44999]
-        })
-        .then(response => {
-          this.showCharacterSpawnMenu = false;
-        })
-        .catch(error => {});
-    },
-
-    TrainSpawn() {
-      axios
-        .post(`http://${this.ResourceName}/TrainSpawn`, {
-          ped: this.ped,
-          spawn: [295.5171, -1204.268, 38.90181]
-        })
-        .then(response => {
-          this.showCharacterSpawnMenu = false;
-        })
-        .catch(error => {});
-    },
-
-    PaletoSpawn() {
-      axios
-        .post(`http://${this.ResourceName}/PaletoSpawn`, {
-          ped: this.ped,
-          spawn: [-161.9633, 6421.395, 31.91187]
-        })
-        .then(response => {
-          this.showCharacterSpawnMenu = false;
-        })
-        .catch(error => {});
-    },
-
-    SandySpawn() {
-      axios
-        .post(`http://${this.ResourceName}/SandySpawn`, {
-          ped: this.ped,
-          spawn: [1141.746, 2663.611, 38.16086]
-        })
-        .then(response => {
-          this.showCharacterSpawnMenu = false;
-        })
-        .catch(error => {});
-    },
-
-    AirportSpawn() {
-      axios
-        .post(`http://${this.ResourceName}/AirportSpawn`, {
+        .post(`http://${this.ResourceName}/TrainStationPreview`, {
           ped: this.ped,
           spawn: [-211.3702, -1021.899, 30.14071]
         })
-        .then(response => {
-          this.showCharacterSpawnMenu = false;
-        })
+        .then(response => {})
         .catch(error => {});
     },
 

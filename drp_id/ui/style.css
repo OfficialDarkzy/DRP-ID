@@ -42,6 +42,14 @@ html {
 /*---------------------------------------------------------------------------
 -- SPAWN MENU
 ---------------------------------------------------------------------------*/
+#DRP_SpawnMenu_Base {
+  position: absolute;
+  width: 500px;
+  right: calc(100% - 520px);
+  top: 50%;
+  transform: translateY(-50%);
+}
+
 #DRP_SpawnMenu_Header {
   width: 100%;
   background-color: rgb(0, 110, 255);
@@ -52,6 +60,15 @@ html {
   font-size: 20px;
   color: white;
   font-weight: bold;
+}
+
+#DRP_SpawnMenu_Body {
+  background-color: rgba(60, 62, 66, 0.8);
+  overflow-y: auto;
+  max-height: 700px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+  border: 1px solid rgb(60, 62, 66);
 }
 
 /*---------------------------------------------------------------------------

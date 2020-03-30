@@ -48,7 +48,43 @@ Citizen.CreateThread(function()
     end
 end)
 ---------------------------------------------------------------------------
--- CHARACTER EDITOR DATA!
+-- SPAWN SELECTION CAMERAS
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_ID:StartSpawnSelectionCamera")
+AddEventHandler("DRP_ID:StartSpawnSelectionCamera", function(spawn)
+    pos = {x = spawn[1], y = spawn[2], z = spawn[3]}
+    cam = CreateCamWithParams("DEFAULT_SCRIPTED_CAMERA", pos.x, pos.y, pos.z + 200.0, 270.00, 0.00, 0.00, 80.00, 0, 0)
+    SetCamActive(cam, true)
+    RenderScriptCams(true, false, 1, true, true)
+    FreezeEntityPosition(PlayerId(), true)
+    SetEntityVisible(PlayerId(), false, false)
+end)
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_ID:DestroySpawnSelectionCamera")
+AddEventHandler("DRP_ID:DestroySpawnSelectionCamera", function()    
+    DoScreenFadeOut(500)
+    Citizen.Wait(500)
+    FreezeEntityPosition(PlayerId(), false)
+    SetEntityVisible(PlayerId(), true, false)
+    RenderScriptCams(false, false, 0, true, true)
+    SetCamActive(cam, false)
+    DestroyCam(cam, true)
+    DoScreenFadeIn(500)
+end)
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_ID:SpawnSelectionCameraChange")
+AddEventHandler("DRP_ID:SpawnSelectionCameraChange", function(coords)
+    pos = {x = coords.x, y = coords.y, z = coords.z}
+    SetEntityCoords(PlayerId(), pos.x, pos.y, pos.z, 0, 0, 0, 0)
+    DoScreenFadeOut(500)
+    Citizen.Wait(500)
+    SetCamRot(cam, 270.0)
+    SetCamActive(cam, true)
+    DoScreenFadeIn(500)
+    SetCamCoord(cam, pos.x, pos.y, pos.z + 250.00)
+end)
+---------------------------------------------------------------------------
+-- CHARACTER EDITOR DATA! -- This is currently not in use
 ---------------------------------------------------------------------------
 local camera = nil
 

@@ -107,20 +107,13 @@
 							<v-content>
 								<div id="DRP_SpawnMenu_Base" v-show="showCharacterSpawnMenu">
 									<div id="DRP_SpawnMenu_Header">
-										<v-btn color="red" slot="activator" absolute right top fab dark small @click="ClosePoliceMenu()">
-											<v-icon>clear</v-icon>
-										</v-btn>
-										Spawn Selection CURRENTLY WIP!!
+										Spawn Selection
 									</div>
 									<div id="DRP_SpawnMenu_Body">
 										<v-container grid-list-xs>
-											<v-btn color="blue darken-1" block dark @click="ClothingSpawn()">Clothing Store</v-btn>
-											<v-btn color="blue darken-1" block dark @click="GarageSpawn()">Garage</v-btn>
-											<v-btn color="blue darken-1" block dark @click="HospitalSpawn()">Hospital</v-btn>
-											<v-btn color="blue darken-1" block dark @click="TrainSpawn()">Train Station</v-btn>
-											<v-btn color="blue darken-1" block dark @click="PaletoSpawn()">Paleto Bay</v-btn>
-											<v-btn color="blue darken-1" block dark @click="SandySpawn()">Sandy Shores</v-btn>
-											<v-btn color="blue darken-1" block dark @click="AirportSpawn()">Airport Spawn</v-btn>
+											<v-btn color="blue darken-1" block dark @click="GarageSpawnPreview(); selectedSpawnArea = 'LS Garage'">Garage</v-btn>
+											<v-btn color="blue darken-1" block dark @click="TrainStationPreview(); selectedSpawnArea = 'Train Station'">Train Station</v-btn>
+											<v-btn color="green" block dark @click="SpawnLocation()">Spawn</v-btn>
 										</v-container>
 									</div>
 								</div>

@@ -17,6 +17,11 @@ DRPCharacters.SpawnLocations = {
     {x = 433.42, y = -628.88, z = 28.72, h = 89.29}
 }
 
+DRPCharacters.SpawnSelectionLocations = {
+    ["Train Station"] = {x = -211.3702, y = -1021.899, z = 30.14071},
+    ["LS Garage"] = {x = 279.7169, y = -345.4529, z = 44.91983}
+}
+
 DRPCharacters.ChangeCharacterLocations = {
     {x = -121.2142, y = -862.5743, z = 33.33058}
 }

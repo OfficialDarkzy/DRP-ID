@@ -119,14 +119,18 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 			local spawnInHotel = true
 			if json.encode(characterModel["data"]) ~= "[]" then
 				if DRPCharacters.SpawnSelection then
+					CloseAllCameras(src)
 					TriggerClientEvent("DRP_ID:SpawnSelection", src, characterModel["data"][1].model, lastKnownLocation)
 				else
+					CloseAllCameras(src)
 					TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, lastKnownLocation, spawnInHotel)
 				end
 			else
 				if DRPCharacters.SpawnSelection then
+					CloseAllCameras(src)
 					TriggerClientEvent("DRP_ID:SpawnSelection", src, "mp_m_freemode_01", lastKnownLocation)
 				else
+					CloseAllCameras(src)
 					TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, "mp_m_freemode_01", lastKnownLocation, spawnInHotel)
 				end
 			end
@@ -181,6 +185,11 @@ function GetCharacterData(id)
 		end
 	end
 	return false
+end
+
+function CloseAllCameras(src)
+	TriggerClientEvent("DRP_ID:StopSkyCamera", src)
+	TriggerClientEvent("DRP_ID:StopCreatorCamera", src) -- If you are using this system
 end
 ---------------------------------------------------------------------------
 function GetCharacterName(id)

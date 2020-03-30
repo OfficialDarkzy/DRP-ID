@@ -27,58 +27,24 @@ RegisterNUICallback("DisconnectMe", function(callback)
 	callback("ok")
 end)
 
-RegisterNUICallback("ClothingSpawn", function(data, callback)
+RegisterNUICallback("GarageSpawnPreview", function(data, callback)
 	characterSpawnedIn = true
-	SetNuiFocus(false, false)
-	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
+	local pos = {x = data.spawn[1], y = data.spawn[2], z = data.spawn[3]}
+	TriggerEvent("DRP_ID:SpawnSelectionCameraChange", pos)
 	callback("ok")
 end)
 
-RegisterNUICallback("GarageSpawn", function(data, callback)
+RegisterNUICallback("TrainStationPreview", function(data, callback)
 	characterSpawnedIn = true
-	SetNuiFocus(false, false)
-	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
+	local pos = {x = data.spawn[1], y = data.spawn[2], z = data.spawn[3]}
+	TriggerEvent("DRP_ID:SpawnSelectionCameraChange", pos)
 	callback("ok")
 end)
 
-RegisterNUICallback("HospitalSpawn", function(data, callback)
-	characterSpawnedIn = true
+RegisterNUICallback("SpawnLocation", function(data, callback)
+	print(json.encode(data))
 	SetNuiFocus(false, false)
-	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
-	callback("ok")
-end)
-
-RegisterNUICallback("TrainSpawn", function(data, callback)
-	characterSpawnedIn = true
-	SetNuiFocus(false, false)
-	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
-	callback("ok")
-end)
-
-RegisterNUICallback("PaletoSpawn", function(data, callback)
-	characterSpawnedIn = true
-	SetNuiFocus(false, false)
-	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
-	callback("ok")
-end)
-
-RegisterNUICallback("SandySpawn", function(data, callback)
-	characterSpawnedIn = true
-	SetNuiFocus(false, false)
-	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
-	callback("ok")
-end)
-
-RegisterNUICallback("AirportSpawn", function(data, callback)
-	characterSpawnedIn = true
-	SetNuiFocus(false, false)
-	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, true)
-	callback("ok")
-end)
-
-RegisterNUICallback("spawnInLocation", function(data, callback)
-	characterSpawnedIn = true
-	SetNuiFocus(false, false)
-	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, data.spawn, false)
+	local spawn = {x = DRPCharacters.SpawnSelectionLocations[data.locationName].x, y = DRPCharacters.SpawnSelectionLocations[data.locationName].y, z = DRPCharacters.SpawnSelectionLocations[data.locationName].z}
+	TriggerEvent("DRP_ID:LoadSelectedCharacter", data.ped, spawn, true)
 	callback("ok")
 end)
