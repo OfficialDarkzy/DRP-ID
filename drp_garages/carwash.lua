@@ -18,7 +18,7 @@ if DRPGarages.Carwash then
 		while true do
 			local sleepTime = 1000
 			for a = 1, #carWashLocations do
-			local ped = GetPlayerPed(PlayerId())
+			local ped = PlayerPedId()
 			local pedPos = GetEntityCoords(ped, false)
 			local distance = Vdist(pedPos.x, pedPos.y, pedPos.z, carWashLocations[a].x, carWashLocations[a].y, carWashLocations[a].z)
 			if distance <= 25.0 then
@@ -43,7 +43,7 @@ end
 
 RegisterNetEvent("DRP_CarWash:YesCleanCar")
 AddEventHandler("DRP_CarWash:YesCleanCar", function()
-	local ped = GetPlayerPed(PlayerId())
+	local ped = PlayerPedId()
 	WashDecalsFromVehicle(GetVehiclePedIsUsing(ped, 1.0))
 	SetVehicleDirtLevel(GetVehiclePedIsUsing(ped))
 end)
