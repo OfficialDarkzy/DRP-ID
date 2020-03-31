@@ -30,7 +30,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         if creatorActive then
-            local ped = GetPlayerPed(PlayerId())
+            local ped = PlayerPedId()
             local playerCount = GetNumberOfPlayers()
             for a = 1, playerCount do
                 SetEntityNoCollisionEntity(ped, GetPlayerPed(a), true)

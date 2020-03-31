@@ -37,7 +37,7 @@ Citizen.CreateThread(function()
 
 		local waitTime = 1000
 		for _, garage in pairs(DRPGarages.Garages) do
-			local ped = GetPlayerPed(PlayerId())
+			local ped = PlayerPedId()
 			local pedCoords = GetEntityCoords(ped, false)
 			local isInMarker  = false
 
@@ -64,7 +64,7 @@ Citizen.CreateThread(function()
 		end
 		if DRPGarages.CarImpound then
 			for _, data in pairs(DRPGarages.Impound) do
-				local ped = GetPlayerPed(PlayerId())
+				local ped = PlayerPedId()
 				local pedCoords = GetEntityCoords(ped, false)
 				local isInMarker  = false
 
@@ -317,9 +317,10 @@ function drawTxt3D(x,y,z, text)
 end
 ---------------------------------------------------------------------------
 function GetVehicleInFront()
-	local plyCoords = GetEntityCoords(GetPlayerPed(PlayerId()), false)
-	local plyOffset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(PlayerId()), 0.0, 5.0, 0.0)
-	local rayHandle = StartShapeTestCapsule(plyCoords.x, plyCoords.y, plyCoords.z, plyOffset.x, plyOffset.y, plyOffset.z, 1.0, 10, GetPlayerPed(PlayerId()), 7)
+	local ply = PlayerPedId()
+	local plyCoords = GetEntityCoords(ply, false)
+	local plyOffset = GetOffsetFromEntityInWorldCoords(ply, 0.0, 5.0, 0.0)
+	local rayHandle = StartShapeTestCapsule(plyCoords.x, plyCoords.y, plyCoords.z, plyOffset.x, plyOffset.y, plyOffset.z, 1.0, 10, PlayerPedId(), 7)
 	local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
 	return vehicle
 end
@@ -388,7 +389,7 @@ RegisterCommand("trunk", function()
 end, false)
 ---------------------------------------------------------------------------
 RegisterCommand('engine', function()
-    local Veh = GetVehiclePedIsIn(GetPlayerPed(-1), false)
+    local Veh = GetVehiclePedIsIn(PlayerPedId(), false)
     if DoesEntityExist(Veh) then
         SetVehicleEngineOn(Veh, (not GetIsVehicleEngineRunning(Veh)), false, true)
     end

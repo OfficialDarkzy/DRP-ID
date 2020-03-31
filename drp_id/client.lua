@@ -62,7 +62,7 @@ end)
 ---------------------------------------------------------------------------
 -- Citizen.CreateThread(function()
 -- 	while true do
--- 		local ped = GetPlayerPed(PlayerId())
+-- 		local ped = PlayerPedId()
 -- 		local pedCoords = GetEntityCoords(ped, false)
 -- 		for a = 1, #DRPCharacters.ChangeCharacterLocations do 
 -- 			local distance = Vdist(pedCoords.x, pedCoords.y, pedCoords.z, DRPCharacters.ChangeCharacterLocations[a].x, DRPCharacters.ChangeCharacterLocations[a].y, DRPCharacters.ChangeCharacterLocations[a].z)

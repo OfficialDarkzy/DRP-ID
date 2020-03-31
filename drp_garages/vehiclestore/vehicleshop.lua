@@ -425,7 +425,7 @@ local firstspawn = 0
 --[[Functions]]--
 
 function LocalPed()
-	return GetPlayerPed(-1)
+	return PlayerPedId()
 end
 
 function drawTxt(text,font,centre,x,y,scale,r,g,b,a)
@@ -570,7 +570,7 @@ function CloseCreator( veh, price)
 
 			-- Set perlescent
 			SetVehicleExtraColours(personalvehicle, currentVhl.extra, currentVhl.wheelcolor)
-			TaskWarpPedIntoVehicle(GetPlayerPed(PlayerId()), personalvehicle,-1)
+			TaskWarpPedIntoVehicle(PlayerPedId(), personalvehicle,-1)
 			SetEntityVisible(ped,true)
 			SetVehicleNumberPlateText(personalvehicle, plate)
 			
@@ -702,7 +702,7 @@ function round(num, idp)
 end
 
 function ButtonSelected(button)
-	local ped = GetPlayerPed(-1)
+	local ped = PlayerPedId()
 	local this = vehshop.currentmenu
 	local btn = button.name
 	if this == "main" then
@@ -918,7 +918,7 @@ end)
 
 AddEventHandler('vehshop:spawnVehicle', function(v)
 	local car = GetHashKey(v)
-	local playerPed = GetPlayerPed(-1)
+	local playerPed = PlayerPedId()
 	if playerPed and playerPed ~= -1 then
 		RequestModel(car)
 		while not HasModelLoaded(car) do
