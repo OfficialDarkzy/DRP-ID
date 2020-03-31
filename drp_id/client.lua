@@ -58,6 +58,13 @@ AddEventHandler("DRP_ID:SpawnSelection", function(ped, spawn)
 	})
 end)
 ---------------------------------------------------------------------------
+-- Close Spawn Selection Menu
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_ID:CloseSpawnSelectionMenu")
+AddEventHandler("DRP_ID:CloseSpawnSelectionMenu", function()
+	SendNUIMessage({type = "close_spawnselection_menu"})
+end)
+---------------------------------------------------------------------------
 -- MAIN THREAD
 ---------------------------------------------------------------------------
 -- Citizen.CreateThread(function()

@@ -67,15 +67,22 @@ const DRP_Characters = new Vue({
         .catch(error => {});
     },
 
+    CloseSpawnSelectionMenu() {
+      axios
+        .post(`http://${this.ResourceName}/CloseSpawnSelectionMenu`, {})
+        .then(response => {
+          this.showCharacterSpawnMenu = false;
+        })
+        .catch(error => {});
+    },
+
     SpawnLocation() {
       axios
         .post(`http://${this.ResourceName}/SpawnLocation`, {
           locationName: this.selectedSpawnArea,
           ped: this.ped
         })
-        .then(response => {
-          this.showCharacterSpawnMenu = false;
-        })
+        .then(response => {})
         .catch(error => {});
     },
 
@@ -209,6 +216,8 @@ document.onreadystatechange = () => {
         DRP_Characters.UpdateCharacters(event.data.characters);
       } else if (event.data.type == "open_spawnselection_menu") {
         DRP_Characters.OpenSpawnSelectionMenu(event.data.ped, event.data.spawn);
+      } else if (event.data.type == "close_spawnselection_menu") {
+        DRP_Characters.CloseSpawnSelectionMenu();
       }
     });
   }
