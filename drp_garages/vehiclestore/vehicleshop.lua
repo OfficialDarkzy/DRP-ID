@@ -460,6 +460,7 @@ function ShowVehshopBlips(bool)
 			EndTextCommandSetBlipName(blip)
 			SetBlipAsShortRange(blip,true)
 			SetBlipAsMissionCreatorBlip(blip,true)
+			SetBlipScale(blip, 0.7)
 			table.insert(vehshop_blips, {blip = blip, pos = loc})
 		end
 		Citizen.CreateThread(function()
@@ -782,7 +783,7 @@ Citizen.CreateThread(function()
 		local sleepTimer = 1000
 		if IsPlayerInRangeOfVehshop() then
 			sleepTimer = 1
-			if IsControlJustPressed(1,38) then
+			if IsControlJustPressed(1, 38) then
 				if vehshop.opened then
 					CloseCreator()
 				else

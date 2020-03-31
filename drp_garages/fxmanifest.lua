@@ -9,7 +9,8 @@ games { 'rdr3', 'gta5' }
 
 dependencies {
     "drp_id",
-	"externalsql"
+    "externalsql",
+    "drp_LegacyFuel"
 }
 
 ui_page "ui/index.html"

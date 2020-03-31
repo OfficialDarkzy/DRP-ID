@@ -3,7 +3,7 @@ vehicleKeys = {}
 thisVehicleInfo = {}
 
 RegisterServerEvent("DRP_Garages:RequestOpenMenu")
-AddEventHandler("DRP_Garages:RequestOpenMenu", function()
+AddEventHandler("DRP_Garages:RequestOpenMenu", function(menu)
 	local src = source
 	TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
 		exports["externalsql"]:DBAsyncQuery({
@@ -14,16 +14,16 @@ AddEventHandler("DRP_Garages:RequestOpenMenu", function()
 			for a = 1, #characterVehicles do
 				local mods = json.decode(characterVehicles[a]["vehicleMods"])
 				local plate = characterVehicles[a].plate
-				table.insert(vehicles, { ["id"] = characterVehicles[a]["id"], ["modelLabel"] = characterVehicles[a]["modelLabel"], ["state"] = characterVehicles[a]["state"], ["vehicleMods"] = mods, ["plate"] = plate, ["charid"] = CharacterData.charid })
+				table.insert(vehicles, { ["id"] = characterVehicles[a]["id"], ["modelLabel"] = characterVehicles[a]["modelLabel"], ["state"] = characterVehicles[a]["state"], ["vehicleMods"] = mods, ["plate"] = plate, ["garage_slot"] = characterVehicles[a]["garage_slot"], ["impound_slot"] = characterVehicles[a]["impound_slot"], ["fuel_level"] = characterVehicles[a]["fuel_level"], ["charid"] = CharacterData.charid })
 			end
-			TriggerClientEvent("DRP_Garages:OpenGarageMenu", src, vehicles)
+			TriggerClientEvent("DRP_Garages:OpenGarageMenu", src, vehicles, menu)
 		end)
 	end)
 	vehicles = {}
 end)
 
 RegisterServerEvent("DRP_Garages:GetSelectedVehicleData")
-AddEventHandler("DRP_Garages:GetSelectedVehicleData", function(vehicle_id)
+AddEventHandler("DRP_Garages:GetSelectedVehicleData", function(vehicle_id, type)
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
 		exports["externalsql"]:DBAsyncQuery({
@@ -34,9 +34,22 @@ AddEventHandler("DRP_Garages:GetSelectedVehicleData", function(vehicle_id)
 		for a = 1, #allVehicleData, 1 do
 			local mods = json.decode(allVehicleData[a]["vehicleMods"])
 			local plate = mods.plate
-			table.insert(thisVehicleInfo, { ["modelLabel"] = allVehicleData[a]["modelLabel"], ["state"] = allVehicleData[a]["state"], ["vehicleMods"] = mods, ["plate"] = plate, ["charid"] = character.charid})
+			table.insert(thisVehicleInfo, { ["modelLabel"] = allVehicleData[a]["modelLabel"], ["state"] = allVehicleData[a]["state"], ["vehicleMods"] = mods, ["plate"] = plate, ["fuel_level"] = allVehicleData[a]["fuel_level"], ["charid"] = character.charid})
 		end
-		TriggerClientEvent("DRP_Garages:CreatePersonalVehicle", src, thisVehicleInfo)
+		if type == 'garage' then
+			TriggerClientEvent("DRP_Garages:CreatePersonalVehicle", src, thisVehicleInfo)
+		else
+			TriggerEvent("DRP_Bank:GetCharacterMoney", character.charid, function(characterMoney)
+				local ImpoundCost = DRPGarages.CarImpoundPrice
+				if tonumber(characterMoney.data[1].bank) >= tonumber(ImpoundCost) then
+					TriggerClientEvent("DRP_Core:Success", src, "Impound", tostring("Vehicle has been Released!"), 2500, false, "leftCenter")
+					TriggerEvent("DRP_Bank:RemoveBankMoney", src, ImpoundCost)
+					TriggerClientEvent("DRP_Garages:CreateImpoundVehicle", src, thisVehicleInfo)
+				else
+					TriggerClientEvent("DRP_Core:Error", src, "Impound", tostring("You don't have enough Cash!"), 2500, false, "leftCenter")
+				end
+			end)
+		end
 	end)
 	thisVehicleInfo = {}
 end)
@@ -89,11 +102,10 @@ end)
 -- Update Vehicle Mods On Car (Called everytime car is stored)
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:UpdateVehicle")
-AddEventHandler("DRP_Garages:UpdateVehicle", function(plate, data)
+AddEventHandler("DRP_Garages:UpdateVehicle", function(plate, data, garage_slot, fuel_level)
+	print('UpdateVehicle: '.. fuel_level)
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	-- print(json.encode(data))
-	print(plate)
 	-- pull all data for cars -> loop it and compare from passed data?
 	exports["externalsql"]:DBAsyncQuery({
 		string = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
@@ -106,10 +118,12 @@ AddEventHandler("DRP_Garages:UpdateVehicle", function(plate, data)
 				local allPlates = json.decode(vehicleData[a]["vehicleMods"])
 				if allPlates.plate == plate then
 				exports["externalsql"]:DBAsyncQuery({
-					string = "UPDATE vehicles SET plate = :plate, vehicleMods = :vehicleMods WHERE `plate` = :plate",
+					string = "UPDATE vehicles SET plate = :plate, vehicleMods = :vehicleMods, garage_slot = :garage_slot, fuel_level = :fuel_level WHERE `plate` = :plate",
 					data = {
 						plate = plate,
-						vehicleMods = json.encode(data)
+						vehicleMods = json.encode(data),
+						garage_slot = garage_slot,
+						fuel_level = fuel_level
 					}
 				}, function(results)
 				end)
@@ -118,29 +132,52 @@ AddEventHandler("DRP_Garages:UpdateVehicle", function(plate, data)
 	end)
 end)
 ---------------------------------------------------------------------------
--- Change Vehicle State In Garage
+-- Update Vehicle Fuel On Car (Called everytime car is sent to impound)
 ---------------------------------------------------------------------------
-RegisterServerEvent("DRP_Garages:StateChangeIn")
-AddEventHandler("DRP_Garages:StateChangeIn", function(plate)
+RegisterServerEvent("DRP_Garages:UpdateVehicleFuel")
+AddEventHandler("DRP_Garages:UpdateVehicleFuel", function(plate, fuel_level)
+	print('UpdateVehicleFuel: '.. fuel_level)
 	local src = source
-	TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
-		exports["externalsql"]:DBAsyncQuery({
-            string = "UPDATE vehicles SET `state` = :state WHERE `plate` = :plate",
-            data = {
-                plate = plate,
-                state = "IN"
-            }
-        }, function(results)
-		end)
+	local character = exports["drp_id"]:GetCharacterData(src)
+	-- pull all data for cars -> loop it and compare from passed data?
+	exports["externalsql"]:DBAsyncQuery({
+		string = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
+		data = {
+			charid = character.charid
+		}
+	}, function(allVehicleData)
+		local vehicleData = allVehicleData["data"]
+			for a = 1, #vehicleData, 1 do
+				local allPlates = json.decode(vehicleData[a]["vehicleMods"])
+				if allPlates.plate == plate then
+				exports["externalsql"]:DBAsyncQuery({
+					string = "UPDATE vehicles SET fuel_level = :fuel_level WHERE `plate` = :plate",
+					data = {
+						plate = plate,
+						fuel_level = fuel_level
+					}
+				}, function(results)
+				end)
+			end
+		end
 	end)
 end)
 ---------------------------------------------------------------------------
--- Change Vehicle State Out Garage
+-- Change Vehicle State
 ---------------------------------------------------------------------------
-RegisterServerEvent("DRP_Garages:StateChangeOut")
-AddEventHandler("DRP_Garages:StateChangeOut", function(plate)
+RegisterServerEvent("DRP_Garages:StateChanger")
+AddEventHandler("DRP_Garages:StateChanger", function(plate, state)
 	local src = source
-	TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
+	if state == 'IN' then
+		exports["externalsql"]:DBAsyncQuery({
+			string = "UPDATE vehicles SET `state` = :state WHERE `plate` = :plate",
+			data = {
+				plate = plate,
+				state = "IN"
+			}
+		}, function(results)
+		end)
+	elseif state == 'OUT' then
 		exports["externalsql"]:DBAsyncQuery({
             string = "UPDATE vehicles SET `state` = :state WHERE `plate` = :plate",
             data = {
@@ -149,7 +186,35 @@ AddEventHandler("DRP_Garages:StateChangeOut", function(plate)
             }
         }, function(results)
 		end)
-	end)
+	end
+end)
+---------------------------------------------------------------------------
+-- Change Vehicle Impound State
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_Garages:ImpoundStateChanger")
+AddEventHandler("DRP_Garages:ImpoundStateChanger", function(plate, state, impoundslot)
+	local src = source
+	if state == 'OUT' then
+		exports["externalsql"]:DBAsyncQuery({
+			string = "UPDATE vehicles SET `impound_slot` = :impound_slot, `state` = :state WHERE `plate` = :plate",
+			data = {
+				plate = plate,
+				state = 'OUT',
+				impound_slot = 0
+			}
+		}, function(results)
+		end)
+	elseif state  == 'IMPOUND' then
+		exports["externalsql"]:DBAsyncQuery({
+			string = "UPDATE vehicles SET `impound_slot` = :impound_slot, `state` = :state WHERE `plate` = :plate",
+			data = {
+				plate = plate,
+				state = 'IMPOUND',
+				impound_slot = impoundslot
+			}
+		}, function(results)
+		end)
+	end
 end)
 ---------------------------------------------------------------------------
 -- GIVE KEYS TO VEHICLE
@@ -179,6 +244,51 @@ AddEventHandler("DRP_Garages:CheckVehicleOwner", function(netid, plate)
         end
     end
     TriggerClientEvent("DRP_Garages:ToggleExternalLock", src, netid, false)
+end)
+
+-- For Impound Command
+RegisterServerEvent("DRP_Garages:GetVehiclesForImpound")
+AddEventHandler("DRP_Garages:GetVehiclesForImpound", function(plate, impoundslot)
+	local src = source
+	exports["externalsql"]:DBAsyncQuery({
+		string = "SELECT * FROM `vehicles` WHERE `plate` = :plate",
+		data = {
+			plate = plate
+		}
+	}, function(selectedVehiclePlate)
+		if #selectedVehiclePlate["data"] >= 1 then
+			local allVehicleData = selectedVehiclePlate["data"]
+			for a = 1, #allVehicleData, 1 do
+				local allVehicleMods = json.decode(allVehicleData[a]["vehicleMods"])
+				if plate == allVehicleMods.plate then
+					TriggerClientEvent("DRP_Garages:ImpoundVehicle", src, allVehicleData, impoundslot, true)
+				end
+			end
+		else
+			TriggerClientEvent("DRP_Garages:ImpoundVehicle", src, allVehicleData, impoundslot, false)
+		end
+	end)
+end)
+
+-- for garage command
+RegisterServerEvent("DRP_Garages:GetVehicles")
+AddEventHandler("DRP_Garages:GetVehicles", function()
+	local src = source
+	TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
+		exports["externalsql"]:DBAsyncQuery({
+			string = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
+			data = {charid = CharacterData.charid}
+		}, function(vehicleData)
+			local characterVehicles = vehicleData["data"]
+			for a = 1, #characterVehicles do
+				local mods = json.decode(characterVehicles[a]["vehicleMods"])
+				local plate = characterVehicles[a].plate
+				table.insert(vehicles, { ["id"] = characterVehicles[a]["id"], ["modelLabel"] = characterVehicles[a]["modelLabel"], ["state"] = characterVehicles[a]["state"], ["vehicleMods"] = mods, ["plate"] = plate, ["garage_slot"] = characterVehicles[a]["garage_slot"], ["impound_slot"] = characterVehicles[a]["impound_slot"], ["charid"] = CharacterData.charid })
+			end
+			TriggerClientEvent("DRP_Garages:GarageCommand", src, vehicles)
+		end)
+	end)
+	vehicles = {}
 end)
 ---------------------------------------------------------------------------
 -- Handlers

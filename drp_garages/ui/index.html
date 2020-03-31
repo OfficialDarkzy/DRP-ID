@@ -11,7 +11,7 @@
   <body>
     <v-app id="ISRP_Garage_UI">
       <v-content>
-        <div id="ISRP_Job_Garage_Base" v-show="showGarageMenu">
+        <div id="ISRP_Job_Garage_Base" v-show="showGarageMenu"> <!-- Garage Menu -->
           <div id="ISRP_Garage_Header">
             <v-btn
               color="orange"
@@ -38,7 +38,7 @@
               @click="CloseGarage()"
               ><v-icon>clear</v-icon></v-btn
             >
-            Personal Garage
+            Personal Garage #{{ garageslot }}
           </div>
           <div id="ISRP_Garage_Body">
             <v-alert type="error" :value="vehicles.length <= 0">
@@ -47,31 +47,98 @@
 
             <v-container grid-list-md>
               <v-layout pa-1 row wrap>
-                <v-flex xs6 v-for="(vehicle, vehicleIndex) in vehicles">
-                  <!-- <div v-for="(plate, plateIndex) in plates"> -->
-                  <v-card style="border: 1px solid grey;">
-                    <v-card-title primary-title>
-                      <h2>{{ vehicle.modelLabel }}</h2>
-                      <br />
-                    </v-card-title>
-                    <v-card-text>
-                      <b>Plate: {{ vehicle.plate }}</b
-                      ><br />
-                      <b>Status: {{ vehicle.state }}</b
-                      ><br />
-                    </v-card-text>
-                    <v-card-actions>
-                      <v-btn
-                        color="blue"
-                        block
-                        dark
-                        @click="SelectThisVehicle(vehicleIndex)"
-                        >Select This Vehicle</v-btn
-                      >
-                    </v-card-actions>
-                  </v-card>
-                </v-flex>
-                <!-- </div> -->
+                <div xs6 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div v-if="vehicle.garage_slot === garageslot">
+                    <v-card style="border: 1px solid grey; margin: 1px; width: 95%;">
+                      <v-card-title primary-title>
+                        <h2>{{ vehicle.modelLabel }}</h2>
+                        <br />
+                      </v-card-title>
+                      <v-card-text>
+                        <b>Plate: {{ vehicle.plate }}</b
+                        ><br />
+                        <b>Fuel: {{ vehicle.fuel_level }}%</b
+                        ><br />
+                        <b>Body: {{ vehicle.vehicleMods.health }}%</b
+                        ><br />
+                        <b v-if="vehicle.state === 'IMPOUND'">Status: <strong style="color: red;">{{ vehicle.state }}</strong></b>
+                        <b v-else>Status: {{ vehicle.state }}</b
+                        ><br />
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn
+                          color="blue"
+                          block
+                          dark
+                          @click="SelectThisVehicle(vehicleIndex, 'garage')"
+                          v-if="vehicle.state === 'IN'"
+                          >Select This Vehicle</v-btn
+                        >
+                        <v-btn
+                          v-else=""
+                          disabled
+                          color="blue"
+                          block
+                          dark
+                          >Select This Vehicle</v-btn
+                        >
+                      </v-card-actions>
+                    </v-card>
+                  </div>
+                </div>
+              </v-layout>
+            </v-container>
+          </div>
+        </div>
+        <div id="ISRP_Job_Garage_Base" v-show="showImpoundMenu"> <!-- Impound Menu -->
+          <div id="ISRP_Garage_Header">
+            <v-btn
+              color="red"
+              slot="activator"
+              absolute
+              right
+              top
+              fab
+              dark
+              small
+              @click="CloseGarage()"
+              ><v-icon>clear</v-icon></v-btn
+            >
+            Impound Garage #{{ impoundslot }}
+          </div>
+          <div id="ISRP_Garage_Body">
+
+            <v-container grid-list-md>
+              <v-layout pa-1 row wrap>
+                <div xs6 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div v-if="vehicle.impound_slot === impoundslot">
+                    <v-card style="border: 1px solid grey; margin: 1px; width: 95%;">
+                      <v-card-title primary-title>
+                        <h2>{{ vehicle.modelLabel }}</h2>
+                        <br />
+                      </v-card-title>
+                      <v-card-text>
+                        <b>Plate: {{ vehicle.plate }}</b
+                        ><br />
+                        <b>Fuel: {{ vehicle.fuel_level }}%</b
+                        ><br />
+                        <b>Body: {{ vehicle.vehicleMods.health }}%</b
+                        ><br />
+                        <b>Status: <strong style="color: red;">{{ vehicle.state }}</strong></b
+                        ><br />
+                      </v-card-text>
+                      <v-card-actions>
+                        <v-btn
+                          color="blue"
+                          block
+                          dark
+                          @click="SelectThisVehicle(vehicleIndex)"
+                          >Buy Out Vehicle</v-btn
+                        >
+                      </v-card-actions>
+                    </v-card>
+                  </div>
+                </div>
               </v-layout>
             </v-container>
           </div>

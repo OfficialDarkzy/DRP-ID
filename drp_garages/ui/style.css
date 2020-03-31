@@ -16,7 +16,7 @@ html {
 ---------------------------------------------------------------------------*/
 #ISRP_Job_Garage_Base {
     position: absolute;
-    width: 600px;
+    width: 630px;
     left: 700px;
     top: 50%;
     transform: translateY(-50%);

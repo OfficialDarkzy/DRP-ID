@@ -359,3 +359,25 @@ GetAllClosestVehicles = function(coords)
 
 	return closestVehicle, closestDistance
 end
+
+GetVehiclesInArea = function (coords, area)
+    local vehicles       = GetVehicles()
+    local vehiclesInArea = {}
+
+    for i=1, #vehicles, 1 do
+        local vehicleCoords = GetEntityCoords(vehicles[i])
+        local distance      = GetDistanceBetweenCoords(vehicleCoords, coords.x, coords.y, coords.z, true)
+
+        if distance <= area then
+            table.insert(vehiclesInArea, vehicles[i])
+        end
+    end
+
+    return vehiclesInArea
+end
+
+IsSpawnPointClear = function(coords, radius)
+    local vehicles = GetVehiclesInArea(coords, radius)
+
+    return #vehicles == 0
+end

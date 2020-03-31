@@ -1,6 +1,6 @@
 local carWashLocations = {
-	{name = "Carwash", id = 100, colour = 2, blipSize = 1.0, x = 24.81,  y = -1391.87, z = 28.33},
-	{name = "Carwash", id = 100, colour = 2, blipSize = 1.0, x = 2524.42,  y = 4195.39, z = 38.96}
+	{name = "Carwash", id = 100, colour = 2, blipSize = 0.7, x = 24.81,  y = -1391.87, z = 28.33},
+	{name = "Carwash", id = 100, colour = 2, blipSize = 0.7, x = 2524.42,  y = 4195.39, z = 38.96}
 }
 
 if DRPGarages.Carwash then
@@ -21,14 +21,14 @@ if DRPGarages.Carwash then
 			local ped = GetPlayerPed(PlayerId())
 			local pedPos = GetEntityCoords(ped, false)
 			local distance = Vdist(pedPos.x, pedPos.y, pedPos.z, carWashLocations[a].x, carWashLocations[a].y, carWashLocations[a].z)
-			if distance <= 20.0 then
+			if distance <= 25.0 then
 				sleepTime = 5
-				DrawMarker(1, carWashLocations[a].x, carWashLocations[a].y, carWashLocations[a].z, 0,0,0,0,0,0,2.001,2.0001,0.5001,0,155,255,200,0,0,0,0)
-					if distance <= 4.0 then 
-					local pedVehicle = GetVehiclePedIsIn(ped)
-					local carWashCost = 25
-					if IsPedSittingInAnyVehicle( ped ) then
-						drawText('Press ~b~E~s~ to clean your car!',0,1,0.5,0.8,0.6,255,255,255,255)
+				DrawMarker(1, carWashLocations[a].x, carWashLocations[a].y, carWashLocations[a].z, 0, 0, 0, 0, 0, 0, 5.001, 5.0001, 0.5001, 0, 155, 255, 200, 0, 0, 0, 0)
+					if distance <= 5.0 then 
+						local pedVehicle = GetVehiclePedIsIn(ped)
+						local carWashCost = 25
+						if IsPedSittingInAnyVehicle( ped ) then
+							drawTxt3D(carWashLocations[a].x, carWashLocations[a].y, carWashLocations[a].z + 0.9, 'Press ~s~[~b~E~s~] to clean your car!')
 							if IsControlJustPressed(1, 86) then	
 								TriggerServerEvent("DRP_CarWash:CheckMoney", carWashCost)
 							end
@@ -47,24 +47,3 @@ AddEventHandler("DRP_CarWash:YesCleanCar", function()
 	WashDecalsFromVehicle(GetVehiclePedIsUsing(ped, 1.0))
 	SetVehicleDirtLevel(GetVehiclePedIsUsing(ped))
 end)
-
-function drawText(text,font,centre,x,y,scale,r,g,b,a)
-    SetTextFont(font)
-	SetTextProportional(0)
-	SetTextScale(scale, scale)
-	SetTextColour(r, g, b, a)
-	SetTextDropShadow(0, 0, 0, 0,255)
-	SetTextEdge(1, 0, 0, 0, 255)
-	SetTextDropShadow()
-	SetTextOutline()
-	SetTextCentre(centre)
-	SetTextEntry("STRING")
-	AddTextComponentString(text)
-    DrawText(x , y)
-end
-
-function ShowNotification( text )
-	SetNotificationTextEntry( "STRING" )
-	AddTextComponentString( text )
-	DrawNotification( false, false )
-end

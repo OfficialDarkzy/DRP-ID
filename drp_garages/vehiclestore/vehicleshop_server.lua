@@ -27,21 +27,23 @@ AddEventHandler("DRP_Garages:PurchaseVehicle", function(price, model, plate, veh
 			TriggerEvent("DRP_Bank:RemoveBankMoney", src, price)
 			local vehicle = vehicle
 			local vehicleMods = vehicleMods
+			local garage_slot = 1 -- Centrum garage
 			if price == 0 or price == 1 then
 				TriggerEvent("DRP_Admin:ManualBan", src, cheatengine, true) -- This Don't work yet :)
 			else
 				exports["externalsql"]:DBAsyncQuery({
 					string = [[
 					INSERT INTO vehicles
-					(`modelLabel`, `state`, `vehicleMods`, `plate`, `charactername`, `char_id`)
+					(`modelLabel`, `state`, `vehicleMods`, `plate`, garage_slot,`charactername`, `char_id`)
 					VALUES
-					(:modelLabel, :state, :vehicleMods, :plate, :charactername, :charid)
+					(:modelLabel, :state, :vehicleMods, :plate, :garage_slot, :charactername, :charid)
 					]],
 					data = {
 						modelLabel = model,
 						state = "OUT",
 						vehicleMods = json.encode(vehicleMods),
 						plate = plate,
+						garage_slot = garage_slot,
 						charactername = CharacterData.name,
 						charid = CharacterData.charid
 					}

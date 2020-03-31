@@ -173,11 +173,3 @@ function GetSeatPedIsSatIn(ped)
     end
 end
 ---------------------------------------------------------------------------
-function GetVehicleInFront()
-	local plyCoords = GetEntityCoords(GetPlayerPed(PlayerId()), false)
-	local plyOffset = GetOffsetFromEntityInWorldCoords(GetPlayerPed(PlayerId()), 0.0, 5.0, 0.0)
-	local rayHandle = StartShapeTestCapsule(plyCoords.x, plyCoords.y, plyCoords.z, plyOffset.x, plyOffset.y, plyOffset.z, 1.0, 10, GetPlayerPed(PlayerId()), 7)
-	local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
-	return vehicle
-end
----------------------------------------------------------------------------
