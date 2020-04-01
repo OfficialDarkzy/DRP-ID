@@ -560,6 +560,7 @@ function CloseCreator( veh, price)
 			SetVehicleOnGroundProperly(personalvehicle)
 			SetVehicleHasBeenOwnedByPlayer(personalvehicle, true)
 			SetEntityAsMissionEntity(personalvehicle, true, true)
+			SetModelAsNoLongerNeeded(model)
 			
 			local id = NetworkGetNetworkIdFromEntity(personalvehicle)
 			SetNetworkIdCanMigrate(id, true)
@@ -847,6 +848,7 @@ Citizen.CreateThread(function()
 								SetVehicleDoorsLocked(veh,4)
 								--SetEntityCollision(veh,false,false)
 								TaskWarpPedIntoVehicle(LocalPed(),veh,-1)
+								SetModelAsNoLongerNeeded(hash)
 								for i = 0,24 do
 									SetVehicleModKit(veh,0)
 									RemoveVehicleMod(veh,i)
@@ -932,6 +934,7 @@ AddEventHandler('vehshop:spawnVehicle', function(v)
 		veh = CreateVehicle(car, playerCoords, 0.0, true, false)
 		TaskWarpPedIntoVehicle(playerPed, veh, -1)
 		SetEntityInvincible(veh, true)
+		SetModelAsNoLongerNeeded(car)
 	end
 end)
 
