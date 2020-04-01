@@ -41,7 +41,7 @@ Citizen.CreateThread(function()
 			local pedCoords = GetEntityCoords(ped, false)
 			local isInMarker  = false
 
-			if Vdist(pedCoords, garage.SpawnPoint.Pos.x, garage.SpawnPoint.Pos.y, garage.SpawnPoint.Pos.z, true) < 0.7 then
+			if Vdist(pedCoords, garage.SpawnPoint.Pos.x, garage.SpawnPoint.Pos.y, garage.SpawnPoint.Pos.z) < 0.7 then
 				isInMarker  = true
 				this_Garage = garage
 				this_Garage_Slot = garage.Garage_slot
@@ -68,7 +68,7 @@ Citizen.CreateThread(function()
 				local pedCoords = GetEntityCoords(ped, false)
 				local isInMarker  = false
 
-				if Vdist(pedCoords, data.Impound.Pos.x, data.Impound.Pos.y, data.Impound.Pos.z, true) < 0.7 then
+				if Vdist(pedCoords, data.Impound.Pos.x, data.Impound.Pos.y, data.Impound.Pos.z) < 0.7 then
 					isInMarker  = true
 					this_Impound = data
 					this_Impound_Slot = data.Impound_slot
