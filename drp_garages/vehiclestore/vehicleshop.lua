@@ -411,7 +411,7 @@ local vehshop = {
 }
 
 local fakecar = {model = '', car = nil}
-local vehshop_locations = {{entering = {-33.803,-1102.322,25.422}, inside = {-46.56327,-1097.382,25.99875, 120.1953}, outside = {-31.849,-1090.648,25.998,322.345}}}
+local vehshop_locations = {{entering = {-33.37,-1103.74,25.422}, inside = {-46.56327,-1097.382,25.99875, 120.1953}, outside = {-31.849,-1090.648,25.998,322.345}}}
 local vehshop_blips ={}
 local inrangeofvehshop = false
 local currentlocation = nil
@@ -443,6 +443,20 @@ function drawTxt(text,font,centre,x,y,scale,r,g,b,a)
 	DrawText(x , y)
 end
 
+function drawTxt3D(x,y,z, text)
+    local onScreen,_x,_y=World3dToScreen2d(x,y,z)
+    local px,py,pz=table.unpack(GetGameplayCamCoords())
+
+    SetTextScale(0.35, 0.35)
+    SetTextFont(4)
+    SetTextProportional(1)
+    SetTextColour(255, 255, 255, 215)
+    SetTextEntry("STRING")
+    SetTextCentre(1)
+    AddTextComponentString(text)
+    DrawText(_x,_y)
+end
+
 function IsPlayerInRangeOfVehshop()
 	return inrangeofvehshop
 end
@@ -468,11 +482,11 @@ function ShowVehshopBlips(bool)
 				local wait = 500
 				local inrange = false
 				for i,b in ipairs(vehshop_blips) do
-					if Vdist2(b.pos.entering[1], b.pos.entering[2], b.pos.entering[3], GetEntityCoords(LocalPed())) < 15 then
+					if Vdist(b.pos.entering[1], b.pos.entering[2], b.pos.entering[3], GetEntityCoords(LocalPed())) < 15.0 then
 						wait = 5
-						DrawMarker(1,b.pos.entering[1],b.pos.entering[2],b.pos.entering[3],0,0,0,0,0,0,2.001,2.0001,0.5001,0,155,255,200,0,0,0,0)
-						if vehshop.opened == false and IsPedInAnyVehicle(LocalPed(), true) == false and Vdist2(b.pos.entering[1],b.pos.entering[2],b.pos.entering[3],GetEntityCoords(LocalPed())) < 5 then		
-							drawTxt('Press ~g~E~s~ To Buy Vehicles',0,1,0.5,0.8,0.6,255,255,255,255)
+						DrawMarker(27, b.pos.entering[1], b.pos.entering[2], b.pos.entering[3], 0, 0, 0, 0, 0, 0, 1.501, 1.5001, 0.5001, 0, 127, 255, 200, 0, 0, 0, 1)
+						if vehshop.opened == false and IsPedInAnyVehicle(LocalPed(), true) == false and Vdist(b.pos.entering[1],b.pos.entering[2],b.pos.entering[3],GetEntityCoords(LocalPed())) < 2.0 then
+							drawTxt3D(b.pos.entering[1],b.pos.entering[2],b.pos.entering[3]+1.0, 'Press ~g~E~s~ To Buy Vehicles')	
 							currentlocation = b
 							inrange = true
 						end
