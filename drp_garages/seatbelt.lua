@@ -7,11 +7,11 @@ local wasInVehicle = false
 Citizen.CreateThread(function()
 	DecorRegister("VehicleSeatbelt", 2)
 	while true do
-		local ped = GetPlayerPed(PlayerId())
+		local ped = PlayerPedId()
 		local vehicle = GetVehiclePedIsIn(ped, false)
 		if vehicle ~= 0 then
 			if IsControlJustPressed(1, 311) then
-				local ped = GetPlayerPed(PlayerId())
+				local ped = PlayerPedId()
 				ChangeSeatbeltStatus(ped)
 				if not IsThisModelABike(GetEntityModel(vehicle)) then
 					local seatbeltStatus = DecorGetBool(ped, "VehicleSeatbelt")
@@ -48,7 +48,7 @@ Citizen.CreateThread(function()
 				end
 			else
 				if wasInVehicle then
-					local ped = GetPlayerPed(PlayerId())
+					local ped = PlayerPedId()
 					DecorSetBool(ped, "VehicleSeatbelt", false)
 					lastSpeed = 0.0
 					lastVelocity = {}

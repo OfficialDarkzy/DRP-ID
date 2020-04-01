@@ -1,6 +1,6 @@
 Citizen.CreateThread(function()
 	while true do
-		local ped = GetPlayerPed(-1)
+		local ped = PlayerPedId()
 		if DoesEntityExist(GetVehiclePedIsTryingToEnter(PlayerPedId(ped))) then
 			local veh = GetVehiclePedIsTryingToEnter(PlayerPedId(ped))
 			local lock = GetVehicleDoorLockStatus(veh)
@@ -20,7 +20,7 @@ end)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
 	while true do
-		local ped = GetPlayerPed(PlayerId())
+		local ped = PlayerPedId()
 		if DoesEntityExist(GetVehiclePedIsTryingToEnter(PlayerPedId(ped))) then
         	local veh = GetVehiclePedIsTryingToEnter(PlayerPedId(ped))
 			local lock = GetVehicleDoorLockStatus(veh)
@@ -37,7 +37,7 @@ end)
 Citizen.CreateThread(function()
     while true do
         if IsControlJustPressed(1, 303) then -- THIS LOCKING SYSTEM IS FOR INTERIOR SO WORKS ALL THE TIME
-			local ped = GetPlayerPed(PlayerId())
+			local ped = PlayerPedId()
 			local inVehicle = IsPedInAnyVehicle(ped, false)
 			if inVehicle == 1 then
 				local vehicle = GetVehiclePedIsIn(ped, false)
@@ -130,7 +130,7 @@ end)
 
 RegisterNetEvent("playanimation")
 AddEventHandler("playanimation", function()
-	local ped = GetPlayerPed(PlayerId())
+	local ped = PlayerPedId()
 	RequestAnimDict("veh@break_in@0h@p_m_one@")
 	while not HasAnimDictLoaded("veh@break_in@0h@p_m_one@") do
 		Citizen.Wait(0)
@@ -139,7 +139,7 @@ AddEventHandler("playanimation", function()
 		if not IsEntityPlayingAnim(ped, "veh@break_in@0h@p_m_one@", "low_force_entry_ds", 3) then
 			TaskPlayAnim(ped, "veh@break_in@0h@p_m_one@", "low_force_entry_ds", 1.0, 1.0, 1.0, 1, 0.0, 0, 0, 0)
 			Citizen.Wait(1500)
-			ClearPedTasks(GetPlayerPed(-1))
+			ClearPedTasks(ped)
 		end
 		Citizen.Wait(1)
 	end
@@ -148,17 +148,18 @@ end)
 
 ---------------------------------------------------------------------------
 function doorAnimation()
-    ClearPedSecondaryTask(GetPlayerPed(PlayerId()))
-    loadAnimDict( "anim@heists@keycard@" ) 
-    TaskPlayAnim( GetPlayerPed(PlayerId()), "anim@heists@keycard@", "exit", 8.0, 1.0, -1, 16, 0, 0, 0, 0 )
+	local ped = PlayerPedId()
+    ClearPedSecondaryTask(ped)
+    loadAnimDict("anim@heists@keycard@") 
+    TaskPlayAnim(ped, "anim@heists@keycard@", "exit", 8.0, 1.0, -1, 16, 0, 0, 0, 0 )
     Citizen.Wait(850)
-    ClearPedTasks(GetPlayerPed(PlayerId()))
+    ClearPedTasks(ped)
 end
 ---------------------------------------------------------------------------
-function loadAnimDict( dict )
-    while ( not HasAnimDictLoaded( dict ) ) do
-        RequestAnimDict( dict )
-        Citizen.Wait( 5 )
+function loadAnimDict(dict)
+    while not HasAnimDictLoaded(dict) do
+        RequestAnimDict(dict)
+        Citizen.Wait(10)
     end
 end
 ---------------------------------------------------------------------------

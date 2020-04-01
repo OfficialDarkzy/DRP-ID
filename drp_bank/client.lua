@@ -28,13 +28,14 @@ end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("closeatm", function(data, callback)
     SetNuiFocus(false, false)
-    local pedPos = GetEntityCoords(GetPlayerPed(PlayerId()), false)
-    local pedHead = GetEntityHeading(GetPlayerPed(PlayerId()))
-    TaskStartScenarioAtPosition(GetPlayerPed(PlayerId()), "PROP_HUMAN_ATM", pedPos.x, pedPos.y, pedPos.z + 1.0, pedHead, 0, 0, 0)
+    local ped = PlayerPedId()
+    local pedPos = GetEntityCoords(ped, false)
+    local pedHead = GetEntityHeading(ped)
+    TaskStartScenarioAtPosition(ped, "PROP_HUMAN_ATM", pedPos.x, pedPos.y, pedPos.z + 1.0, pedHead, 0, 0, 0)
     atmOpen = false
     callback("ok")
     Citizen.Wait(5000)
-    ClearPedTasksImmediately(GetPlayerPed(PlayerId()))
+    ClearPedTasksImmediately(ped)
     sleeper = false
 end)
 ---------------------------------------------------------------------------
@@ -53,7 +54,7 @@ Citizen.CreateThread(function()
     end
     while true do
         sleeper = 1000
-        local ped = GetPlayerPed(PlayerId())
+        local ped = PlayerPedId()
         local pedPos = GetEntityCoords(ped, false)
         for a = 1, #atm_models do
             local atm = GetClosestObjectOfType(pedPos.x, pedPos.y, pedPos.z, 3.0, GetHashKey(atm_models[a]), false, 1, 1)
@@ -83,7 +84,7 @@ end)
 
 Citizen.CreateThread(function()
     while true do
-        local ped = GetPlayerPed(PlayerId())
+        local ped = PlayerPedId()
         local coords = GetEntityCoords(ped, false)
             for a = 1, #DRPBankConfig.LaunderLocations do
                 local distance = Vdist(coords.x, coords.y, coords.z, DRPBankConfig.LaunderLocations[a].x, DRPBankConfig.LaunderLocations[a].y, DRPBankConfig.LaunderLocations[a].z)

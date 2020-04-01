@@ -5,7 +5,7 @@ Citizen.CreateThread(function()
     Citizen.Wait(100)
     while true do
         local sleeper = 1000
-        local ped = GetPlayerPed(PlayerId())
+        local ped = PlayerPedId()
         local playerCoords = GetEntityCoords(ped, false)
         for a = 1, #DRPSoda.Machines do
             local sodaMachine = GetClosestObjectOfType(playerCoords, 1.0, GetHashKey(DRPSoda.Machines[a]), false, false, false)
@@ -32,7 +32,7 @@ AddEventHandler('DRP_Soda:getSoda', function()
     while not HasAnimDictLoaded('amb@medic@standing@kneel@base') do
         Citizen.Wait(0)
     end
-    TaskPlayAnim(GetPlayerPed(PlayerId()), 'amb@medic@standing@kneel@base', 'base', 0.7, 0.7, 2000, 0, 1, true, true, true)
+    TaskPlayAnim(PlayerPedId(), 'amb@medic@standing@kneel@base', 'base', 0.7, 0.7, 2000, 0, 1, true, true, true)
     DisplayHelpText("Purchasing a "..DRPSoda.Item)
     Citizen.Wait(3000)
     TriggerServerEvent("DRP_Inventory:addInventoryItem", DRPSoda.Item, tonumber(1))

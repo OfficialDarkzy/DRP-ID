@@ -3,36 +3,41 @@
 --]]
 
 
-fx_version 'adamant'
-games { 'rdr3', 'gta5' }
+fx_version 'bodacious'
+games { 'gta5' }
 
 
 dependencies {
-    "drp_id",
-    "externalsql",
-    "drp_LegacyFuel"
+    'drp_id',
+    'externalsql',
+    'drp_LegacyFuel'
 }
 
-ui_page "ui/index.html"
+ui_page 'ui/index.html'
 
 files {
-    "ui/index.html",
-    "ui/libraries/axios.min.js",
-    "ui/libraries/vue.min.js",
-    "ui/libraries/vuetify.css",
-    "ui/libraries/vuetify.js",
-    "ui/style.css",
-    "ui/script.js"
+    'ui/index.html',
+    'ui/libraries/axios.min.js',
+    'ui/libraries/vue.min.js',
+    'ui/libraries/vuetify.css',
+    'ui/libraries/vuetify.js',
+    'ui/style.css',
+    'ui/script.js'
 }
 
-client_script "client.lua"
-client_script "locking.lua"
-client_script "config.lua"
-client_script "carwash.lua"
-client_script "managers/managers.lua"
-client_script "managers/entityier.lua"
-client_script "vehiclestore/vehicleshop.lua"
+client_scripts {
+    'client.lua',
+    'locking.lua',
+    'seatbelt.lua',
+    'config.lua',
+    'carwash.lua',
+    'managers/managers.lua',
+    'managers/entityier.lua',
+    'vehiclestore/vehicleshop.lua'
+}
 
-server_script "config.lua"
-server_script "server.lua"
-server_script "vehiclestore/vehicleshop_server.lua"
+server_scripts {
+    'config.lua',
+    'server.lua',
+    'vehiclestore/vehicleshop_server.lua'
+}

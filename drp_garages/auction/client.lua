@@ -13,7 +13,7 @@ if DRPGarages.Auction then
         end
         while true do
             local sleepTimer = 1000
-            local ped = GetPlayerPed(PlayerId())
+            local ped = PlayerPedId()
             local coords = GetEntityCoords(ped, false)
             for a = 1, #DRPAuction.SellLocation do
                 local distance = Vdist(coords.x, coords.y, coords.z, DRPAuction.SellLocation[a].x, DRPAuction.SellLocation[a].y, DRPAuction.SellLocation[a].z)
@@ -56,7 +56,7 @@ end
 
 RegisterNetEvent("DRP_Auction:PurchaseVehicle")
 AddEventHandler("DRP_Auction:PurchaseVehicle", function()
-    local ped = GetPlayerPed(PlayerId())
+    local ped = PlayerPedId()
     local vehiclePedIsIn = GetVehiclePedIsUsing(ped)
     for a = 1, #DRPAuction.VehicleLocations, 1 do
         if DRPAuction.VehicleLocations[a]["vehId"] ~= nil then

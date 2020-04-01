@@ -58,11 +58,18 @@ AddEventHandler("DRP_ID:SpawnSelection", function(ped, spawn)
 	})
 end)
 ---------------------------------------------------------------------------
+-- Close Spawn Selection Menu
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_ID:CloseSpawnSelectionMenu")
+AddEventHandler("DRP_ID:CloseSpawnSelectionMenu", function()
+	SendNUIMessage({type = "close_spawnselection_menu"})
+end)
+---------------------------------------------------------------------------
 -- MAIN THREAD
 ---------------------------------------------------------------------------
 -- Citizen.CreateThread(function()
 -- 	while true do
--- 		local ped = GetPlayerPed(PlayerId())
+-- 		local ped = PlayerPedId()
 -- 		local pedCoords = GetEntityCoords(ped, false)
 -- 		for a = 1, #DRPCharacters.ChangeCharacterLocations do 
 -- 			local distance = Vdist(pedCoords.x, pedCoords.y, pedCoords.z, DRPCharacters.ChangeCharacterLocations[a].x, DRPCharacters.ChangeCharacterLocations[a].y, DRPCharacters.ChangeCharacterLocations[a].z)
