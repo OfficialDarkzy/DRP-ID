@@ -465,17 +465,21 @@ function ShowVehshopBlips(bool)
 		end
 		Citizen.CreateThread(function()
 			while #vehshop_blips > 0 do
-				Citizen.Wait(0)
+				local wait = 500
 				local inrange = false
 				for i,b in ipairs(vehshop_blips) do
-					DrawMarker(1,b.pos.entering[1],b.pos.entering[2],b.pos.entering[3],0,0,0,0,0,0,2.001,2.0001,0.5001,0,155,255,200,0,0,0,0)
-					if vehshop.opened == false and IsPedInAnyVehicle(LocalPed(), true) == false and  GetDistanceBetweenCoords(b.pos.entering[1],b.pos.entering[2],b.pos.entering[3],GetEntityCoords(LocalPed())) < 5 then		
-						drawTxt('Press ~g~E~s~ To Buy Vehicles',0,1,0.5,0.8,0.6,255,255,255,255)
-						currentlocation = b
-						inrange = true
+					if Vdist2(b.pos.entering[1], b.pos.entering[2], b.pos.entering[3], GetEntityCoords(LocalPed())) < 15 then
+						wait = 5
+						DrawMarker(1,b.pos.entering[1],b.pos.entering[2],b.pos.entering[3],0,0,0,0,0,0,2.001,2.0001,0.5001,0,155,255,200,0,0,0,0)
+						if vehshop.opened == false and IsPedInAnyVehicle(LocalPed(), true) == false and Vdist2(b.pos.entering[1],b.pos.entering[2],b.pos.entering[3],GetEntityCoords(LocalPed())) < 5 then		
+							drawTxt('Press ~g~E~s~ To Buy Vehicles',0,1,0.5,0.8,0.6,255,255,255,255)
+							currentlocation = b
+							inrange = true
+						end
 					end
 				end
 				inrangeofvehshop = inrange
+				Wait(wait)
 			end
 		end)
 	elseif bool == false and #vehshop_blips > 0 then
@@ -783,7 +787,7 @@ Citizen.CreateThread(function()
 		local sleepTimer = 1000
 		if IsPlayerInRangeOfVehshop() then
 			sleepTimer = 1
-			if IsControlJustPressed(1, 38) then
+			if IsControlJustPressed(1,38) then
 				if vehshop.opened then
 					CloseCreator()
 				else
@@ -934,14 +938,9 @@ end)
 local firstspawn = 0
 AddEventHandler('playerSpawned', function(spawn)
 	if firstspawn == 0 then
-		RemoveIpl('v_carshowroom')
-		RemoveIpl('shutter_open')
-		RemoveIpl('shutter_closed')
-		RemoveIpl('shr_int')
-		RemoveIpl('csr_inMission')
-		RequestIpl('v_carshowroom')
 		RequestIpl('shr_int')
-		RequestIpl('shutter_closed')
+		EnableInteriorProp(GetInteriorAtCoordsWithType(-38.62, -1099.01, 27.31, "v_carshowroom"), "csr_beforeMission")
+		EnableInteriorProp(GetInteriorAtCoordsWithType(-38.62, -1099.01, 27.31, "v_carshowroom"), "shutter_open")
 		firstspawn = 1
 	end
 end)
