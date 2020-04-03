@@ -6,8 +6,8 @@ RegisterServerEvent("DRP_ID:RequestOpenMenu")
 AddEventHandler("DRP_ID:RequestOpenMenu", function()
 	local src = source
 	TriggerEvent("DRP_Core:GetPlayerData", src, function(results)
-		exports["externalsql"]:DBAsyncQuery({
-			string = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
 			data = {playerid = results.playerid}
 		}, function(characters)
 			local characters = characters["data"]
@@ -28,8 +28,8 @@ AddEventHandler("DRP_ID:RequestChangeCharacter", function()
 		end
 	end
 	TriggerEvent("DRP_Core:GetPlayerData", src, function(results)
-		exports["externalsql"]:DBAsyncQuery({
-			string = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
 			data = {playerid = results.playerid}
 		}, function(characters)
 			local characters = characters["data"]
@@ -42,8 +42,8 @@ end)
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_ID:UpdateCharactersInUI", function(player)
 	TriggerEvent("DRP_Core:GetPlayerData", player, function(results)
-		exports["externalsql"]:DBAsyncQuery({
-			string = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
 			data = {playerid = results.playerid}
 		}, function(characters)
 			local characters = characters["data"]
@@ -58,8 +58,8 @@ RegisterServerEvent("DRP_ID:CreateCharacter")
 AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 	local src = source
 	TriggerEvent("DRP_Core:GetPlayerData", src, function(playerData)
-		exports["externalsql"]:DBAsyncQuery({
-			string = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
 			data = {
 				playerid = playerData.playerid
 			}
@@ -67,8 +67,8 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 			Wait(500)
 			local characterCount = #characters["data"]
 			if characterCount < DRPCharacters.MaxCharacters then
-				exports["externalsql"]:DBAsyncQuery({
-					string = [[
+				exports["externalsql"]:AsyncQueryCallback({
+					query = [[
 						INSERT INTO characters
 						(`name`, `age`, `gender`, `cash`, `bank`, `dirtyCash`, `licenses`, `playerid`)
 						VALUES
@@ -100,16 +100,16 @@ RegisterServerEvent("DRP_ID:SelectCharacter")
 AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 	local src = source
 	local model = nil
-	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT * FROM `characters` WHERE `id` = :character_id",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `characters` WHERE `id` = :character_id",
 		data = {
 			character_id = character_id
 		}
 	}, function(characterInfo)
 		TriggerEvent("DRP_Clothing:AddCharacterClothing", character_id)
 		Wait(1000)
-		exports["externalsql"]:DBAsyncQuery({
-			string = "SELECT * FROM `character_clothing` WHERE `char_id` = :character_id",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "SELECT * FROM `character_clothing` WHERE `char_id` = :character_id",
 			data = {
 				character_id = character_id
 			}
@@ -143,8 +143,8 @@ end)
 RegisterServerEvent("DRP_ID:DeleteCharacter")
 AddEventHandler("DRP_ID:DeleteCharacter", function(character_id)
 	local src = source
-	exports["externalsql"]:DBAsyncQuery({
-		string = "DELETE FROM `characters` WHERE `id` = :character_id",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "DELETE FROM `characters` WHERE `id` = :character_id",
 		data = {
 			character_id = character_id
 		}
@@ -168,8 +168,8 @@ AddEventHandler("DRP_ID:SaveCharacterLocation", function(x,y,z)
 	local src = source
 	local character = GetCharacterData(src)
 	local lastPos = "{"..x..", "..y..", "..z.."}"
-	exports["externalsql"]:DBAsyncQuery({
-		string = "UPDATE characters SET `lastLocation` = :lastLocation WHERE `id` = :char_id",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "UPDATE characters SET `lastLocation` = :lastLocation WHERE `id` = :char_id",
 		data = {
 			lastLocation = lastPos,
 			char_id = character.charid

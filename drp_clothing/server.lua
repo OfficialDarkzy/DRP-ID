@@ -3,8 +3,8 @@ AddEventHandler("DRP_Clothing:FirstSpawn", function()
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
 
-	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
 		data = {
 			charid = character.charid
 		}
@@ -25,8 +25,8 @@ AddEventHandler("DRP_Clothing:FirstSpawn", function()
 end)
 
 AddEventHandler("DRP_Clothing:AddCharacterClothing", function(charid)
-	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT * FROM `characters` WHERE `id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `characters` WHERE `id` = :charid",
 		data = {
 			charid = charid,
 			gender = gender
@@ -38,8 +38,8 @@ AddEventHandler("DRP_Clothing:AddCharacterClothing", function(charid)
 		else
 			model = "mp_m_freemode_01"
 		end	
-	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
 		data = {
 			charid = charid
 		}
@@ -48,8 +48,8 @@ AddEventHandler("DRP_Clothing:AddCharacterClothing", function(charid)
 			clothing = {drawables = {0,0,0,0,0,0,0,0,0,0,0,0}, textures = {2,0,1,1,0,0,0,0,0,0,0,0}, palette = {0,0,0,0,0,0,0,0,0,0,0,0}}
 			props = {drawables = {-1,-1,-1,-1,-1,-1,-1,-1}, textures = {-1,-1,-1,-1,-1,-1,-1,-1}}
 			overlays = {drawables = {-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1,-1}, opacity = {1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0,1.0}, colours = {{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0},{colourType = 0, colour = 0}}}
-			exports["externalsql"]:DBAsyncQuery({
-				string = "INSERT INTO `character_clothing` SET `model` = :model, `clothing_drawables` = :clothing_drawables, `clothing_textures` = :clothing_textures, `clothing_palette` = :clothing_palette, `props_drawables` = :props_drawables, `props_textures` = :props_textures, `overlays_drawables` = :overlays_drawables, `overlays_opacity` = :overlays_opacity, `overlays_colours` = :overlays_colours, `char_id` = :charid",
+			exports["externalsql"]:AsyncQueryCallback({
+				query = "INSERT INTO `character_clothing` SET `model` = :model, `clothing_drawables` = :clothing_drawables, `clothing_textures` = :clothing_textures, `clothing_palette` = :clothing_palette, `props_drawables` = :props_drawables, `props_textures` = :props_textures, `overlays_drawables` = :overlays_drawables, `overlays_opacity` = :overlays_opacity, `overlays_colours` = :overlays_colours, `char_id` = :charid",
 				data = {
 					model = model,
 					clothing_drawables = json.encode(clothing.drawables),
@@ -73,8 +73,8 @@ RegisterServerEvent("DRP_Clothing:SaveModel")
 AddEventHandler("DRP_Clothing:SaveModel", function(model)
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	exports["externalsql"]:DBAsyncQuery({
-		string = "UPDATE character_clothing SET `model` = :model WHERE `char_id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "UPDATE character_clothing SET `model` = :model WHERE `char_id` = :charid",
 		data = {
 			model = model,
 			charid = character.charid
@@ -87,8 +87,8 @@ RegisterServerEvent("DRP_Clothing:RestartClothing")
 AddEventHandler("DRP_Clothing:RestartClothing", function()
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `character_clothing` WHERE `char_id` = :charid",
 		data = {
 			charid = character.charid
 		}
@@ -113,8 +113,8 @@ RegisterServerEvent("clothes:save")
 AddEventHandler("clothes:save",function(player_data)
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	exports["externalsql"]:DBAsyncQuery({
-		string = "UPDATE character_clothing SET `clothing_drawables` = :clothing_drawables, `clothing_textures` = :clothing_textures, `clothing_palette` = :clothing_palette, `props_drawables` = :props_drawables, `props_textures` = :props_textures, `overlays_drawables` = :overlays_drawables, `overlays_opacity` = :overlays_opacity WHERE `char_id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "UPDATE character_clothing SET `clothing_drawables` = :clothing_drawables, `clothing_textures` = :clothing_textures, `clothing_palette` = :clothing_palette, `props_drawables` = :props_drawables, `props_textures` = :props_textures, `overlays_drawables` = :overlays_drawables, `overlays_opacity` = :overlays_opacity WHERE `char_id` = :charid",
 		data = {
 			clothing_drawables = json.encode(player_data.cdrawables),
 			clothing_textures = json.encode(player_data.ctextures),

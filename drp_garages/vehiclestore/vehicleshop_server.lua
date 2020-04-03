@@ -31,8 +31,8 @@ AddEventHandler("DRP_Garages:PurchaseVehicle", function(price, model, plate, veh
 			if price == 0 or price == 1 then
 				TriggerEvent("DRP_Admin:ManualBan", src, cheatengine, true) -- This Don't work yet :)
 			else
-				exports["externalsql"]:DBAsyncQuery({
-					string = [[
+				exports["externalsql"]:AsyncQueryCallback({
+					query = [[
 					INSERT INTO vehicles
 					(`modelLabel`, `state`, `vehicleMods`, `plate`, garage_slot,`charactername`, `char_id`)
 					VALUES

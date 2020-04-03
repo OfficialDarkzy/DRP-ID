@@ -4,7 +4,7 @@ RegisterServerEvent("DRP_Auction:CheckOwnership")
 AddEventHandler("DRP_Auction:CheckOwnership", function(vehicledata, plate)
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	exports["externalsql"]:DBAsyncQuery({
+	exports["externalsql"]:AsyncQueryCallback({
 		string = "SELECT plate FROM `vehicles` WHERE `char_id` = :charid AND `plate` = :plate",
 		data = {
 			plate = plate,
@@ -46,14 +46,14 @@ AddEventHandler("DRP_Auction:AddVehicleToAuction", function(mods, price)
     local character = exports["drp_id"]:GetCharacterData(src)
     local plate = string.lower(mods["plate"])
     if DRPAuction.VehiclePositions ~= totalVehiclesForSale then
-        exports["externalsql"]:DBAsyncQuery({
+        exports["externalsql"]:AsyncQueryCallback({
             string = "DELETE FROM `vehicles` WHERE `plate` = :plate",
             data = {
                 plate = plate
             }
         }, function(results)
         end)
-        exports["externalsql"]:DBAsyncQuery({
+        exports["externalsql"]:AsyncQueryCallback({
             string = [[
             INSERT INTO vehicle_auction
                 (`sellername`, `vehicleMods`, `price`, `char_id`)
@@ -107,7 +107,7 @@ end)
 
 AddEventHandler("DRP_Auction:GetVehicles", function(callback)
 	local character = exports["drp_id"]:GetCharacterData(src)
-	exports["externalsql"]:DBAsyncQuery({
+	exports["externalsql"]:AsyncQueryCallback({
 		string = "SELECT * FROM `vehicle_auction`",
     }, function(allVehiclesData)
         callback(allVehiclesData["data"])

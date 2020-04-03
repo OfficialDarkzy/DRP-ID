@@ -6,8 +6,8 @@ RegisterServerEvent("DRP_Garages:RequestOpenMenu")
 AddEventHandler("DRP_Garages:RequestOpenMenu", function(menu)
 	local src = source
 	TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
-		exports["externalsql"]:DBAsyncQuery({
-			string = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
 			data = {charid = CharacterData.charid}
 		}, function(vehicleData)
 			local characterVehicles = vehicleData["data"]
@@ -26,8 +26,8 @@ RegisterServerEvent("DRP_Garages:GetSelectedVehicleData")
 AddEventHandler("DRP_Garages:GetSelectedVehicleData", function(vehicle_id, type)
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-		exports["externalsql"]:DBAsyncQuery({
-			string = "SELECT * FROM `vehicles` WHERE `id` = :vehicleid",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "SELECT * FROM `vehicles` WHERE `id` = :vehicleid",
 			data = {vehicleid = vehicle_id}
 		}, function(selectedVehicleData)
 		local allVehicleData = selectedVehicleData["data"]
@@ -59,8 +59,8 @@ AddEventHandler("DRP_Garages:RequestStoreVehicle", function(plate)
  local src = source
  print(plate)
  TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
-	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
 		data = {
 			charid = CharacterData.charid
 		}
@@ -107,8 +107,8 @@ AddEventHandler("DRP_Garages:UpdateVehicle", function(plate, data, garage_slot, 
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
 	-- pull all data for cars -> loop it and compare from passed data?
-	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
 		data = {
 			charid = character.charid
 		}
@@ -117,8 +117,8 @@ AddEventHandler("DRP_Garages:UpdateVehicle", function(plate, data, garage_slot, 
 			for a = 1, #vehicleData, 1 do
 				local allPlates = json.decode(vehicleData[a]["vehicleMods"])
 				if allPlates.plate == plate then
-				exports["externalsql"]:DBAsyncQuery({
-					string = "UPDATE vehicles SET plate = :plate, vehicleMods = :vehicleMods, garage_slot = :garage_slot, fuel_level = :fuel_level WHERE `plate` = :plate",
+				exports["externalsql"]:AsyncQueryCallback({
+					query = "UPDATE vehicles SET plate = :plate, vehicleMods = :vehicleMods, garage_slot = :garage_slot, fuel_level = :fuel_level WHERE `plate` = :plate",
 					data = {
 						plate = plate,
 						vehicleMods = json.encode(data),
@@ -140,8 +140,8 @@ AddEventHandler("DRP_Garages:UpdateVehicleFuel", function(plate, fuel_level)
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
 	-- pull all data for cars -> loop it and compare from passed data?
-	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
 		data = {
 			charid = character.charid
 		}
@@ -150,8 +150,8 @@ AddEventHandler("DRP_Garages:UpdateVehicleFuel", function(plate, fuel_level)
 			for a = 1, #vehicleData, 1 do
 				local allPlates = json.decode(vehicleData[a]["vehicleMods"])
 				if allPlates.plate == plate then
-				exports["externalsql"]:DBAsyncQuery({
-					string = "UPDATE vehicles SET fuel_level = :fuel_level WHERE `plate` = :plate",
+				exports["externalsql"]:AsyncQueryCallback({
+					query = "UPDATE vehicles SET fuel_level = :fuel_level WHERE `plate` = :plate",
 					data = {
 						plate = plate,
 						fuel_level = fuel_level
@@ -169,8 +169,8 @@ RegisterServerEvent("DRP_Garages:StateChanger")
 AddEventHandler("DRP_Garages:StateChanger", function(plate, state)
 	local src = source
 	if state == 'IN' then
-		exports["externalsql"]:DBAsyncQuery({
-			string = "UPDATE vehicles SET `state` = :state WHERE `plate` = :plate",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "UPDATE vehicles SET `state` = :state WHERE `plate` = :plate",
 			data = {
 				plate = plate,
 				state = "IN"
@@ -178,8 +178,8 @@ AddEventHandler("DRP_Garages:StateChanger", function(plate, state)
 		}, function(results)
 		end)
 	elseif state == 'OUT' then
-		exports["externalsql"]:DBAsyncQuery({
-            string = "UPDATE vehicles SET `state` = :state WHERE `plate` = :plate",
+		exports["externalsql"]:AsyncQueryCallback({
+            query = "UPDATE vehicles SET `state` = :state WHERE `plate` = :plate",
             data = {
                 plate = plate,
                 state = "OUT"
@@ -195,8 +195,8 @@ RegisterServerEvent("DRP_Garages:ImpoundStateChanger")
 AddEventHandler("DRP_Garages:ImpoundStateChanger", function(plate, state, impoundslot)
 	local src = source
 	if state == 'OUT' then
-		exports["externalsql"]:DBAsyncQuery({
-			string = "UPDATE vehicles SET `impound_slot` = :impound_slot, `state` = :state WHERE `plate` = :plate",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "UPDATE vehicles SET `impound_slot` = :impound_slot, `state` = :state WHERE `plate` = :plate",
 			data = {
 				plate = plate,
 				state = 'OUT',
@@ -205,8 +205,8 @@ AddEventHandler("DRP_Garages:ImpoundStateChanger", function(plate, state, impoun
 		}, function(results)
 		end)
 	elseif state  == 'IMPOUND' then
-		exports["externalsql"]:DBAsyncQuery({
-			string = "UPDATE vehicles SET `impound_slot` = :impound_slot, `state` = :state WHERE `plate` = :plate",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "UPDATE vehicles SET `impound_slot` = :impound_slot, `state` = :state WHERE `plate` = :plate",
 			data = {
 				plate = plate,
 				state = 'IMPOUND',
@@ -250,8 +250,8 @@ end)
 RegisterServerEvent("DRP_Garages:GetVehiclesForImpound")
 AddEventHandler("DRP_Garages:GetVehiclesForImpound", function(plate, impoundslot)
 	local src = source
-	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT * FROM `vehicles` WHERE `plate` = :plate",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `vehicles` WHERE `plate` = :plate",
 		data = {
 			plate = plate
 		}
@@ -275,8 +275,8 @@ RegisterServerEvent("DRP_Garages:GetVehicles")
 AddEventHandler("DRP_Garages:GetVehicles", function()
 	local src = source
 	TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
-		exports["externalsql"]:DBAsyncQuery({
-			string = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
 			data = {charid = CharacterData.charid}
 		}, function(vehicleData)
 			local characterVehicles = vehicleData["data"]
@@ -296,8 +296,8 @@ end)
 AddEventHandler("playerDropped", function()
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	exports["externalsql"]:DBAsyncQuery({
-		string = "UPDATE vehicles SET `state` = :state WHERE `char_id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "UPDATE vehicles SET `state` = :state WHERE `char_id` = :charid",
 			data = {
 				charid = character.charid,
 				state = "IN"

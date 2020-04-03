@@ -5,8 +5,8 @@ RegisterServerEvent("DRP_Tattoos:GetTattoos")
 AddEventHandler("DRP_Tattoos:GetTattoos", function()
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	exports["externalsql"]:DBAsyncQuery({
-		string = "SELECT * FROM `character_tattoos` WHERE `char_id` = :charid",
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `character_tattoos` WHERE `char_id` = :charid",
 		data = {
 			charid = character.charid
 		}
@@ -16,8 +16,8 @@ AddEventHandler("DRP_Tattoos:GetTattoos", function()
 				TriggerClientEvent("DRP_Tattoos:CharacterTattoos", src, allTattoos)
 			else
 				local tattooValue = json.encode({})
-				exports["externalsql"]:DBAsyncQuery({
-					string = "INSERT INTO `character_tattoos` SET `tattoos` = :tattoos, `char_id` = :charid",
+				exports["externalsql"]:AsyncQueryCallback({
+					query = "INSERT INTO `character_tattoos` SET `tattoos` = :tattoos, `char_id` = :charid",
 					data = {
 						tattoos = tattooValue,
 						charid = character.charid
@@ -41,16 +41,16 @@ AddEventHandler("DRP_Tattoos:SaveTattoos", function(tattoosList, price, value)
 					if characterMoney.data[1].cash >= price then
 						TriggerEvent("DRP_Bank:RemoveCashMoney", src, price)
 						table.insert(tattoosList, value)
-							exports["externalsql"]:DBAsyncQuery({
-								string = "UPDATE character_tattoos SET `tattoos` = :tattoos WHERE `char_id` = :charid",
+							exports["externalsql"]:AsyncQueryCallback({
+								query = "UPDATE character_tattoos SET `tattoos` = :tattoos WHERE `char_id` = :charid",
 								data = {
 									tattoos = json.encode(tattoosList),
 									charid = character.charid
 								}
 							}, function(yeetTattooddddd)
 							end)
-							exports["externalsql"]:DBAsyncQuery({
-								string = "SELECT * FROM `character_tattoos` WHERE `char_id` = :charid",
+							exports["externalsql"]:AsyncQueryCallback({
+								query = "SELECT * FROM `character_tattoos` WHERE `char_id` = :charid",
 								data = {
 									charid = character.charid
 								}
@@ -72,16 +72,16 @@ AddEventHandler("DRP_Tattoos:SaveTattoos", function(tattoosList, price, value)
 			if characterMoney.data[1].cash >= price then
 				TriggerEvent("DRP_Bank:RemoveCashMoney", src, price)
 				table.insert(tattoosList, value)
-				exports["externalsql"]:DBAsyncQuery({
-					string = "UPDATE character_tattoos SET `tattoos` = :tattoos WHERE `char_id` = :charid",
+				exports["externalsql"]:AsyncQueryCallback({
+					query = "UPDATE character_tattoos SET `tattoos` = :tattoos WHERE `char_id` = :charid",
 					data = {
 						tattoos = json.encode(tattoosList),
 						charid = character.charid
 					}
 				}, function(yeetTattooddddd)
 				end)
-				exports["externalsql"]:DBAsyncQuery({
-					string = "SELECT * FROM `character_tattoos` WHERE `char_id` = :charid",
+				exports["externalsql"]:AsyncQueryCallback({
+					query = "SELECT * FROM `character_tattoos` WHERE `char_id` = :charid",
 					data = {
 						charid = character.charid
 					}
