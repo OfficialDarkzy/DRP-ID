@@ -3,7 +3,7 @@
 --]]
 
 
-fx_version 'adamant'
+fx_version 'bodacious'
 games { 'gta5' }
 
 
