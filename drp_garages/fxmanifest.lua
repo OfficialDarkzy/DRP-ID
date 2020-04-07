@@ -26,18 +26,20 @@ files {
 }
 
 client_scripts {
+    'config.lua',
+    'vehiclestore/config.lua',
     'client.lua',
     'locking.lua',
     'seatbelt.lua',
-    'config.lua',
     'carwash.lua',
     'managers/managers.lua',
     'managers/entityier.lua',
-    'vehiclestore/vehicleshop.lua'
+    'vehiclestore/client.lua'
 }
 
 server_scripts {
     'config.lua',
+    'vehiclestore/config.lua',
     'server.lua',
-    'vehiclestore/vehicleshop_server.lua'
+    'vehiclestore/server.lua'
 }

@@ -145,6 +145,503 @@
         </div>
       </v-content>
     </v-app>
+    
+    <v-app id="DRP_vehicleshop_UI">
+      <v-content>
+        <div id="DRP_vehicleshop_Base" v-show="showShopMenu"> <!-- Garage Menu -->
+          <div id="DRP_vehicleshop_Header">
+            <v-btn
+              color="red"
+              slot="activator"
+              absolute
+              right
+              top
+              fab
+              dark
+              small
+              @click="CloseShopMenu(), ResetButtons(true)">
+              <v-icon>clear</v-icon>
+            </v-btn>
+            Vehicle Shop
+          </div>
+
+          <v-toolbar dense mandatory>
+              <v-toolbar-items class="hidden-sm-and-down">
+              <v-btn flat dense
+                v-for="(page, pageIndex) in pages"
+                :key="pageIndex" @click="ChangePage(page)"
+                :disabled="currentPage == page"
+              >{{ page }}</v-btn>
+            </v-toolbar-items>
+          </v-toolbar>
+
+          <div id="DRP_vehicleshop_Body">
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Compacts'"> <!-- Compacts categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'compacts'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br />
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br />
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Coupes'"> <!-- Coupes categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'coupes'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br />
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br />
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Sport'"> <!-- Sport categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'sport'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br />
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br />
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Sport Classic'"> <!-- Sport Classic categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'sportclassic'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br />
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br />
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Super'"> <!-- Super categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'super'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br />
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br />
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Muscle'"> <!-- Muscle categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'muscle'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br />
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br />
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Off Road'"> <!-- Off Road categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'offroad'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br />
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br />
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Suvs'"> <!-- Suvs categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'suvs'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br />
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br />
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Vans'"> <!-- Vans categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'vans'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br />
+                          <b>Categorie: {{ vehicle.categorie }}</b
+                          ><br />
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Sedans'"> <!-- Sedans categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'sedans'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br />
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br />
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Motorcycles'"> <!-- Motorcycles categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'motorcycle'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br/>
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br/>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+            <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Exclusives'"> <!-- Exclusives categorie -->
+              <v-container grid-list-xl>
+                <v-layout pa-1 row wrap>
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                    <div v-if="vehicle.categorie == 'exclusives'">
+                      <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
+                        <img style="width: 186px; height: 95px;" :src="vehicle.img">
+                        <v-card-title primary-title>
+                          <h2 style="font-size: 15px;">{{ vehicle.name }}</h2>
+                          <br />
+                        </v-card-title>
+                        <v-card-text>
+                          <b>Price: ${{ numberformat(vehicle.costs) }}</b>
+                          <br/>
+                          <b>Categorie: {{ vehicle.categorie }}</b>
+                          <br/>
+                        </v-card-text>
+                        <v-card-actions>
+                          <v-btn
+                            color="blue"
+                            block
+                            dark
+                            @click="ShowQuestion(vehicle)"
+                            >Select This Vehicle</v-btn
+                          >
+                        </v-card-actions>
+                      </v-card>
+                    </div>
+                  </div>
+                </v-layout>
+              </v-container>
+            </div>
+
+          </div>
+        </div>
+
+        <v-dialog v-model="showBuyQuestion" scrollable persistent :overlay="false" max-width="450px" transition="dialog-transition"> <!-- Question popup -->
+          <v-card style="background-color: rgba(255, 255, 255, 0.863);">
+            <img style="height: 200px;" :src="vehicledata.img">
+            <v-layout column align-center>
+              <v-card-title primary-title>
+                <h2 style="font-size: 20px;">{{ vehicledata.name }}</h2>
+              </v-card-title>
+            </v-layout>
+              <v-card-text>
+                <v-layout column align-center>
+                  <b>Price: ${{ numberformat(vehicledata.costs) }}</b>
+                  <b>Categorie: {{ vehicledata.categorie }}</b>
+                  <br/>
+                  <b>Vehicle Stats</b>
+                </v-layout>
+
+                <v-progress-linear
+                  :value="vehicledata.vMax"
+                  height="10"
+                  color="black">
+                </v-progress-linear>
+                <v-progress-linear
+                  :value="vehicledata.accel"
+                  height="10"
+                  color="black">
+                </v-progress-linear>
+                <v-progress-linear
+                  :value="vehicledata.frein"
+                  height="10"
+                  color="black">
+                </v-progress-linear>
+
+                <br/>
+                
+                <v-layout column align-center>
+                  <b>Pick A Color</b>
+                  <br/>
+                  <v-btn-toggle v-model="SelectedColor">
+                    <v-btn v-for="i in Colors" :color="i" :value="i">
+                      {{i}}
+                    </v-btn>
+                  </v-btn-toggle>
+                </v-layout>
+
+                <br />
+
+                <v-container grid-list-xs>
+                  <v-layout row>
+                    <v-flex>
+                      <v-btn color="green" dark block :disabled="isDisabled" @click="BuyThisVehicle(vehicledata.model, vehicledata.costs, SelectedColor), ResetButtons(true)">
+                        buy this Vehicle!
+                      </v-btn>
+                      <v-btn color="red" dark block @click="showBuyQuestion = false, ResetButtons()">
+                        Cancel
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
+                </v-container>
+        
+              </v-card-text>
+
+          </v-card>
+        </v-dialog>
+
+      </v-content>
+    </v-app>
     <script src="libraries/axios.min.js"></script>
     <script src="libraries/vue.min.js"></script>
     <script src="libraries/vuetify.js"></script>

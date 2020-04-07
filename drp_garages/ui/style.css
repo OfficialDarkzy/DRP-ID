@@ -40,3 +40,42 @@ html {
     width: 100%;
     background-color: white;
 }
+
+/*---------------------------------------------------------------------------
+-- Vehicle Store
+---------------------------------------------------------------------------*/
+
+#DRP_vehicleshop_UI {
+    position: absolute;
+    width: 121%;
+    height: 100%;
+    background-color: transparent !important;
+}
+
+#DRP_vehicleshop_Base {
+    position: relative;
+    left: 50%;
+    top: 50%;
+    width: 55%;
+    height: 750px;
+    transform: translate(-60%, -60%);
+}
+
+#DRP_vehicleshop_Header {
+    width: 100%;
+    background-color: rgb(0, 140, 255);
+    border-top-left-radius: 5px;
+    border-top-right-radius: 5px;
+    padding: 20px;
+    text-align: center;
+    font-size: 20px;
+    color: white;
+    font-weight: bold;
+}
+
+#DRP_vehicleshop_Body {
+    overflow-y: auto;
+    max-height: 750px;
+    width: 100%;
+    background-color: white;
+}

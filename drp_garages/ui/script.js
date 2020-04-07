@@ -69,6 +69,89 @@ const GarageUIApp = new Vue({
   }
 });
 
+const VehicleShopUI = new Vue({
+  el: "#DRP_vehicleshop_UI",
+
+  data: {
+    showShopMenu: false,
+    showBuyQuestion: false,
+
+    // Arrays
+    currentPage: "Compacts",
+    pages: ["Compacts", "Coupes", "Sport", "Sport Classic", "Super", "Muscle", "Off Road", "Suvs", "Vans", "Sedans", "Exclusives","Motorcycles"],
+    Colors: ["Red", "Blue", "Black", "Yellow", "Pink", "White", "Green"],
+    
+    vehicles: [],
+    vehicledata: [],
+    SelectedColor: ""
+  },
+
+  methods: {
+
+    OpenShopMenu(vehicles) {
+      this.vehicles = vehicles;
+      this.showShopMenu = true;
+    },
+
+    CloseShopMenu() {
+      this.showBuyQuestion = false;
+      this.showShopMenu = false;
+      axios.post("http://drp_garages/close_shop", {})
+      .then(response => {
+        console.log(response);
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    },
+
+    ShowQuestion(vehicle) {
+      this.showBuyQuestion = true;
+      this.vehicledata = vehicle;
+    },
+
+    ChangePage(page) {
+      this.currentPage = page;
+    },
+
+    BuyThisVehicle(selectedVehicle, price, color) {
+      axios.post("http://drp_garages/selected_vehicle", {
+        selectedVehicle: selectedVehicle,
+        price: price,
+        color: color
+      })
+      .then(response => {
+        console.log(response);
+        this.CloseShopMenu();
+      })
+      .catch(error => {
+        console.log(error);
+      });
+    },
+
+    ResetButtons(both) {
+      if (both) {
+        this.SelectedColor = "",
+        this.currentPage = "Compacts"
+      } else {
+        this.SelectedColor = ""
+      }
+    },
+
+    numberformat(value) {
+      let val = (value/1).toFixed(0).split('.')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+    }
+
+  },
+
+  computed: {
+  	isDisabled: function(){
+    	return !this.SelectedColor;
+    },
+  }
+});
+
 // Listener from Lua CL
 document.onreadystatechange = () => {
   if (document.readyState == "complete") {
@@ -77,8 +160,8 @@ document.onreadystatechange = () => {
         GarageUIApp.OpenGarage(event.data.vehicles, event.data.garageslot);
       } else if (event.data.type == "open_impound_menu") {
         GarageUIApp.OpenImpound(event.data.vehicles, event.data.impoundslot);
-      } else if (event.data.type == "close_menu") {
-        GarageUIApp.CloseGarage();
+      } else if (event.data.type == "open_shop_menu") {
+        VehicleShopUI.OpenShopMenu(event.data.vehicles);
       }
     });
   }
