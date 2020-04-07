@@ -6,7 +6,22 @@ const GarageUIApp = new Vue({
     showImpoundMenu: false,
     vehicles: [],
     garageslot: [],
-    impoundslot: []
+    impoundslot: [],
+
+    // Vehicle Shop
+
+    showShopMenu: false,
+    showBuyQuestion: false,
+
+    // Arrays
+    currentPage: "Compacts",
+    pages: ["Compacts", "Coupes", "Sport", "Sport Classic", "Super", "Muscle", "Off Road", "Suvs", "Vans", "Sedans", "Exclusives","Motorcycles"],
+    Colors: ["Red", "Blue", "Black", "Yellow", "Pink", "White", "Green"],
+    
+    vehiclesShop: [],
+    vehicledata: [],
+    SelectedColor: ""
+
   },
 
   methods: {
@@ -65,31 +80,12 @@ const GarageUIApp = new Vue({
         .catch(error => {
           console.log(error);
         });
-    }
-  }
-});
-
-const VehicleShopUI = new Vue({
-  el: "#DRP_vehicleshop_UI",
-
-  data: {
-    showShopMenu: false,
-    showBuyQuestion: false,
-
-    // Arrays
-    currentPage: "Compacts",
-    pages: ["Compacts", "Coupes", "Sport", "Sport Classic", "Super", "Muscle", "Off Road", "Suvs", "Vans", "Sedans", "Exclusives","Motorcycles"],
-    Colors: ["Red", "Blue", "Black", "Yellow", "Pink", "White", "Green"],
-    
-    vehicles: [],
-    vehicledata: [],
-    SelectedColor: ""
-  },
-
-  methods: {
-
+    },
+    ///////////////////////////////////////////////////////////////////////////
+    // Vehicle Shop
+    ///////////////////////////////////////////////////////////////////////////
     OpenShopMenu(vehicles) {
-      this.vehicles = vehicles;
+      this.vehiclesShop = vehicles;
       this.showShopMenu = true;
     },
 
@@ -115,7 +111,7 @@ const VehicleShopUI = new Vue({
     },
 
     BuyThisVehicle(selectedVehicle, price, color) {
-      axios.post("http://drp_garages/selected_vehicle", {
+      axios.post("http://drp_garages/Buy_vehicle", {
         selectedVehicle: selectedVehicle,
         price: price,
         color: color
@@ -142,7 +138,6 @@ const VehicleShopUI = new Vue({
       let val = (value/1).toFixed(0).split('.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     }
-
   },
 
   computed: {
@@ -161,7 +156,7 @@ document.onreadystatechange = () => {
       } else if (event.data.type == "open_impound_menu") {
         GarageUIApp.OpenImpound(event.data.vehicles, event.data.impoundslot);
       } else if (event.data.type == "open_shop_menu") {
-        VehicleShopUI.OpenShopMenu(event.data.vehicles);
+        GarageUIApp.OpenShopMenu(event.data.vehicles);
       }
     });
   }

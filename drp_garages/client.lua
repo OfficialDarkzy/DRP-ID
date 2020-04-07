@@ -394,7 +394,3 @@ RegisterCommand('engine', function()
         SetVehicleEngineOn(Veh, (not GetIsVehicleEngineRunning(Veh)), false, true)
     end
 end, false)
----------------------------------------------------------------------------
-RegisterCommand("nui", function()
-	SendNUIMessage({ type = 'close_menu' })
-end, false)
