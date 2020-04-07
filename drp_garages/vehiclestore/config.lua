@@ -1,5 +1,7 @@
 DRPConfig = {}
 
+DRPConfig.iplLoad = true -- Set to false if u have another ipl loader such as bob74_ipl
+
 DRPConfig.ResellVehicle = true
 DRPConfig.ResellPercentage = 50
 
