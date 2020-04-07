@@ -195,3 +195,20 @@ function drawTxt3D(x,y,z, text)
     AddTextComponentString(text)
     DrawText(_x,_y)
 end
+---------------------------------------------------------------------------
+if DRPConfig.iplLoad then
+    local firstspawn = 0
+    AddEventHandler('playerSpawned', function(spawn)
+        if firstspawn == 0 then
+            RemoveIpl('v_carshowroom')
+            RemoveIpl('shutter_open')
+            RemoveIpl('shutter_closed')
+            RemoveIpl('shr_int')
+            RemoveIpl('csr_inMission')
+            RequestIpl('v_carshowroom')
+            RequestIpl('shr_int')
+            RequestIpl('shutter_closed')
+            firstspawn = 1
+        end
+    end)
+end
