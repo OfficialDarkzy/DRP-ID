@@ -143,11 +143,9 @@
             </v-container>
           </div>
         </div>
-      </v-content>
-    </v-app>
-    
-    <v-app id="DRP_vehicleshop_UI">
-      <v-content>
+
+        <!-- VEHICLE SHOP -->
+
         <div id="DRP_vehicleshop_Base" v-show="showShopMenu"> <!-- Garage Menu -->
           <div id="DRP_vehicleshop_Header">
             <v-btn
@@ -180,7 +178,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Compacts'"> <!-- Compacts categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'compacts'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -213,7 +211,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Coupes'"> <!-- Coupes categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'coupes'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -246,7 +244,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Sport'"> <!-- Sport categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'sport'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -279,7 +277,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Sport Classic'"> <!-- Sport Classic categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'sportclassic'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -312,7 +310,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Super'"> <!-- Super categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'super'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -345,7 +343,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Muscle'"> <!-- Muscle categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'muscle'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -378,7 +376,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Off Road'"> <!-- Off Road categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'offroad'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -411,7 +409,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Suvs'"> <!-- Suvs categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'suvs'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -444,7 +442,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Vans'"> <!-- Vans categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'vans'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -477,7 +475,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Sedans'"> <!-- Sedans categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'sedans'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -510,7 +508,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Motorcycles'"> <!-- Motorcycles categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'motorcycle'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -543,7 +541,7 @@
             <div id="DRP_vehicleshop_Pages" v-if="currentPage == 'Exclusives'"> <!-- Exclusives categorie -->
               <v-container grid-list-xl>
                 <v-layout pa-1 row wrap>
-                  <div xs10 v-for="(vehicle, vehicleIndex) in vehicles">
+                  <div xs10 v-for="(vehicle, vehicleIndex) in vehiclesShop">
                     <div v-if="vehicle.categorie == 'exclusives'">
                       <v-card style="border: 1px solid grey; margin: 3px; width: 95%;">
                         <img style="width: 186px; height: 95px;" :src="vehicle.img">
@@ -639,7 +637,6 @@
 
           </v-card>
         </v-dialog>
-
       </v-content>
     </v-app>
     <script src="libraries/axios.min.js"></script>

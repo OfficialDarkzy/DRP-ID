@@ -79,7 +79,7 @@ end)
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_vehicleshop:CreateBoughtVehicle")
 AddEventHandler("DRP_vehicleshop:CreateBoughtVehicle", function(vehmodel, color, price)
-    SpawnVehicle(vehmodel, color, price)
+    SpawnBoughtVehicle(vehmodel, color, price)
 end)
 
 RegisterNetEvent("DRP_vehicleshop:ResellBoughtVehicle")
@@ -109,7 +109,7 @@ RegisterNUICallback("close_shop", function(data, callback)
 	callback("ok")
 end)
 
-RegisterNUICallback("selected_vehicle", function(data, callback)
+RegisterNUICallback("Buy_vehicle", function(data, callback)
     TriggerServerEvent("DRP_vehicleshop:CheckMoneyForVehicle", data.selectedVehicle, data.color, data.price)
 	callback("ok")
 end)
@@ -117,7 +117,7 @@ end)
 -- FUNCTIONS
 ---------------------------------------------------------------------------
 -- Spawning Vehicle
-function SpawnVehicle(vehicle, color, price)
+function SpawnBoughtVehicle(vehicle, color, price)
     local data = DRPConfig.Locations.Shop_locations.Shop_VehicleSpawnPoint
     loadModel(vehicle)
 
