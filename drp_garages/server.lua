@@ -56,17 +56,17 @@ end)
 
 RegisterServerEvent("DRP_Garages:RequestStoreVehicle")
 AddEventHandler("DRP_Garages:RequestStoreVehicle", function(plate)
- local src = source
- print(plate)
- TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
-	exports["externalsql"]:AsyncQueryCallback({
-		query = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
-		data = {
-			charid = CharacterData.charid
-		}
-	}, function(selectedVehiclePlate)
-		if #selectedVehiclePlate["data"] >= 1 then
-			local allVehicleData = selectedVehiclePlate["data"]
+	local src = source
+	print(plate)
+	TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "SELECT * FROM `vehicles` WHERE `char_id` = :charid",
+			data = {
+				charid = CharacterData.charid
+			}
+		}, function(selectedVehiclePlate)
+			if #selectedVehiclePlate["data"] >= 1 then
+				local allVehicleData = selectedVehiclePlate["data"]
 				for a = 1, #allVehicleData, 1 do
 					local allVehicleMods = json.decode(allVehicleData[a]["vehicleMods"])
 					if plate == allVehicleMods.plate then
@@ -89,8 +89,7 @@ AddEventHandler("DRP_CarWash:CheckMoney", function(cost)
         TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
             local carWashCost = cost
             if tonumber(characterMoney.data[1].cash) >= tonumber(carWashCost) then
-				TriggerClientEvent("DRP_CarWash:YesCleanCar", src)
-                TriggerClientEvent("DRP_Core:Info", src, "Car Wash", tostring("Car has been Washed!"), 2500, false, "leftCenter")
+				TriggerClientEvent("DRP_CarWash:YesCleanCar", src, true)
                 TriggerEvent("DRP_Bank:RemoveCashMoney", src, carWashCost)
             else
                 TriggerClientEvent("DRP_Core:Error", src, "Car Wash", tostring("You don't have enough Cash!"), 2500, false, "leftCenter")
@@ -224,7 +223,7 @@ AddEventHandler("DRP_Garages:GiveKeys", function(id, plate)
     local src = source
     local vehPlate = string.lower(plate)
     table.insert(vehicleKeys, {owner = src, net = id, vehiclePlate = vehPlate})
-    print(json.encode(vehicleKeys))
+    --print(json.encode(vehicleKeys))
 end)
 ---------------------------------------------------------------------------
 -- Check Vehicle Owner

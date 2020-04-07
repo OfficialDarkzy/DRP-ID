@@ -1,4 +1,3 @@
-local washing = false
 local carWashLocations = {
 	{name = "Carwash", id = 100, colour = 2, blipSize = 0.7, x = 24.81,  y = -1391.87, z = 28.33},
 	{name = "Carwash", id = 100, colour = 2, blipSize = 0.7, x = 2524.42,  y = 4195.39, z = 38.96}
@@ -33,13 +32,7 @@ if DRPGarages.Carwash then
 							if driver == ped and not washing then
 								drawTxt3D(carWashLocations[a].x, carWashLocations[a].y, carWashLocations[a].z + 0.9, 'Press ~s~[~b~ENTER~s~] to clean your car!')
 								if IsControlJustPressed(1, 18) then
-									washing = true
-									FreezeEntityPosition(pedVehicle, true)
-									exports['drp_progressBars']:startUI(15000, "Washing Car...")
-									Wait(15000)
 									TriggerServerEvent("DRP_CarWash:CheckMoney", carWashCost)
-									FreezeEntityPosition(pedVehicle, false)
-									washing = false
 								end
 							end
 						end
@@ -52,9 +45,20 @@ if DRPGarages.Carwash then
 end
 
 RegisterNetEvent("DRP_CarWash:YesCleanCar")
-AddEventHandler("DRP_CarWash:YesCleanCar", function()
+AddEventHandler("DRP_CarWash:YesCleanCar", function(carwash)
 	local ped = PlayerPedId()
 	local vehicle = GetVehiclePedIsIn(ped)
-	WashDecalsFromVehicle(vehicle, 1.0)
-	SetVehicleDirtLevel(vehicle, 0.0)
+
+	if carwash then
+		FreezeEntityPosition(vehicle, true)
+		exports['drp_progressBars']:startUI(15000, "Washing Car...")
+		Wait(15000)
+		FreezeEntityPosition(vehicle, false)
+		WashDecalsFromVehicle(vehicle, 1.0)
+		SetVehicleDirtLevel(vehicle, 0.0)
+		TriggerEvent("DRP_Core:Info", "Car Wash", tostring("Car has been Washed!"), 2500, false, "leftCenter")
+	else
+		WashDecalsFromVehicle(vehicle, 1.0)
+		SetVehicleDirtLevel(vehicle, 0.0)
+	end
 end)
