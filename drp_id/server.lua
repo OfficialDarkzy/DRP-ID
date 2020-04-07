@@ -137,6 +137,23 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 		end)
 	end)
 end)
+
+RegisterServerEvent("DRP_ID:LastKnownPosition")
+AddEventHandler("DRP_ID:LastKnownPosition", function(ped)
+	local src = source
+	local character = GetCharacterData(src)
+
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `characters` WHERE `id` = :character_id",
+		data = {
+			character_id = character.charid
+		}
+	}, function(characterData)
+		local lastKnownLocation = json.decode(characterData["data"][1].lastLocation)
+		local spawn = { x = lastKnownLocation[1],  y = lastKnownLocation[2], z = lastKnownLocation[3] }
+		TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, ped, spawn, true)
+	end)
+end)
 ---------------------------------------------------------------------------
 -- DELETE CHARACTER EVENT
 ---------------------------------------------------------------------------

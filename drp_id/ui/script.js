@@ -12,6 +12,7 @@ const DRP_Characters = new Vue({
 
     // Character Selector
     characters: [],
+    characterID: [],
 
     // Character Creator
     genders: ["Male", "Female"],
@@ -86,6 +87,17 @@ const DRP_Characters = new Vue({
         .catch(error => {});
     },
 
+    LastPositionSpawnPreview() {
+      var LastLocation = this.characters[characterID].lastLocation
+      axios
+      .post(`http://${this.ResourceName}/LastPositionSpawnPreview`, {
+        ped: this.ped,
+        spawn: LastLocation
+      })
+      .then(response => {})
+      .catch(error => {});
+    },
+
     GarageSpawnPreview() {
       axios
         .post(`http://${this.ResourceName}/GarageSpawnPreview`, {
@@ -132,6 +144,7 @@ const DRP_Characters = new Vue({
 
     SelectCharacter(index) {
       console.log(`CHARACTER ID: ${this.characters[index].id}`);
+      characterID = index;
       this.showCharacterSelector = false;
       var character_info = this.characters[index].id;
       axios

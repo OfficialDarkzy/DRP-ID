@@ -29,7 +29,7 @@
 
 							<v-layout pa-1 row>
 								<v-flex xs6 v-for="(character, characterIndex) in characters" :key="characterIndex">
-									<v-card style="background-color: rgba(33, 32, 32, 0.7); border: 1px solid white;">
+									<v-card style="background-color: rgba(33, 32, 32, 0.7); border: 1px solid white; margin: 5px;">
 										<v-card-title
 											style="font-weight: 200; font-size: 18px; justify-content: center; color: white;">
 											<b>{{ character.name }}</b>
@@ -111,6 +111,7 @@
 									</div>
 									<div id="DRP_SpawnMenu_Body">
 										<v-container grid-list-xs>
+											<v-btn color="blue darken-1" block dark @click="LastPositionSpawnPreview(characters); selectedSpawnArea = 'lastknown'">Last Position</v-btn>
 											<v-btn color="blue darken-1" block dark @click="GarageSpawnPreview(); selectedSpawnArea = 'LS Garage'">Garage</v-btn>
 											<v-btn color="blue darken-1" block dark @click="TrainStationPreview(); selectedSpawnArea = 'Train Station'">Train Station</v-btn>
 											<v-btn color="green" block dark @click="SpawnLocation()">Spawn</v-btn>
