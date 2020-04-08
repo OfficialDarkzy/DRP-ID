@@ -296,6 +296,21 @@ elseif Config.ShowAllGasStations then
 	end)
 end
 
+-- Updating fuel level to database every 5 minutes
+Citizen.CreateThread(function()
+	while true do
+		Citizen.Wait(300000)
+		local ped = PlayerPedId()
+		local vehicle = GetVehiclePedIsIn(ped, false)
+		local plate = GetVehicleNumberPlateText(vehicle)
+		local vehfuel = GetFuel(vehicle)
+
+		if IsPedInAnyVehicle(ped, vehicle) then
+			TriggerServerEvent("DRP_Garages:UpdateVehicleFuel", plate, vehfuel)
+		end
+	end
+end)
+
 if Config.EnableHUD then
 	local function DrawAdvancedText(x,y ,w,h,sc, text, r,g,b,a,font,jus)
 		SetTextFont(font)
