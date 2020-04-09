@@ -16,28 +16,6 @@ AddEventHandler("DRP_ID:RequestOpenMenu", function()
 	end)
 end)
 ---------------------------------------------------------------------------
--- REQUEST TO CHANGE CHARACTER IN GAME
----------------------------------------------------------------------------
-RegisterServerEvent("DRP_ID:RequestChangeCharacter")
-AddEventHandler("DRP_ID:RequestChangeCharacter", function()
-	local src = source
-	local characterInfo = GetCharacterData(src)
-	for a = 1, #character do
-		if character[a].id == characterInfo.charid then
-			table.remove(character, a)
-		end
-	end
-	TriggerEvent("DRP_Core:GetPlayerData", src, function(results)
-		exports["externalsql"]:AsyncQueryCallback({
-			query = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
-			data = {playerid = results.playerid}
-		}, function(characters)
-			local characters = characters["data"]
-			TriggerClientEvent("DRP_ID:OpenMenu", src, characters)
-		end)
-	end)
-end)
----------------------------------------------------------------------------
 -- UPDATE NUI EVENT
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_ID:UpdateCharactersInUI", function(player)
@@ -137,7 +115,9 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 		end)
 	end)
 end)
-
+---------------------------------------------------------------------------
+-- Spawn Character At Last Known Location
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_ID:LastKnownPosition")
 AddEventHandler("DRP_ID:LastKnownPosition", function(ped)
 	local src = source
@@ -155,7 +135,7 @@ AddEventHandler("DRP_ID:LastKnownPosition", function(ped)
 	end)
 end)
 ---------------------------------------------------------------------------
--- DELETE CHARACTER EVENT
+-- Delete Character Event
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_ID:DeleteCharacter")
 AddEventHandler("DRP_ID:DeleteCharacter", function(character_id)
@@ -170,7 +150,7 @@ AddEventHandler("DRP_ID:DeleteCharacter", function(character_id)
 	end)
 end)
 ---------------------------------------------------------------------------
--- Drop Player Function
+-- Drop Player Event (Using Disconnect Button)
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_ID:Disconnect")
 AddEventHandler("DRP_ID:Disconnect", function()
@@ -195,6 +175,8 @@ AddEventHandler("DRP_ID:SaveCharacterLocation", function(x,y,z)
 	end)
 end)
 ---------------------------------------------------------------------------
+-- Get Character Data Function Usage exports["drp_id"]:GetCharacterData(source)
+---------------------------------------------------------------------------
 function GetCharacterData(id)
 	for a = 1, #character do
 		if character[a].id == id then
@@ -203,11 +185,8 @@ function GetCharacterData(id)
 	end
 	return false
 end
-
-function CloseAllCameras(src)
-	TriggerClientEvent("DRP_ID:StopSkyCamera", src)
-	TriggerClientEvent("DRP_ID:StopCreatorCamera", src) -- If you are using this system
-end
+---------------------------------------------------------------------------
+-- Get Character Name Function Usage exports["drp_id"]:GetCharacterName(source)
 ---------------------------------------------------------------------------
 function GetCharacterName(id)
 	for a = 1, #character do
@@ -218,6 +197,15 @@ function GetCharacterName(id)
 	return false
 end
 ---------------------------------------------------------------------------
+-- Close All Air Cameras Function
+---------------------------------------------------------------------------
+function CloseAllCameras(src)
+	TriggerClientEvent("DRP_ID:StopSkyCamera", src)
+	TriggerClientEvent("DRP_ID:StopCreatorCamera", src) -- If you are using this system
+end
+---------------------------------------------------------------------------
+-- Get Character Data Server Handler
+---------------------------------------------------------------------------
 AddEventHandler("DRP_ID:GetCharacterData", function(id, callback)
 		for a = 1, #character do
 			if character[a].id == id then
@@ -227,6 +215,8 @@ AddEventHandler("DRP_ID:GetCharacterData", function(id, callback)
 		end
 	callback(false)
 end)
+---------------------------------------------------------------------------
+-- Checking for player to leave so it will remove data from table
 ---------------------------------------------------------------------------
 AddEventHandler("playerDropped", function()
     for a = 1, #character do

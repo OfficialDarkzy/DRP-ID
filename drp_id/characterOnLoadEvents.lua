@@ -1,3 +1,6 @@
+---------------------------------------------------------------------------
+-- Load Character Events Function (I guess it makes it neater?)
+---------------------------------------------------------------------------
 OnCharacterLoadEvents = function(spawnInHotel)
     TriggerServerEvent("DRP_Clothing:FirstSpawn") -- If Clothing Is Installed
 	TriggerServerEvent("DRP_Death:GetDeathStatus") -- Checks if they died before, so no leaving and joining back dead

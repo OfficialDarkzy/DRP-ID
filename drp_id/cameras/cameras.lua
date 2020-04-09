@@ -1,3 +1,6 @@
+---------------------------------------------------------------------------
+-- Variables BROOOOOOOOOOOOOOO
+---------------------------------------------------------------------------
 local startCameraRotations = false
 local selectedCameraRot = nil
 local spawnedCamera = nil
@@ -5,12 +8,16 @@ local angle = 0.0
 local angleInc = 0.001
 local radius = 200.0
 ---------------------------------------------------------------------------
+-- Camera Rotations for Selection Menu
+---------------------------------------------------------------------------
 local cameraRotations = {
     [1] = {
         ["centerPoint"] = {x = -505.09, y = -1224.11, z = 232.2},
         ["centerRadius"] = 300
     }
 }
+---------------------------------------------------------------------------
+-- Start Selection Sky Cam
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:StartSkyCamera")
 AddEventHandler("DRP_ID:StartSkyCamera", function()
@@ -22,6 +29,8 @@ AddEventHandler("DRP_ID:StartSkyCamera", function()
     startCameraRotations = true
 end)
 ---------------------------------------------------------------------------
+-- Stop Selection Sky Cam
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:StopSkyCamera")
 AddEventHandler("DRP_ID:StopSkyCamera", function()
     if startCameraRotations then
@@ -32,6 +41,8 @@ AddEventHandler("DRP_ID:StopSkyCamera", function()
         selectedCameraRot = nil
     end
 end)
+---------------------------------------------------------------------------
+-- Thread to make camera move :)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     while true do
@@ -58,6 +69,8 @@ AddEventHandler("DRP_ID:StartSpawnSelectionCamera", function(spawn)
     RenderScriptCams(true, false, 1, true, true)
 end)
 ---------------------------------------------------------------------------
+-- Faking Destory This Shit
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:DestroySpawnSelectionCamera")
 AddEventHandler("DRP_ID:DestroySpawnSelectionCamera", function()    
     DoScreenFadeOut(500)
@@ -67,6 +80,8 @@ AddEventHandler("DRP_ID:DestroySpawnSelectionCamera", function()
     DestroyCam(cam, true)
     DoScreenFadeIn(500)
 end)
+---------------------------------------------------------------------------
+-- Change dat Camera OOoooooOOOo sheit
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:SpawnSelectionCameraChange")
 AddEventHandler("DRP_ID:SpawnSelectionCameraChange", function(coords)
@@ -78,30 +93,4 @@ AddEventHandler("DRP_ID:SpawnSelectionCameraChange", function(coords)
     SetCamActive(cam, true)
     DoScreenFadeIn(500)
     SetCamCoord(cam, pos.x, pos.y, pos.z + 250.00)
-end)
----------------------------------------------------------------------------
--- CHARACTER EDITOR DATA! -- This is currently not in use
----------------------------------------------------------------------------
-local camera = nil
-
-RegisterNetEvent("DRP_ID:StartCreatorCamera")
-AddEventHandler("DRP_ID:StartCreatorCamera", function()
-    local ped = PlayerPedId()
-    SetEntityCoords(ped, 402.75, -996.77, -99.0, 0.0, 0.0, 0.0, 0)
-    SetEntityHeading(ped, 178.72)
-    local pedOffset = GetOffsetFromEntityInWorldCoords(ped, 0.0, 2.0, -0.5)
-    local pedRot = GetEntityRotation(ped, 1)
-    camera = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
-    SetCamCoord(camera, pedOffset.x, pedOffset.y, pedOffset.z)
-    SetCamRot(camera, pedRot.x - 5.0, pedRot.y, pedRot.z - 180.0, 1)
-    RenderScriptCams(1, 0, 0, 1, 1)
-end)
----------------------------------------------------------------------------
-RegisterNetEvent("DRP_ID:StopCreatorCamera")
-AddEventHandler("DRP_ID:StopCreatorCamera", function()
-    if camera ~= nil then
-        RenderScriptCams(0, 0, 0, 1, 1)
-        DestroyCam(camera, 0)
-        camera = nil
-    end
 end)

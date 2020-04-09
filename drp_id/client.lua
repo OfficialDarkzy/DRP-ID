@@ -1,3 +1,6 @@
+---------------------------------------------------------------------------
+-- Bool Variables
+---------------------------------------------------------------------------
 local characterSpawnedIn = false
 local firstSpawn = true
 ---------------------------------------------------------------------------
@@ -18,6 +21,8 @@ AddEventHandler("DRP_ID:OpenMenu", function(characters)
 	})
 end)
 ---------------------------------------------------------------------------
+--- NUI Trigger Client Event
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:UpdateMenuCharacters")
 AddEventHandler("DRP_ID:UpdateMenuCharacters", function(characters)
 	SendNUIMessage({
@@ -26,7 +31,7 @@ AddEventHandler("DRP_ID:UpdateMenuCharacters", function(characters)
 	})
 end)
 ---------------------------------------------------------------------------
--- LOAD CHARACTER FROM SELECTER
+-- Local Character from passed Server Data
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:LoadSelectedCharacter")
 AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn, spawnInHotel)
@@ -45,7 +50,7 @@ AddEventHandler("DRP_ID:LoadSelectedCharacter", function(ped, spawn, spawnInHote
 	---------------------------------------------------------------------------
 end)
 ---------------------------------------------------------------------------
--- Spawn Selection
+-- Spawn Selection NUI Event
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:SpawnSelection")
 AddEventHandler("DRP_ID:SpawnSelection", function(ped, spawn)
@@ -65,27 +70,7 @@ AddEventHandler("DRP_ID:CloseSpawnSelectionMenu", function()
 	SendNUIMessage({type = "close_spawnselection_menu"})
 end)
 ---------------------------------------------------------------------------
--- MAIN THREAD
----------------------------------------------------------------------------
--- Citizen.CreateThread(function()
--- 	while true do
--- 		local ped = PlayerPedId()
--- 		local pedCoords = GetEntityCoords(ped, false)
--- 		for a = 1, #DRPCharacters.ChangeCharacterLocations do 
--- 			local distance = Vdist(pedCoords.x, pedCoords.y, pedCoords.z, DRPCharacters.ChangeCharacterLocations[a].x, DRPCharacters.ChangeCharacterLocations[a].y, DRPCharacters.ChangeCharacterLocations[a].z)
--- 			if distance <= 7.0 then
--- 				exports['drp_core']:DrawText3Ds(DRPCharacters.ChangeCharacterLocations[a].x, DRPCharacters.ChangeCharacterLocations[a].y, DRPCharacters.ChangeCharacterLocations[a].z, tostring("~b~[E]~w~ To Change Character"))
--- 				if IsControlJustPressed(1, 86) then 
--- 					TriggerServerEvent("DRP_ID:RequestChangeCharacter")
--- 					characterSpawnedIn = false
--- 				end
--- 			end
--- 		end
--- 		Citizen.Wait(0)
--- 	end
--- end)
----------------------------------------------------------------------------
--- SAVE CHARACTERS LOCATION THREAD
+-- Save Characters Current Location (MIGHT MAKE A TOGGLE FOR THIS)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
 	while true do
@@ -99,7 +84,9 @@ Citizen.CreateThread(function()
 		end
     end
 end)
-
+---------------------------------------------------------------------------
+-- Return Functions
+---------------------------------------------------------------------------
 function SpawnedInAndLoaded()
 	return characterSpawnedIn
 end
