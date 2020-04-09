@@ -351,7 +351,6 @@ if Config.EnableHUD then
 				DisplayRadar(true)
 			else
 				displayHud = false
-				DisplayRadar(false)
 
 				Citizen.Wait(500)
 			end
