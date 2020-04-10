@@ -78,10 +78,10 @@ end)
 -- Events
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_vehicleshop:CreateBoughtVehicle")
-AddEventHandler("DRP_vehicleshop:CreateBoughtVehicle", function(vehmodel, color, price)
-    SpawnBoughtVehicle(vehmodel, color, price)
+AddEventHandler("DRP_vehicleshop:CreateBoughtVehicle", function(vehmodel, color, price, plate)
+    SpawnBoughtVehicle(vehmodel, color, price, plate)
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_vehicleshop:ResellBoughtVehicle")
 AddEventHandler("DRP_vehicleshop:ResellBoughtVehicle", function()
     local vehicle = GetVehiclePedIsIn(PlayerPedId(), false)
@@ -96,7 +96,7 @@ AddEventHandler("DRP_vehicleshop:ResellBoughtVehicle", function()
     end
     TriggerServerEvent("DRP_vehicleshop:ResellVehicle", vehicleData, plate)
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_vehicleshop:DeleteVehicle")
 AddEventHandler("DRP_vehicleshop:DeleteVehicle", function()
     deleteCar(GetVehiclePedIsIn(PlayerPedId(), false))
@@ -110,36 +110,34 @@ RegisterNUICallback("close_shop", function(data, callback)
 end)
 
 RegisterNUICallback("Buy_vehicle", function(data, callback)
-    TriggerServerEvent("DRP_vehicleshop:CheckMoneyForVehicle", data.selectedVehicle, data.color, data.price)
+    local plate = GenerateRandomPlate()
+    TriggerServerEvent("DRP_vehicleshop:CheckPlateAndMoneyForVehicle", data.selectedVehicle, data.color, data.price, plate)
 	callback("ok")
 end)
 ---------------------------------------------------------------------------
 -- FUNCTIONS
 ---------------------------------------------------------------------------
 -- Spawning Vehicle
-function SpawnBoughtVehicle(vehicle, color, price)
+function SpawnBoughtVehicle(vehicle, color, price, plate)
     local data = DRPConfig.Locations.Shop_locations.Shop_VehicleSpawnPoint
     loadModel(vehicle)
 
 	veh = CreateVehicle(vehicle, data.Pos.x, data.Pos.y, data.Pos.z, data.Heading, true, false)
     local id = NetworkGetNetworkIdFromEntity(veh)
-    local vehmods = VehicleData(veh)
-    local plate = vehmods.plate
     local fuelLevel = 100
-
     SetNetworkIdCanMigrate(id, true) 
     SetVehicleOnGroundProperly(veh)
-    SetVehicleHasBeenOwnedByPlayer(veh, true)   
-    SetVehicleMods(veh, vehmods)
+    SetVehicleHasBeenOwnedByPlayer(veh, true)
     SetEntityInvincible(veh, false)
     TaskWarpPedIntoVehicle(PlayerPedId(), veh, -1)
-    SetVehicleNumberPlateText(vehicle, plate)
-	SetVehRadioStation(veh, "OFF")
-	exports["drp_LegacyFuel"]:SetFuel(veh, fuelLevel)
+    SetVehRadioStation(veh, "OFF")
+    SetVehicleNumberPlateText(veh, plate)
+    exports["drp_LegacyFuel"]:SetFuel(veh, fuelLevel)
     TriggerServerEvent("DRP_Garages:GiveKeys", id, plate)
-    TriggerServerEvent('DRP_vehicleshop:PurchaseVehicle', vehicle, price, plate, vehmods, fuelLevel)
     Citizen.Wait(25)
+    local vehmods = VehicleData(veh)
     VehicleColorChange(color, vehmods)
+    TriggerServerEvent('DRP_vehicleshop:PurchaseVehicle', vehicle, price, plate, vehmods, fuelLevel)
 end
 ---------------------------------------------------------------------------
 function loadModel(model)    
@@ -151,7 +149,7 @@ end
 ---------------------------------------------------------------------------
 function deleteCar(vehicle)
 	SetEntityAsMissionEntity(vehicle, true, true)
-	Citizen.InvokeNative( 0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
+	Citizen.InvokeNative(0xEA386986E786A54F, Citizen.PointerValueIntInitialized(vehicle))
 end
 ---------------------------------------------------------------------------
 function VehicleColorChange(color, vehmods)

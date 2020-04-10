@@ -34,6 +34,7 @@ client_scripts {
     'carwash.lua',
     'managers/managers.lua',
     'managers/entityier.lua',
+    'managers/utils.lua',
     'vehiclestore/client.lua'
 }
 

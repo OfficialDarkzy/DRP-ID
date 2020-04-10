@@ -1,18 +1,37 @@
 ---------------------------------------------------------------------------
 -- VEHICLE SHOP EVENTS START
 ---------------------------------------------------------------------------
-RegisterServerEvent("DRP_vehicleshop:CheckMoneyForVehicle")
-AddEventHandler("DRP_vehicleshop:CheckMoneyForVehicle", function(vehicle, color, price)
+RegisterServerEvent("DRP_vehicleshop:CheckPlateAndMoneyForVehicle")
+AddEventHandler("DRP_vehicleshop:CheckPlateAndMoneyForVehicle", function(vehicle, color, price, plate)
 	local src = source
-	local CharacterData = exports["drp_id"]:GetCharacterData(src)
-	local carCost = price
-
-	TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
-		if characterMoney.data[1].bank >= tonumber(carCost) then
-			Wait(555)
-			TriggerClientEvent("DRP_vehicleshop:CreateBoughtVehicle", src, vehicle, color, carCost)
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `vehicles` WHERE `plate` = :plate",
+		data = {
+			plate = plate
+		}
+	}, function(results)
+		if #results["data"] >= 1 then
+			local VehicleData = results["data"]
+			for a = 1, #VehicleData, 1 do
+				local VehiclePlate = VehicleData[a]["plate"]
+				if plate == VehiclePlate then
+					TriggerClientEvent("DRP_vehicleshop:ReGeneratePlate", src, vehicle, color, price)
+					print("Plate is taken. " .. plate)
+				end
+			end
 		else
-			TriggerClientEvent("DRP_Core:Error", src, "Vehicle Store", "You do not have enough money for this Vehicle", 2500, false, "leftCenter")
+			local CharacterData = exports["drp_id"]:GetCharacterData(src)
+			local carCost = price
+		
+			TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
+				if characterMoney.data[1].bank >= tonumber(carCost) then
+					Wait(555)
+					TriggerClientEvent("DRP_vehicleshop:CreateBoughtVehicle", src, vehicle, color, carCost, plate)
+				else
+					TriggerClientEvent("DRP_Core:Error", src, "Vehicle Store", "You do not have enough money for this Vehicle", 2500, false, "leftCenter")
+				end
+			end)
+			print("Plate not taken. ".. plate)
 		end
 	end)
 end)
@@ -24,8 +43,6 @@ AddEventHandler("DRP_vehicleshop:PurchaseVehicle", function(model, price, plate,
 
 	TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
 		TriggerEvent("DRP_Bank:RemoveBankMoney", src, price)
-			local vehicle = vehicle
-			local vehicleMods = vehicleMods
 			local garage_slot = 1 -- Centrum garage
 
 			if price == 0 or price == 1 then
