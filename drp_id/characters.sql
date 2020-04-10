@@ -16,6 +16,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `age` int(255) NOT NULL,
+  `dob` varchar(50) NOT NULL,
   `gender` varchar(255) NOT NULL,
   `cash` bigint(20) NOT NULL,
   `bank` bigint(20) NOT NULL,
@@ -29,7 +30,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   PRIMARY KEY (`id`),
   KEY `player_id` (`playerid`) USING BTREE,
   CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`playerid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 

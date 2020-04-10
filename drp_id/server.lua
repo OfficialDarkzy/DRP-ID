@@ -48,13 +48,14 @@ AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 				exports["externalsql"]:AsyncQueryCallback({
 					query = [[
 						INSERT INTO characters
-						(`name`, `age`, `gender`, `cash`, `bank`, `dirtyCash`, `licenses`, `playerid`)
+						(`name`, `age`, `dob`, `gender`, `cash`, `bank`, `dirtyCash`, `licenses`, `playerid`)
 						VALUES
-						(:name, :age, :gender, :cash, :bank, :dirtycash, :licenses, :playerid)
+						(:name, :age, :dob, :gender, :cash, :bank, :dirtycash, :licenses, :playerid)
 					]],
 					data = {
 						name = newCharacterData.name,
 						age = newCharacterData.age,
+						dob = newCharacterData.dob,
 						gender = newCharacterData.gender,
 						cash = DRPCharacters.StarterCash,
 						bank = DRPCharacters.StarterBank,

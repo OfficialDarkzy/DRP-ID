@@ -20,12 +20,13 @@ const DRP_Characters = new Vue({
     selectedFirstname: "",
     selectedLastname: "",
     selectedGender: "",
-    selectedAge: "",
     selectedDeleteCharacter: "",
     selectedSpawnArea: "",
 
     spawn: "",
     ped: "",
+    selectedDob: "",
+    selectedAge: "",
 
     nameRules: [
       v => !!v || "Name required",
@@ -33,15 +34,15 @@ const DRP_Characters = new Vue({
       v => (!!v && RegExp("^[a-zA-Z]+$").test(v)) || "Invalid Characters",
       v => (!!v && v.length >= 4) || "Name must be 4 - 15 characters"
     ],
-
     genderRules: [
       v => !!v || "Gender Required, you can't be an Attack Helicopter... sorry!"
     ],
-
     dobRules: [
-      v => (!!v && v >= 18) || "You must be 18+ to create a character",
-      v =>
-        (!!v && v <= 100) || "You must be less than 100 to create a character"
+      (v) => !!v || "You must choose have a Data of birthday"
+    ],
+    ageRules: [
+        (v) => !!v && v >= 18 || "You must be 18+ to create a character",
+        (v) => !!v && v <= 65 || "You must be less than 65 to create a character"
     ]
   },
 
@@ -133,7 +134,8 @@ const DRP_Characters = new Vue({
               this.selectedLastname
             )}`,
             age: this.selectedAge,
-            gender: this.selectedGender
+            gender: this.selectedGender,
+            dob: this.selectedDob
           })
           .then(response => {
             this.showCharacterCreator = false;
@@ -182,25 +184,32 @@ const DRP_Characters = new Vue({
     FormReset() {
       this.$refs.DRPCreatorForm.reset();
       this.selectedAge = 0;
-    },
-
-    FinishCharacter() {
-      if (this.model != "") {
-        this.showCharacterModifier = false;
-        axios
-          .post(`http://${this.ResourceName}/finishcharactercreator`, {
-            model: this.model
-          })
-          .then(response => {
-            console.log(response);
-          })
-          .catch(error => {
-            console.log(error);
-          });
-      }
     }
+  },
+
+  watch: {
+    "selectedDob" : (val, oldVal) => {
+        if(val != oldVal) {
+          DRP_Characters.selectedAge = GetAge(DRP_Characters.selectedDob);
+        }
+    },
   }
 });
+
+///////////////////////////////////////////////////////////////////////////
+// Gets the age from a dob string
+///////////////////////////////////////////////////////////////////////////
+function GetAge(string) {
+  console.log("work?")
+  var today = new Date();
+  var birthDate = new Date(string);
+  var age = today.getFullYear() - birthDate.getFullYear();
+  var m = today.getMonth() - birthDate.getMonth();
+  if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age = age - 1;
+  }
+  return age;
+};
 
 function FixName(name) {
   var newName = "";

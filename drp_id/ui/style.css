@@ -1,3 +1,6 @@
+@font-face { font-family: UrbanCurve; src: url('http://wow.cenizasdeazeroth.com/fonts/UrbanCurve.ttf'); }
+@font-face { font-family: pricedown; src: url('http://wow.cenizasdeazeroth.com/fonts/pricedown.ttf'); }
+
 html {
   overflow-x: hidden;
   overflow-y: hidden;
@@ -7,7 +10,6 @@ html {
   position: absolute;
   width: 100%;
   height: 100%;
-  border: 1px solid black;
   font-family: Verdana, Geneva, Tahoma, sans-serif;
   background-color: transparent !important;
 }
@@ -17,27 +19,70 @@ html {
 ---------------------------------------------------------------------------*/
 #DRP_SelectCharacter {
   position: absolute;
-  width: 1250px;
+  width: 950px;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
 }
 
+v-slider, v-layout {
+	font-weight: bold;
+	font-size: 1em;
+}
+
 #DRP_Character_Header {
-  /* text-align: center; */
-  align-content: center;
+  font-family: arial;
+  text-align: left;
+  background-color: none;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
   font-size: 20px;
-  font-weight: 500;
+}
+
+#DRP_Character_Card_Body {
+  background-color: #929192d4;
+  border: 1px solid rgb(35,39,42);
+  font-weight: bold;
+  color: white !important;
+
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  -webkit-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.50);
+  -moz-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.50);
+  box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.50);
+
+}
+
+#CharacterMenuName {
+  font-family: arial;
+  padding: 20px;
+  background-color: rgb(8, 133, 216)!important; 
+  font-size: 20px;
+  text-align: center !important;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  -webkit-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+v-card-title#CharacterMenuName {
   color: white;
 }
 
 #DRP_Character_Body {
-  background-color: rgba(60, 62, 66, 0.8);
+  background-color: none;
   overflow-y: auto;
-  max-height: 700px;
-  border-bottom-left-radius: 5px;
-  border-bottom-right-radius: 5px;
-  border: 1px solid rgb(60, 62, 66);
+  max-height: 600px;
+}
+
+#DRP_Character_Menu_Creator_Calender {
+  position: relative;
+  left: 50%;
+  transform: translateX(-50%);
 }
 /*---------------------------------------------------------------------------
 -- SPAWN MENU
@@ -51,30 +96,152 @@ html {
 }
 
 #DRP_SpawnMenu_Header {
+font-family: pricedown;
   width: 100%;
-  background-color: rgb(0, 110, 255);
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
+  background-color: #A600FF;
   padding: 20px;
   text-align: center;
-  font-size: 20px;
+  font-size: 40px;
   color: white;
-  font-weight: bold;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  -webkit-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
 #DRP_SpawnMenu_Body {
-  background-color: rgba(60, 62, 66, 0.8);
+  font-family: arial;
+  background-color: #bb8fced4;
   overflow-y: auto;
   max-height: 700px;
+  border: lightblue;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
-  border: 1px solid rgb(60, 62, 66);
+
+  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+#DRP_SpawnMenu_Btn {
+  font-family: arial;
+  background-color: #A600FF;
+  color: rgb(255,255,255);
+  align-content: center;
+  color: white;
+  -webkit-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+}
+
+#DRP_SpawnMenu_green {
+  font-family: arial;
+  background-color: purple;
+  color: rgb(255,255,255);
+  align-content: center;
+  color: white;
+  -webkit-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
 /*---------------------------------------------------------------------------
--- MISC SETTINGS
+-- CHARACTER CREATOR
 ---------------------------------------------------------------------------*/
 
+#DRP_Character_Creator_Header {
+  padding: 20px;
+  text-align: center;
+  color: white;
+  background-color: black;
+  font-size: 20px;
+}
+
+v-card-title#DRP_Character_Creator_Header {
+    color: white;
+}
+
+#DRP_Character_Creator_Form {
+  background-color: #929192d4;
+  border: 1px solid rgb(35,39,42);
+  font-weight: bold;
+  color: white !important;
+
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+  -webkit-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.50);
+  -moz-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.50);
+  box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.50);
+
+}
+
+#CharacterCreatorBox {
+  background-color: #929192d4;
+  color: black !important;
+  border: 1px solid purple;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+}
+
+#DRP_CharacterCreator_Btn {
+  background-color: #a600ff91;
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+-webkit-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.50);
+-moz-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.50);
+box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.50);
+}
+
+#DRP_CharacterCreator_Btn:hover {
+    background-color: #d800ff;
+}
+
+#DRP_CharacterCreator_TextBox {
+  border-top-left-radius: 5px;
+  border-top-right-radius: 5px;
+  border-bottom-left-radius: 5px;
+  border-bottom-right-radius: 5px;
+
+}
+
+#gta-logo{
+  position: absolute;
+  bottom: 650px;
+  left: 60%;
+  z-index: 1;
+}
+
+.fa-user-check {
+  color: green;
+  font-size: 20px;
+}
+
+.fa-user-check:hover {
+    color: lime !important;
+}
+
+.fa-window-close{
+  color: rgb(104,4,4);
+  font-size: 20px;
+}
+
+.fa-window-close:hover {
+    color: red !important;
+}
+/*---------------------------------------------------------------------------
+-- MISC SETTINGS
+---------------------------------------------------------------------------*/
 ::-webkit-scrollbar {
   width: 10px;
 }

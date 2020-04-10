@@ -13,7 +13,7 @@ RegisterNUICallback("SelectYourCharacter", function(data, callback)
 end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("CreateCharacter", function(data, callback)
-	TriggerServerEvent("DRP_ID:CreateCharacter", {name = data.name, age = data.age, gender = data.gender})
+	TriggerServerEvent("DRP_ID:CreateCharacter", {name = data.name, age = data.age, gender = data.gender, dob = data.dob})
 	callback("ok")
 end)
 ---------------------------------------------------------------------------
