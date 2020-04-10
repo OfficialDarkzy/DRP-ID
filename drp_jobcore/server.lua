@@ -61,10 +61,8 @@ function RequestJobChange(source, job, label, otherData) -- USE THIS ALL THE TIM
         else
             if DoesJobExist(job) then
                 if otherData ~= false then
-                    print("update other data")
                     SetPlayerJob(source, job, label, otherData)
                 else
-                    print("dont update job data")
                     SetPlayerJob(source, job, label, false)
                     TriggerClientEvent("DRP_Core:Info", source, "Job Manager", tostring("You are now "..label), 2500, false, "leftCenter")
                 end
