@@ -26,42 +26,6 @@ RegisterCommand("job", function(source, args, raw)
     TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Your job is "..myJob.jobLabel..""), 2500, false, "leftCenter")
 end, false)
 ---------------------------------------------------------------------------
--- Main Server Event To Change And Add People To Jobs  ONLY FOR BUILTIN JOBS
----------------------------------------------------------------------------
-RegisterServerEvent("DRP_Jobs:StartWork")
-AddEventHandler("DRP_Jobs:StartWork", function(vals, jobTitle)
-    local vals = src
-    local characterInfo = exports["drp_id"]:GetCharacterData(vals)
-    local job = jobTitle
-    local jobLabel = JobsCoreConfig.StaticJobLabels[job] -- Gets The Job Label To Display In The Notifications
-    --local jobRequirement = JobsCoreConfig.Requirements[job] -- Gets If You Are Enabled To Do This Job | Removed as there is no defined requirements
-    local currentPlayerJob = GetPlayerJob(src)
-        if currentPlayerJob.job == job then
-            TriggerClientEvent("DRP_Core:Error", src, "Job Manager", tostring("You are already on duty"), 2500, false, "leftCenter")
-        else
-        if DoesJobExist(job) then
-                --Removed this check for the time being as stated above , no way for requirement to be checked.
-           -- if jobRequirement ~= false then 
-                SetPlayerJob(src, job, jobLabel, false)
-           -- end
-        end
-    end
-end)
----------------------------------------------------------------------------
--- Main Server Event To Change And REMOVE People FROM Jobs  ONLY FOR BUILTIN JOBS
----------------------------------------------------------------------------
-RegisterServerEvent("DRP_Jobs:FinishWork")
-AddEventHandler("DRP_Jobs:FinishWork", function()
-    local src = source
-    local player = exports["drp_core"]:GetPlayerData(src)
-    local job = "UNEMPLOYED"
-    local jobLabel = JobsCoreConfig.StaticJobLabels[job]
-    SetPlayerJob(src, job, jobLabel, false)
-    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("You are now "..GetPlayerJob(src).jobLabel), 2500, false, "leftCenter")
-    TriggerEvent("DRP_Doors:UpdatePlayerJob", src)
-    -- TRIGGER TO GET THE PREVIOUS CLOTHES BACK! (FUTURE UPDATES)
-end)
----------------------------------------------------------------------------
 -- Add Salary To Character
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_JobCore:Salary")
@@ -79,6 +43,30 @@ function GetPlayerJob(player)
         end
     end
     return false
+end
+
+function RequestJobChange(source, job, label, otherData) -- USE THIS ALL THE TIME
+    local currentJob = GetPlayerJob(source)
+    local label = label
+    if currentJob.job == job then
+        TriggerClientEvent("DRP_Core:Error", source, "Job Manager", tostring("You're already working"), 2500, false, "leftCenter")
+    else
+        if not job and not label and not otherData then
+            if currentJob.job == "UNEMPLOYED" then
+                TriggerClientEvent("DRP_Core:Error", source, "Job Manager", tostring("You're already not working"), 2500, false, "leftCenter")
+            else
+                SetPlayerJob(source, "UNEMPLOYED", "Unemployed", false)
+                TriggerClientEvent("DRP_Core:Info", source, "Job Manager", tostring("You are now not working"), 2500, false, "leftCenter")
+            end
+        else
+            if DoesJobExist(job) then
+                SetPlayerJob(source, job, label, false)
+                TriggerClientEvent("DRP_Core:Info", source, "Job Manager", tostring("You are now "..label), 2500, false, "leftCenter")
+            else
+                print("Job Does Not Exist, Make sure your Server Developer has added job name into drp_jobcore/config.lua")
+            end
+        end
+    end
 end
 ---------------------------------------------------------------------------
 function DoesJobExist(job)
