@@ -15,11 +15,12 @@ html {
 -- GARAGES
 ---------------------------------------------------------------------------*/
 #ISRP_Job_Garage_Base {
-    position: absolute;
-    width: 630px;
-    left: 700px;
+    position: relative;
+    left: 42%;
     top: 50%;
-    transform: translateY(-50%);
+    width: 35%;
+    height: 750px;
+    transform: translate(-50%, -50%);
 }
 
 #ISRP_Garage_Header {
