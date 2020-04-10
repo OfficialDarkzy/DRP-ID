@@ -211,13 +211,18 @@ end)
 -- FUNCTIONS
 ---------------------------------------------------------------------------
 function storeVehicle()
-Citizen.CreateThread(function()
+	Citizen.CreateThread(function()
 	local garage = GetClosestVehicle(garageSelected.x, garageSelected.y, garageSelected.z, 25.0, 0, 70)
 	local plate = GetVehicleNumberPlateText(garage)
-		if DoesEntityExist(garage) then
-			TriggerServerEvent("DRP_Garages:RequestStoreVehicle", plate)
+
+		if AreAnyVehicleSeatsFree(garage) then
+			if DoesEntityExist(garage) then
+				TriggerServerEvent("DRP_Garages:RequestStoreVehicle", plate)
+			else
+				drawNotification("Cannot find any vehicles near you!")
+			end
 		else
-			drawNotification("Cannot find any vehicles near you!")
+			drawNotification("Vehicle not empty!")
 		end
 	end)
 end
