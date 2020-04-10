@@ -84,7 +84,7 @@ AddEventHandler("DRP_Clothing:SaveModel", function(model)
 end)
 
 RegisterServerEvent("DRP_Clothing:RestartClothing")
-AddEventHandler("DRP_Clothing:RestartClothing", function()
+AddEventHandler("DRP_Clothing:RestartClothing", function(source)
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
 	exports["externalsql"]:AsyncQueryCallback({
