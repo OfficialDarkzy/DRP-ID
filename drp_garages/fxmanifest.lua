@@ -44,3 +44,5 @@ server_scripts {
     'server.lua',
     'vehiclestore/server.lua'
 }
+
+export "SpawnJobVehicle"

@@ -22,7 +22,7 @@ DRPGarages.Impound = {
 
 		ImpoundCarSpawn = {
 			Pos = {x = 404.14, y = -1628.69, z = 29.29},
-			heading = 230.15,
+			h = 230.15,
 		},
 	},
 
@@ -39,7 +39,7 @@ DRPGarages.Impound = {
 		
 		ImpoundCarSpawn = {
 			Pos = {x = 1279.09, y = 3629.29, z = 33.04},
-			heading = 15.32
+			h = 15.32
 		},
 	},
 
@@ -56,7 +56,7 @@ DRPGarages.Impound = {
 
 		ImpoundCarSpawn = {
 			Pos = {x = -199.160, y = 6274.180, z = 31.380},
-			heading = 313.18
+			h = 313.18
 		},
 	}
 }
@@ -75,12 +75,12 @@ DRPGarages.Garages = {
 		},
 
 		VehicleSpawnPoints = { -- Spawn points for vehicles to spawn on
-			{ coords = vector3(207.59, -798.71, 30.98), heading = 247.05, radius = 2.5 },
-			{ coords = vector3(208.74, -793.61, 30.95), heading = 245.77, radius = 2.5 },
-			{ coords = vector3(211.51, -786.15, 30.9), heading = 248.0, radius = 2.5 },
-			{ coords = vector3(216.49, -801.8, 30.79), heading = 68.79, radius = 2.5 },
-			{ coords = vector3(218.23, -796.76, 30.77), heading = 70.01, radius = 2.5 },
-			{ coords = vector3(221.37, -786.54, 30.77), heading = 66.37, radius = 2.5 },
+			{ coords = vector3(207.59, -798.71, 30.98), h = 247.05, radius = 2.5 },
+			{ coords = vector3(208.74, -793.61, 30.95), h = 245.77, radius = 2.5 },
+			{ coords = vector3(211.51, -786.15, 30.9), h = 248.0, radius = 2.5 },
+			{ coords = vector3(216.49, -801.8, 30.79), h = 68.79, radius = 2.5 },
+			{ coords = vector3(218.23, -796.76, 30.77), h = 70.01, radius = 2.5 },
+			{ coords = vector3(221.37, -786.54, 30.77), h = 66.37, radius = 2.5 },
 		},
 		ignoreBlip = false -- Turn true if you dont want a blip for this garage
     },
@@ -97,13 +97,13 @@ DRPGarages.Garages = {
 		},
 
 		VehicleSpawnPoints = { -- Spawn points for vehicles to spawn on
-			{ coords = vector3(49.37, -886.47, 30.24), heading = 344.91, radius = 2.5 },
-			{ coords = vector3(50.64, -873.43, 30.44), heading = 162.35, radius = 2.5 },
-			{ coords = vector3(44.61, -889.42, 30.19), heading = 161.24, radius = 2.5 },
-			{ coords = vector3(42.98, -884.1, 30.26), heading = 342.27, radius = 2.5 },
-			{ coords = vector3(44.03, -870.72, 30.46), heading = 159.37, radius = 2.5 },
-			{ coords = vector3(51.08, -862.63, 30.59), heading = 338.55, radius = 2.5 },
-			{ coords = vector3(37.8, -887.39, 30.2), heading = 161.99, radius = 2.5 },
+			{ coords = vector3(49.37, -886.47, 30.24), h = 344.91, radius = 2.5 },
+			{ coords = vector3(50.64, -873.43, 30.44), h = 162.35, radius = 2.5 },
+			{ coords = vector3(44.61, -889.42, 30.19), h = 161.24, radius = 2.5 },
+			{ coords = vector3(42.98, -884.1, 30.26), h = 342.27, radius = 2.5 },
+			{ coords = vector3(44.03, -870.72, 30.46), h = 159.37, radius = 2.5 },
+			{ coords = vector3(51.08, -862.63, 30.59), h = 338.55, radius = 2.5 },
+			{ coords = vector3(37.8, -887.39, 30.2), h = 161.99, radius = 2.5 },
 		},
 		ignoreBlip = false -- Turn true if you dont want a blip for this garage
 	},
@@ -120,10 +120,10 @@ DRPGarages.Garages = {
 		},
 		
 		VehicleSpawnPoints = { -- Spawn points for vehicles to spawn on
-			{ coords = vector3(-2021.66, -473.76, 11.41), heading = 146.35, radius = 2.5 },
-			{ coords = vector3(-2032.99, -479.47, 11.67), heading = 324.3, radius = 2.5 },
-			{ coords = vector3(-2016.66, -477.29, 11.42), heading = 141.03, radius = 2.5 },
-			{ coords = vector3(-2040.49, -474.36, 11.67), heading = 320.14, radius = 2.5 },
+			{ coords = vector3(-2021.66, -473.76, 11.41), h = 146.35, radius = 2.5 },
+			{ coords = vector3(-2032.99, -479.47, 11.67), h = 324.3, radius = 2.5 },
+			{ coords = vector3(-2016.66, -477.29, 11.42), h = 141.03, radius = 2.5 },
+			{ coords = vector3(-2040.49, -474.36, 11.67), h = 320.14, radius = 2.5 },
 		},
 		ignoreBlip = false -- Turn true if you dont want a blip for this garage
 	},
@@ -140,9 +140,9 @@ DRPGarages.Garages = {
 		},
 
 		VehicleSpawnPoints = { -- Spawn points for vehicles to spawn on
-			{ coords = vector3(-62.34, -1840.11, 26.68), heading = 324.77, radius = 2.5 },
-			{ coords = vector3(-57.26, -1844.81, 26.48), heading = 320.76, radius = 2.5 },
-			{ coords = vector3(-52.05, -1849.23, 26.28), heading = 322.16, radius = 2.5 },
+			{ coords = vector3(-62.34, -1840.11, 26.68), h = 324.77, radius = 2.5 },
+			{ coords = vector3(-57.26, -1844.81, 26.48), h = 320.76, radius = 2.5 },
+			{ coords = vector3(-52.05, -1849.23, 26.28), h = 322.16, radius = 2.5 },
 		},
 		ignoreBlip = false -- Turn true if you dont want a blip for this garage
 	},
@@ -159,10 +159,10 @@ DRPGarages.Garages = {
 		},
 
 		VehicleSpawnPoints = { -- Spawn points for vehicles to spawn on
-			{ coords = vector3(1967.46, 3768.75, 32.19), heading = 32.35, radius = 2.5 },
-			{ coords = vector3(1963.45, 3766.64, 32.2), heading = 30.91, radius = 2.5 },
-			{ coords = vector3(1959.68, 3764.16, 32.2), heading = 30.55, radius = 2.5 },
-			{ coords = vector3(1956.53, 3762.0, 32.2), heading = 26.16, radius = 2.5 },
+			{ coords = vector3(1967.46, 3768.75, 32.19), h = 32.35, radius = 2.5 },
+			{ coords = vector3(1963.45, 3766.64, 32.2), h = 30.91, radius = 2.5 },
+			{ coords = vector3(1959.68, 3764.16, 32.2), h = 30.55, radius = 2.5 },
+			{ coords = vector3(1956.53, 3762.0, 32.2), h = 26.16, radius = 2.5 },
 		},
 		ignoreBlip = false -- Turn true if you dont want a blip for this garage
 	},
@@ -179,10 +179,10 @@ DRPGarages.Garages = {
 		},
 
 		VehicleSpawnPoints = { -- Spawn points for vehicles to spawn on
-			{ coords = vector3(117.98, 6599.38, 32.01), heading = 271.77, radius = 2.5 },
-			{ coords = vector3(141.04, 6606.69, 31.84), heading = 176.52, radius = 2.5 },
-			{ coords = vector3(145.9, 6612.85, 31.82), heading = 359.08, radius = 2.5 },
-			{ coords = vector3(145.86, 6601.12, 31.85), heading = 181.09, radius = 2.5 },
+			{ coords = vector3(117.98, 6599.38, 32.01), h = 271.77, radius = 2.5 },
+			{ coords = vector3(141.04, 6606.69, 31.84), h = 176.52, radius = 2.5 },
+			{ coords = vector3(145.9, 6612.85, 31.82), h = 359.08, radius = 2.5 },
+			{ coords = vector3(145.86, 6601.12, 31.85), h = 181.09, radius = 2.5 },
 		},
 		ignoreBlip = false -- Turn true if you dont want a blip for this garage
 	},
@@ -199,10 +199,10 @@ DRPGarages.Garages = {
 		},
 
 		VehicleSpawnPoints = { -- Spawn points for vehicles to spawn on
-			{ coords = vector3(-829.07, -757.03, 22.36), heading = 88.55, radius = 2.5 },
-			{ coords = vector3(-822.66, -760.77, 22.0), heading = 270.87, radius = 2.5 },
-			{ coords = vector3(-828.89, -764.35, 21.65), heading = 90.92, radius = 2.5 },
-			{ coords = vector3(-841.51, -760.82, 22.03), heading = 266.53, radius = 2.5 },
+			{ coords = vector3(-829.07, -757.03, 22.36), h = 88.55, radius = 2.5 },
+			{ coords = vector3(-822.66, -760.77, 22.0), h = 270.87, radius = 2.5 },
+			{ coords = vector3(-828.89, -764.35, 21.65), h = 90.92, radius = 2.5 },
+			{ coords = vector3(-841.51, -760.82, 22.03), h = 266.53, radius = 2.5 },
 		},
 		ignoreBlip = false -- Turn true if you dont want a blip for this garage
 	},
@@ -218,10 +218,10 @@ DRPGarages.Garages = {
 		},
 
 		VehicleSpawnPoints = {
-			{ coords = vector3(277.13, -339.89, 44.92), heading = 68.93, radius = 2.5 },
-			{ coords = vector3(266.78, -332.21, 44.92), heading = 247.17, radius = 2.5 },
-			{ coords = vector3(279.38, -333.53, 44.92), heading = 68.47, radius = 2.5 },
-			{ coords = vector3(269.33, -326.17, 44.92), heading = 246.32, radius = 2.5 },
+			{ coords = vector3(277.13, -339.89, 44.92), h = 68.93, radius = 2.5 },
+			{ coords = vector3(266.78, -332.21, 44.92), h = 247.17, radius = 2.5 },
+			{ coords = vector3(279.38, -333.53, 44.92), h = 68.47, radius = 2.5 },
+			{ coords = vector3(269.33, -326.17, 44.92), h = 246.32, radius = 2.5 },
 		},
 		ignoreBlip = false
 	},

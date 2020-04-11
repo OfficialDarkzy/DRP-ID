@@ -180,7 +180,6 @@ AddEventHandler("DRP_Bank:ActionCallback", function(status, message, balance, ca
     end
 end)
 
-
 function textDisplay(string)
     SetTextComponentFormat("STRING")
     AddTextComponentString(string)

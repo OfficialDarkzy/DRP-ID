@@ -240,10 +240,10 @@ function UpdateVehicle(veh)
 end
 ---------------------------------------------------------------------------
 -- Function for spawning vehicle
+---------------------------------------------------------------------------
 function SpawnVehicle(vehicle, plate, vehmods, spawnPoint, fuelLevel)
-    loadModel(vehicle)
-
-	veh = CreateVehicle(vehicle, spawnPoint.coords, spawnPoint.heading, true, false)
+	loadModel(vehicle)
+	veh = CreateVehicle(vehicle, spawnPoint.coords, spawnPoint.h, true, false)
 	local id = NetworkGetNetworkIdFromEntity(veh)
     SetNetworkIdCanMigrate(id, true) 
     SetVehicleOnGroundProperly(veh)
@@ -257,11 +257,31 @@ function SpawnVehicle(vehicle, plate, vehmods, spawnPoint, fuelLevel)
     TriggerServerEvent("DRP_Garages:StateChanger", plate, 'OUT')
 end
 ---------------------------------------------------------------------------
+-- Function for spawning Job Vehicles
+---------------------------------------------------------------------------
+function SpawnJobVehicle(vehicle, plate, spawnPointx, spawnPointy, spawnPointz, spawnPointh, fuelLevel)
+	loadModel(vehicle)
+	veh = CreateVehicle(vehicle, spawnPointx, spawnPointy, spawnPointz, spawnPointh, true, false)
+	Citizen.Wait(100)
+	if plate == false then
+		plate = GetVehicleNumberPlateText(veh)
+	end
+	local id = NetworkGetNetworkIdFromEntity(veh)
+    SetNetworkIdCanMigrate(id, true) 
+    SetVehicleOnGroundProperly(veh)
+    SetVehicleHasBeenOwnedByPlayer(veh, true)   
+    SetEntityInvincible(veh, false)
+    SetVehicleDoorsLocked(veh, 2)
+	SetVehRadioStation(veh, "OFF")
+	exports["drp_LegacyFuel"]:SetFuel(veh, fuelLevel)
+	TriggerServerEvent("DRP_Garages:GiveKeys", id, plate)
+end
+---------------------------------------------------------------------------
 -- Function for spawning impound vehicle
 function SpawnImpoundVehicle(vehicle, plate, vehmods, fuelLevel)
     loadModel(vehicle)
 
-	veh = CreateVehicle(vehicle, this_Impound.ImpoundCarSpawn.Pos.x, this_Impound.ImpoundCarSpawn.Pos.y, this_Impound.ImpoundCarSpawn.Pos.z, this_Impound.ImpoundCarSpawn.heading, true, false)
+	veh = CreateVehicle(vehicle, this_Impound.ImpoundCarSpawn.Pos.x, this_Impound.ImpoundCarSpawn.Pos.y, this_Impound.ImpoundCarSpawn.Pos.z, this_Impound.ImpoundCarSpawn.h, true, false)
 	local id = NetworkGetNetworkIdFromEntity(veh)
 	SetNetworkIdCanMigrate(id, true)
     SetVehicleOnGroundProperly(veh)

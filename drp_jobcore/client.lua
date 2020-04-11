@@ -1,10 +1,3 @@
----------------------------------------------------------------------------
--- Job Core Events (DO NOT TOUCH!)
----------------------------------------------------------------------------
-Citizen.CreateThread(function()
-    TriggerServerEvent("DRP_JobCore:StartUp")
-end)
----------------------------------------------------------------------------
 Citizen.CreateThread(function()
     Citizen.Wait(10000)
     while true do

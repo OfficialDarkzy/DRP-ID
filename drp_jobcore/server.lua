@@ -8,6 +8,8 @@ AddEventHandler("DRP_JobCore:StartUp", function()
     table.insert(playersJob, {source = src, job = "UNEMPLOYED", jobLabel = "Unemployed"})
 end)
 ---------------------------------------------------------------------------
+-- Check if player left, then remove their data in the table
+---------------------------------------------------------------------------
 AddEventHandler("playerDropped", function()
     local src = source
     for a = 1, #playersJob do
@@ -34,7 +36,7 @@ AddEventHandler("DRP_JobCore:Salary", function()
     TriggerEvent("DRP_Bank:AddBankMoney", src, JobsCoreConfig.SalaryAmount)
 end)
 ---------------------------------------------------------------------------
--- Core Functions
+-- Get Players Job and Info about that job Function. Usage exports:["drp_jobcore"]:GetPlayerJob(source)
 ---------------------------------------------------------------------------
 function GetPlayerJob(player)
     for a = 1, #playersJob do
@@ -44,7 +46,9 @@ function GetPlayerJob(player)
     end
     return false
 end
-
+---------------------------------------------------------------------------
+-- This is the main export usage exports:["drp_jobcore"]:RequestJobChange(source, job, jobLabel, otherData)
+---------------------------------------------------------------------------
 function RequestJobChange(source, job, label, otherData) -- USE THIS ALL THE TIME
     local currentJob = GetPlayerJob(source)
     local label = label
@@ -73,6 +77,8 @@ function RequestJobChange(source, job, label, otherData) -- USE THIS ALL THE TIM
     end
 end
 ---------------------------------------------------------------------------
+-- Check Job Info if is exisits Usage exports:["drp_jobcore"]:DoesJobExist(job)
+---------------------------------------------------------------------------
 function DoesJobExist(job)
     for a = 1, #JobsCoreConfig.Jobs do
         if JobsCoreConfig.Jobs[a] == job then
@@ -81,6 +87,8 @@ function DoesJobExist(job)
     end
     return false
 end
+---------------------------------------------------------------------------
+-- Set Player Job Function this is NOT an export. Should not be triggered on its own, request job does that all for you
 ---------------------------------------------------------------------------
 function SetPlayerJob(player, job, label, otherData)
     for a = 1, #playersJob do
@@ -92,4 +100,3 @@ function SetPlayerJob(player, job, label, otherData)
         end
     end
 end
----------------------------------------------------------------------------
