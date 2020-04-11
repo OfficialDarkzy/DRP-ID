@@ -30,7 +30,6 @@ client_scripts {
     'vehiclestore/config.lua',
     'client.lua',
     'locking.lua',
-    'seatbelt.lua',
     'carwash.lua',
     'managers/managers.lua',
     'managers/entityier.lua',
