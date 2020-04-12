@@ -61,14 +61,17 @@ function RequestJobChange(source, job, label, otherData) -- USE THIS ALL THE TIM
             else
                 SetPlayerJob(source, "UNEMPLOYED", "Unemployed", false)
                 TriggerClientEvent("DRP_Core:Info", source, "Job Manager", tostring("You are now not working"), 2500, false, "leftCenter")
+                return true
             end
         else
             if DoesJobExist(job) then
                 if otherData ~= false then
                     SetPlayerJob(source, job, label, otherData)
+                    return true
                 else
                     SetPlayerJob(source, job, label, false)
                     TriggerClientEvent("DRP_Core:Info", source, "Job Manager", tostring("You are now "..label), 2500, false, "leftCenter")
+                    return true
                 end
             else
                 print("Job Does Not Exist, Make sure your Server Developer has added job name into drp_jobcore/config.lua")
