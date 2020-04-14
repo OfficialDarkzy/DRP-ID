@@ -43,9 +43,9 @@
 										</v-card-text>
 										<v-card-actions>
 											<v-btn color="green" block dark @click="SelectCharacter(characterIndex)"><b>Play &nbsp;</b><i class="fas fa-play"></i></v-btn>
-											<v-btn color="blue" small fab dark @click=""><i class="fas fa-car"></i></v-btn>
-											<v-btn color="cyan" small fab dark @click=""><i class="fas fa-user-check"></i></v-btn>
-											<v-btn color="red" small fab dark @click="RequestDeleteCharacter(characterIndex)"><i class="fas fa-times"></i></v-btn>
+											<div class="tooltip"><v-btn color="blue" small fab dark @click=""><i class="fas fa-car"></i></v-btn><span class="tooltiptext">Garage WIP</span></div>
+											<div class="tooltip"><v-btn color="cyan" small fab dark @click=""><i class="fas fa-user-check"></i></v-btn><span class="tooltiptext">Edit WIP</span></div>
+											<div class="tooltip"><v-btn color="red" small fab dark @click="RequestDeleteCharacter(characterIndex)"><i class="fas fa-times"></i></v-btn><span class="tooltiptext">Delete Character</span></div>
 									</v-card>
 								</v-flex>
 							</v-layout>
