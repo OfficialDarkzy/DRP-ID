@@ -227,3 +227,5 @@ AddEventHandler("playerDropped", function()
         end
     end
 end)
+
+print("^1[DRP] ID: ^4ID Loaded Successfully")
