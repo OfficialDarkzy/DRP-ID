@@ -136,6 +136,22 @@ AddEventHandler("DRP_ID:LastKnownPosition", function(ped)
 	end)
 end)
 ---------------------------------------------------------------------------
+-- Get Character Vehicles Event
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_ID:GetCharacterVehicles")
+AddEventHandler("DRP_ID:GetCharacterVehicles", function(character_id)
+	local src = source
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT * FROM `vehicles` WHERE `char_id` = :character_id",
+		data = {
+			character_id = character_id
+		}
+	}, function(charactervehicle)
+		local data = charactervehicle["data"]
+		TriggerClientEvent('DRP_ID:OpenVehicleList', src, data)
+	end)
+end)
+---------------------------------------------------------------------------
 -- Delete Character Event
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_ID:DeleteCharacter")
@@ -228,4 +244,4 @@ AddEventHandler("playerDropped", function()
     end
 end)
 
-print("^1[DRP] ID: ^4ID Loaded Successfully")
+print("^1[DRP] ID ^0: ^4ID Loaded Successfully^0")
