@@ -45,4 +45,3 @@ server_scripts {
 }
 
 export "SpawnJobVehicle"
-export "GetVehicleInFront"

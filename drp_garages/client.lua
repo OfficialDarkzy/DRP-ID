@@ -349,6 +349,7 @@ function GetVehicleInFront()
 	local _, _, _, _, vehicle = GetShapeTestResult(rayHandle)
 	return vehicle
 end
+exports("GetVehicleInFront", GetVehicleInFront)
 ---------------------------------------------------------------------------
 function drawNotification(text)
 	SetNotificationTextEntry("STRING")
