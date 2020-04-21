@@ -9,10 +9,12 @@ const DRP_Characters = new Vue({
     showCharacterCreator: false,
     showCharacterDelete: false,
     showDisconnectQuestion: false,
+    showCharacterVehicles: false,
 
     // Character Selector
     characters: [],
     characterID: [],
+    vehicles: [],
 
     // Character Creator
     genders: ["Male", "Female"],
@@ -184,6 +186,24 @@ const DRP_Characters = new Vue({
     FormReset() {
       this.$refs.DRPCreatorForm.reset();
       this.selectedAge = 0;
+    },
+
+    ShowVehicles(charid) {
+      var characterid = this.characters[charid].id
+      axios.post(`http://${this.ResourceName}/GetCharacterVehicles`, { character_id: characterid })
+      .then(response => {})
+      .catch(error => {});
+    },
+
+    OpenVehicleList(vehicles) {
+      this.vehicles = vehicles
+      this.showCharacterVehicles = true
+      this.showCharacterSelector = false
+    },
+
+    numberformat(value) {
+      let val = (value/1).toFixed(0).split('.')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     }
   },
 
@@ -238,6 +258,8 @@ document.onreadystatechange = () => {
         DRP_Characters.UpdateCharacters(event.data.characters);
       } else if (event.data.type == "open_spawnselection_menu") {
         DRP_Characters.OpenSpawnSelectionMenu(event.data.ped, event.data.spawn);
+      } else if (event.data.type == "open_vehicle_list") {
+        DRP_Characters.OpenVehicleList(event.data.vehicles);
       } else if (event.data.type == "close_spawnselection_menu") {
         DRP_Characters.CloseSpawnSelectionMenu();
       }

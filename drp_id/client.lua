@@ -70,6 +70,16 @@ AddEventHandler("DRP_ID:CloseSpawnSelectionMenu", function()
 	SendNUIMessage({type = "close_spawnselection_menu"})
 end)
 ---------------------------------------------------------------------------
+-- Open Character Vehicle List
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_ID:OpenVehicleList")
+AddEventHandler("DRP_ID:OpenVehicleList", function(characterVehicles)
+	SendNUIMessage({
+		type = "open_vehicle_list",
+		vehicles = characterVehicles
+	})
+end)
+---------------------------------------------------------------------------
 -- Save Characters Current Location (MIGHT MAKE A TOGGLE FOR THIS)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()

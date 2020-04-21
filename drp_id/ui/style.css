@@ -96,39 +96,35 @@ v-card-title#CharacterMenuName {
 }
 
 #DRP_SpawnMenu_Header {
-font-family: pricedown;
+  font-family: pricedown;
   width: 100%;
-  background-color: #A600FF;
+  background-color: rgb(8, 133, 216)!important;
   padding: 20px;
   text-align: center;
   font-size: 40px;
   color: white;
-  border-top-left-radius: 5px;
-  border-top-right-radius: 5px;
-  -webkit-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 0px 10px 5px 0px rgba(0,0,0,0.75);
 }
 
 #DRP_SpawnMenu_Body {
   font-family: arial;
-  background-color: #bb8fced4;
+  background-color: #ffffffb2;
   overflow-y: auto;
   max-height: 700px;
   border: lightblue;
+  
   border-top-left-radius: 8px;
   border-top-right-radius: 8px;
   border-bottom-left-radius: 5px;
   border-bottom-right-radius: 5px;
 
-  -webkit-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-  -moz-box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
-  box-shadow: 10px 10px 5px 0px rgba(0,0,0,0.75);
+  -webkit-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+  -moz-box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
+  box-shadow: 5px 5px 5px 0px rgba(0,0,0,0.75);
 }
 
 #DRP_SpawnMenu_Btn {
   font-family: arial;
-  background-color: #A600FF;
+  background-color: rgba(0, 0, 0, 0);
   color: rgb(255,255,255);
   align-content: center;
   color: white;
@@ -139,7 +135,7 @@ font-family: pricedown;
 
 #DRP_SpawnMenu_green {
   font-family: arial;
-  background-color: purple;
+  background-color: rgba(0, 0, 0, 0);
   color: rgb(255,255,255);
   align-content: center;
   color: white;

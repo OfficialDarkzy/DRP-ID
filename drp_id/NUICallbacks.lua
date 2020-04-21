@@ -27,6 +27,11 @@ RegisterNUICallback("DisconnectMe", function(callback)
 	callback("ok")
 end)
 ---------------------------------------------------------------------------
+RegisterNUICallback("GetCharacterVehicles", function(data, callback)
+	TriggerServerEvent("DRP_ID:GetCharacterVehicles", data.character_id)
+	callback("ok")
+end)
+---------------------------------------------------------------------------
 RegisterNUICallback("CloseSpawnSelectionMenu", function(data, callback)
 	SetNuiFocus(false, false)
 	callback("ok")
