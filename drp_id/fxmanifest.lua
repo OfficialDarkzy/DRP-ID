@@ -30,8 +30,3 @@ client_script "characterOnLoadEvents.lua"
 client_script "client.lua"
 
 client_script "cameras/cameras.lua"
-
-export "SpawnedInAndLoaded"
-
-server_export "GetCharacterData"
-server_export "GetCharacterName"

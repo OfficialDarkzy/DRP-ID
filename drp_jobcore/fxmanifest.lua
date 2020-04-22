@@ -17,5 +17,4 @@ server_script "server.lua"
 
 
 server_export "RequestJobChange"
-server_export "GetPlayerJob"
 server_export "DoesJobExist"

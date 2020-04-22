@@ -100,3 +100,4 @@ end)
 function SpawnedInAndLoaded()
 	return characterSpawnedIn
 end
+exports("SpawnedInAndLoaded", SpawnedInAndLoaded)

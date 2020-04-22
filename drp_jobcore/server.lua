@@ -46,6 +46,7 @@ function GetPlayerJob(player)
     end
     return false
 end
+exports("GetPlayerJob", GetPlayerJob)
 ---------------------------------------------------------------------------
 -- This is the main export usage exports:["drp_jobcore"]:RequestJobChange(source, job, jobLabel, otherData)
 ---------------------------------------------------------------------------

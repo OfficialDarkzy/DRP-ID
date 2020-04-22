@@ -202,6 +202,7 @@ function GetCharacterData(id)
 	end
 	return false
 end
+exports("GetCharacterData", GetCharacterData)
 ---------------------------------------------------------------------------
 -- Get Character Name Function Usage exports["drp_id"]:GetCharacterName(source)
 ---------------------------------------------------------------------------
@@ -213,6 +214,7 @@ function GetCharacterName(id)
 	end
 	return false
 end
+exports("GetCharacterName", GetCharacterName)
 ---------------------------------------------------------------------------
 -- Close All Air Cameras Function
 ---------------------------------------------------------------------------
