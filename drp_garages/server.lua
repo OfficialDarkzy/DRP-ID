@@ -221,9 +221,8 @@ end)
 RegisterServerEvent("DRP_Garages:GiveKeys")
 AddEventHandler("DRP_Garages:GiveKeys", function(id, plate)
     local src = source
-    local vehPlate = string.lower(plate)
+	local vehPlate = string.lower(plate)
     table.insert(vehicleKeys, {owner = src, net = id, vehiclePlate = vehPlate})
-    --print(json.encode(vehicleKeys))
 end)
 ---------------------------------------------------------------------------
 -- Check Vehicle Owner

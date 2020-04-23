@@ -185,6 +185,15 @@ AddEventHandler('DRP_Garages:ImpoundVehicle', function(data, impoundslot, owned)
 		end
 	end
 end)
+
+RegisterNetEvent("DRP_Garages:GiveKeysToVehicleInfront")
+AddEventHandler("DRP_Garages:GiveKeysToVehicleInfront", function()
+	local ped = PlayerPedId()
+	local vehicle = GetVehicleInFront()
+	local id = NetworkGetNetworkIdFromEntity(vehicle)
+	local plate = GetVehicleNumberPlateText(vehicle)
+	TriggerServerEvent("DRP_Garages:GiveKeys", id, plate)
+end)
 ---------------------------------------------------------------------------
 -- NUI CALLBACKS
 ---------------------------------------------------------------------------
