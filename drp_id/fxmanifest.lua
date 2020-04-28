@@ -28,5 +28,6 @@ client_script "config.lua"
 client_script "NUICallbacks.lua"
 client_script "characterOnLoadEvents.lua"
 client_script "client.lua"
+client_script "chat.lua"
 
 client_script "cameras/cameras.lua"

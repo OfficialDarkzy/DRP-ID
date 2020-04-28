@@ -216,6 +216,86 @@ function GetCharacterName(id)
 end
 exports("GetCharacterName", GetCharacterName)
 ---------------------------------------------------------------------------
+-- Chat Commands
+---------------------------------------------------------------------------
+AddEventHandler("chatMessage", function(source, color, message)
+    local src = source
+    args = exports["drp_core"]:stringsplit(message, " ")
+    CancelEvent()
+    if type(args) ~= "table" then
+        if string.find(args[1], "/") then
+            local cmd = args[1]
+            table.remove(args, 1)
+        else
+            local player = GetPlayerData(src)
+            local msg = message:sub(0)
+            local character = GetCharacterData(src)
+            if player ~= false then
+                local stuff = "["..player.id.."] "..character.name..""
+                    TriggerClientEvent('chat:addMessage', -1, {
+                    template = '<div style="padding: 0.5vw; margin: 0.5vw; background-color: rgba(41, 41, 41, 0.6); border-radius: 3px;"><i class="fas fa-globe"></i> {0}:<br> {1}</div>',
+                    args = { stuff, msg }
+                })
+            end
+        end
+    end
+end)
+---------------------------------------------------------------------------
+RegisterCommand('tweet', function(source, args, rawCommand)
+	local src = source
+	local msg = rawCommand:sub(6)
+	local character = GetCharacterData(src)
+		TriggerClientEvent('chat:addMessage', -1, {
+		template = '<div style="padding: 0.5vw; margin: 0.5vw; background-color: rgba(28, 160, 242, 0.6); border-radius: 3px;"><i class="fab fa-twitter"></i> @{0}:<br> {1}</div>',
+		args = { character.name, msg }
+	})
+end, false)
+---------------------------------------------------------------------------
+RegisterCommand('advert', function(source, args, user)
+	local src = source
+	local character = GetCharacterData(src)
+		TriggerClientEvent('chatMessage', -1, "^0^3Advert^0", {30, 144, 255}, table.concat(args, " "))
+end, false)
+---------------------------------------------------------------------------
+RegisterCommand('ooc', function(source, args, rawCommand)
+	local src = source
+	local player = exports["drp_core"]:GetPlayerData(src)
+	local msg = rawCommand:sub(5)
+	local character = GetCharacterData(src)
+	if player ~= false then
+		local stuff = "["..player.id.."] "..character.name..""
+		TriggerClientEvent('chat:addMessage', -1, {
+		template = '<div style="padding: 0.5vw; margin: 0.5vw; background-color: rgba(41, 41, 41, 0.6); border-radius: 3px;"><i class="fas fa-globe"></i> {0}:<br> {1}</div>',
+		args = { stuff, msg }
+	})
+	end
+end, false)
+---------------------------------------------------------------------------
+RegisterCommand('me', function(source, args, user)
+	local src = source
+	local character = GetCharacterData(src)
+	local meCmd = args[1]
+	if meCmd ~= nil then
+	Wait(100)
+	TriggerClientEvent("sendProximityMessageMe", -1, src, character.name, table.concat(args, " "))
+	end
+end, false)
+---------------------------------------------------------------------------
+local num = 0
+RegisterCommand('rolldice', function(source, args, user)
+	local src = source
+	local character = GetCharacterData(src)
+	num = math.random(1,6)
+	TriggerClientEvent("sendProximityMessageRoll", -1, src, character.name..num, table.concat(args, " "))
+end, false)
+---------------------------------------------------------------------------
+RegisterCommand("showid", function(source, args, raw)
+	local src = source
+	local character = GetCharacterData(src)
+	local job = exports["drp_jobcore"]:GetPlayerJob(src)
+	TriggerClientEvent("sendProximityShowId", -1, src, "^3ID:^0 Name: "..character.name..", Gender: "..character.gender..", Employment: "..job.jobLabel..", Age: "..character.age.. ", Temp County No: "..character.id..", CID: "..character.charid, table.concat(args, " "))
+end, false)
+---------------------------------------------------------------------------
 -- Close All Air Cameras Function
 ---------------------------------------------------------------------------
 function CloseAllCameras(src)
