@@ -294,20 +294,22 @@ end)
 AddEventHandler("playerDropped", function()
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	exports["externalsql"]:AsyncQueryCallback({
-		query = "UPDATE vehicles SET `state` = :state WHERE `char_id` = :charid",
-			data = {
-				charid = character.charid,
-				state = "IN"
-			}
-		}, function(yayeeet)
-		for a = 1, #vehicles, 1 do
-			if vehicles[a].charid == character.charid then
-				table.remove(vehicles, a)
+	if character ~= nil then
+		exports["externalsql"]:AsyncQueryCallback({
+			query = "UPDATE vehicles SET `state` = :state WHERE `char_id` = :charid",
+				data = {
+					charid = character.charid,
+					state = "IN"
+				}
+			}, function(yayeeet)
+			for a = 1, #vehicles, 1 do
+				if vehicles[a].charid == character.charid then
+					table.remove(vehicles, a)
+				end
 			end
-		end
-		print("Player left, now changing vehicles to go back into your Garage!")
-	end)
+			print("Player left, now changing vehicles to go back into your Garage!")
+		end)
+	end
 end)
 
 function GetAllCharacterVehicles(charid)

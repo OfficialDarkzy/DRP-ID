@@ -12,4 +12,5 @@ OnCharacterLoadEvents = function(spawnInHotel)
 	TriggerServerEvent("DRP_Doors:StartSync") -- If Doors is Installed
 	TriggerServerEvent("DRP_Tattoos:GetTattoos") -- If Tattoos is Installed
 	TriggerServerEvent("DRP_Gang:StartUpGangs") -- If Gangs is Installed
+	TriggerServerEvent("DRP_Inventory:WeaponChecker")
 end
