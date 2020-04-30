@@ -11,7 +11,7 @@ function meMessage(pid, message, offset)
         while meTimer do
             Wait(0)
             local coords = GetEntityCoords(GetPlayerPed(pid), false)
-            DrawText3Ds(coords['x'], coords['y'], coords['z']+offset, message)
+            exports["drp_id"]:DrawText3Ds(coords['x'], coords['y'], coords['z']+offset, message)
         end
         messageDisplaying = messageDisplaying - 1
     end)
