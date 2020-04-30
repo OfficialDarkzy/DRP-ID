@@ -140,6 +140,7 @@ DRPConfig.Vehicles = {
 		{name = "Bullet", categorie = "super", costs = 560000, description = {}, model = "bullet", vMax = "81.56", accel = "82.5", frein = "26.67", img = "https://wiki.rage.mp/images/7/7a/Bullet.png"},
 		{name = "Cheetah", categorie = "super", costs = 993000, description = {}, model = "cheetah", vMax = "82.09", accel = "80", frein = "26.67", img = "https://wiki.rage.mp/images/9/9e/Cheetah.png"},
 		{name = "Entity XF", categorie = "super", costs = 940000, description = {}, model = "entityxf", vMax = "83.17", accel = "82.5", frein = "30", img = "https://wiki.rage.mp/images/6/61/Entityxf.png"},
+		{name = "Entity XXR", categorie = "super", costs = 940000, description = {}, model = "entity2", vMax = "83.17", accel = "82.5", frein = "30", img = "https://wiki.rage.mp/images/f/f3/Entity2.png"},
 		{name = "ETR1", categorie = "super", costs = 605500, description = {}, model = "sheava", vMax = "85.04", accel = "82.5", frein = "38.33", img = "https://wiki.rage.mp/images/0/06/Sheava.png"},
 		{name = "FMJ", categorie = "super", costs = 1600000, description = {}, model = "fmj", vMax = "84.99", accel = "91.38", frein = "36.67", img = "https://wiki.rage.mp/images/d/d2/Fmj.png"},
 		{name = "GP1", categorie = "super", costs = 1260000, description = {}, model = "gp1", vMax = "86.11", accel = "92.5", frein = "40", img = "https://wiki.rage.mp/images/a/a4/Gp1.png"},
