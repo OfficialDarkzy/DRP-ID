@@ -34,7 +34,7 @@ RegisterServerEvent("DRP_JobCore:Salary")
 AddEventHandler("DRP_JobCore:Salary", function()
     local src = source
     local character = exports["drp_id"]:GetCharacterData(src)
-    TriggerEvent("DRP_Bank:AddBankMoney", character.charid, JobsCoreConfig.SalaryAmount)
+    TriggerEvent("DRP_Bank:AddBankMoney", src, character.charid, JobsCoreConfig.SalaryAmount)
 end)
 ---------------------------------------------------------------------------
 -- Get Players Job and Info about that job Function. Usage exports:["drp_jobcore"]:GetPlayerJob(source)

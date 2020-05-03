@@ -85,7 +85,8 @@ end)
 ---------------------------------------------------------------------------
 -- Adding BANK Money
 ---------------------------------------------------------------------------
-AddEventHandler("DRP_Bank:AddBankMoney", function(charid, amount)
+AddEventHandler("DRP_Bank:AddBankMoney", function(source, charid, amount)
+    local src = source
     if type(amount) == "number" then
         TriggerEvent("DRP_Bank:GetCharacterMoney", charid, function(characterMoney)
             local newBankBalance = characterMoney.data[1].bank + tonumber(amount)
@@ -105,7 +106,8 @@ end)
 ---------------------------------------------------------------------------
 -- Removing BANK money
 ---------------------------------------------------------------------------
-AddEventHandler("DRP_Bank:RemoveBankMoney", function(charid, amount)
+AddEventHandler("DRP_Bank:RemoveBankMoney", function(source, charid, amount)
+    local src = source
     TriggerEvent("DRP_Bank:GetCharacterMoney", charid, function(characterMoney)
         local newBankBalance = characterMoney.data[1].bank - tonumber(amount)
         exports["externalsql"]:AsyncQueryCallback({
@@ -123,7 +125,8 @@ end)
 ---------------------------------------------------------------------------
 -- Adding CASH Money
 ---------------------------------------------------------------------------
-AddEventHandler("DRP_Bank:AddCashMoney", function(charid, amount)
+AddEventHandler("DRP_Bank:AddCashMoney", function(source, charid, amount)
+    local src = source
     if type(amount) == "number" then
         TriggerEvent("DRP_Bank:GetCharacterMoney", charid, function(characterMoney)
             local newCashBalance = characterMoney.data[1].cash + tonumber(amount)
@@ -143,7 +146,8 @@ end)
 ---------------------------------------------------------------------------
 -- Removing CASH Money
 ---------------------------------------------------------------------------
-AddEventHandler("DRP_Bank:RemoveCashMoney", function(charid, amount)
+AddEventHandler("DRP_Bank:RemoveCashMoney", function(source, charid, amount)
+    local src = source
     print("removing cash "..amount)
     TriggerEvent("DRP_Bank:GetCharacterMoney", charid, function(characterMoney)
         local playerCash = characterMoney.data[1].cash - amount
@@ -162,7 +166,8 @@ end)
 ---------------------------------------------------------------------------
 -- Adding Dirty Money
 ---------------------------------------------------------------------------
-AddEventHandler("DRP_Bank:AddDirtyMoney", function(charid, amount)
+AddEventHandler("DRP_Bank:AddDirtyMoney", function(source, charid, amount)
+    local src = source
     if type(amount) == "number" then
         TriggerEvent("DRP_Bank:GetCharacterMoney", charid, function(characterMoney)
             local newDirtyBalance = characterMoney.data[1].dirtyCash + tonumber(amount)
@@ -181,7 +186,8 @@ end)
 ---------------------------------------------------------------------------
 -- Removing Dirty Money
 ---------------------------------------------------------------------------
-AddEventHandler("DRP_Bank:RemoveDirtyMoney", function(charid, amount)
+AddEventHandler("DRP_Bank:RemoveDirtyMoney", function(source, charid, amount)
+        local src = source
         TriggerEvent("DRP_Bank:GetCharacterMoney", charid, function(characterMoney)
         local moneyRemoved = 25
         local newDirtyBalance = characterMoney.data[1].dirtyCash - tonumber(amount)
@@ -200,7 +206,6 @@ end)
 -- Get Character Money Data
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_Bank:GetCharacterMoney", function(charid, callback)
-	local src = source
 		exports["externalsql"]:AsyncQueryCallback({
 			query = "SELECT * FROM `characters` WHERE `id` = :char_id",
 			data = {
@@ -212,7 +217,6 @@ AddEventHandler("DRP_Bank:GetCharacterMoney", function(charid, callback)
 end)
 
 function GetCharacterMoney(charid, callback)
-    local src = source
 		exports["externalsql"]:AsyncQueryCallback({
 			query = "SELECT * FROM `characters` WHERE `id` = :char_id",
 			data = {

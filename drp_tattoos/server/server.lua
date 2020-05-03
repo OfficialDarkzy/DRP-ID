@@ -39,7 +39,7 @@ AddEventHandler("DRP_Tattoos:SaveTattoos", function(tattoosList, price, value)
 			if tattoosList[a].texture ~= value.texture then
 				TriggerEvent("DRP_Bank:GetCharacterMoney", character.charid, function(characterMoney)
 					if characterMoney.data[1].cash >= price then
-						TriggerEvent("DRP_Bank:RemoveCashMoney", character.charid, price)
+						TriggerEvent("DRP_Bank:RemoveCashMoney", src, character.charid, price)
 						table.insert(tattoosList, value)
 							exports["externalsql"]:AsyncQueryCallback({
 								query = "UPDATE character_tattoos SET `tattoos` = :tattoos WHERE `char_id` = :charid",
@@ -70,7 +70,7 @@ AddEventHandler("DRP_Tattoos:SaveTattoos", function(tattoosList, price, value)
 	else
 		TriggerEvent("DRP_Bank:GetCharacterMoney", character.charid, function(characterMoney)
 			if characterMoney.data[1].cash >= price then
-				TriggerEvent("DRP_Bank:RemoveCashMoney", character.charid, price)
+				TriggerEvent("DRP_Bank:RemoveCashMoney", src, character.charid, price)
 				table.insert(tattoosList, value)
 				exports["externalsql"]:AsyncQueryCallback({
 					query = "UPDATE character_tattoos SET `tattoos` = :tattoos WHERE `char_id` = :charid",

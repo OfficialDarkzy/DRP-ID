@@ -42,7 +42,7 @@ AddEventHandler("DRP_vehicleshop:PurchaseVehicle", function(model, price, plate,
 	local CharacterData = exports["drp_id"]:GetCharacterData(src)
 
 	TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
-		TriggerEvent("DRP_Bank:RemoveBankMoney", CharacterData.charid, price)
+		TriggerEvent("DRP_Bank:RemoveBankMoney", src, CharacterData.charid, price)
 			local garage_slot = 1 -- Centrum garage
 
 			if price == 0 or price == 1 then
