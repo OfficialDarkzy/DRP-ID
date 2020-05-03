@@ -228,7 +228,8 @@ RegisterServerEvent("DRP_Garages:GiveKeys")
 AddEventHandler("DRP_Garages:GiveKeys", function(id, plate)
     local src = source
 	local vehPlate = string.lower(plate)
-    table.insert(vehicleKeys, {owner = src, net = id, vehiclePlate = vehPlate})
+	table.insert(vehicleKeys, {owner = src, net = id, vehiclePlate = vehPlate})
+	TriggerClientEvent("DRP_Core:Info", src, "Keys", tostring("You have recieved keys for plate: "..string.upper(plate)), 2500, false, "leftCenter")
 end)
 ---------------------------------------------------------------------------
 -- Check Vehicle Owner For Keys
@@ -303,7 +304,9 @@ AddEventHandler("playerDropped", function()
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
 	print(json.encode(character))
-	if character ~= false then
+	if character == false then
+		return
+	else
 		exports["externalsql"]:AsyncQueryCallback({
 			query = "UPDATE vehicles SET `state` = :state WHERE `char_id` = :charid",
 				data = {
