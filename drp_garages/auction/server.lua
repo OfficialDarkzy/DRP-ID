@@ -89,10 +89,11 @@ RegisterServerEvent("DRP_Auction:PurchaseChecker")
 AddEventHandler("DRP_Auction:PurchaseChecker", function(price)
     local src = source
     local character = exports["drp_id"]:GetCharacterData(src)
-    print(price)
     TriggerEvent("DRP_Bank:GetCharacterMoney", character.charid, function(characterMoney)
         if characterMoney.data[1].bank >= price then
             TriggerClientEvent("DRP_Auction:PurchaseVehicle", src)
+            TriggerEvent("DRP_Bank:RemoveBankMoney", character.charid, price)
+
         else
             TriggerClientEvent("DRP_Core:Error", src, "Car Auction", tostring("You do not have enough Money!"), 2500, true, "leftCenter")
         end
@@ -106,4 +107,10 @@ AddEventHandler("DRP_Auction:GetVehicles", function(callback)
     }, function(allVehiclesData)
         callback(allVehiclesData["data"])
     end)
+end)
+
+AddEventHandler("DRP_Auction:RemoveVehicles", function(plate, charid, callback)
+    local plate = plate
+    local charid = charid
+
 end)

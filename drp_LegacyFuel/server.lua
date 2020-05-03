@@ -7,7 +7,7 @@ AddEventHandler('fuel:pay', function(price)
 		local fuelprice = price
 		if tonumber(characterMoney.data[1].bank) >= tonumber(fuelprice) then
 			TriggerClientEvent("DRP_Core:Success", src, "Fuel", tostring("Car has been filled!"), 2500, false, "leftCenter")
-			TriggerEvent("DRP_Bank:RemoveBankMoney", src, fuelprice)
+			TriggerEvent("DRP_Bank:RemoveBankMoney", CharacterData.charid, fuelprice)
 		else
 			TriggerClientEvent("DRP_Core:Error", src, "Fuel", tostring("You don't have enough Cash!"), 2500, false, "leftCenter")
 		end
@@ -23,7 +23,7 @@ AddEventHandler('fuel:petrolcanpay', function(price, refil)
 	TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
 		local fuelprice = price
 		if tonumber(characterMoney.data[1].bank) >= tonumber(fuelprice) then
-			TriggerEvent("DRP_Bank:RemoveBankMoney", src, fuelprice)
+			TriggerEvent("DRP_Bank:RemoveBankMoney", CharacterData.charid, fuelprice)
 			if refil then
 				TriggerClientEvent("DRP_Core:Success", src, "Fuel", tostring("Petrolcan has been refilled!"), 2500, false, "leftCenter")
 			else

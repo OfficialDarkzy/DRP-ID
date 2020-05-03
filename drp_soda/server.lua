@@ -7,7 +7,7 @@ AddEventHandler('DRP_Soda:checkAccounts', function()
             TriggerEvent("DRP_Bank:GetCharacterMoney", charInfo.charid, function(characterMoney)
                 print('cash:', tonumber(characterMoney.data[1].cash))
                 if tonumber(characterMoney.data[1].cash) >= tonumber(DRPSoda.Price) then
-                    TriggerEvent("DRP_Bank:RemoveCashMoney", src, tonumber(DRPSoda.Price))
+                    TriggerEvent("DRP_Bank:RemoveCashMoney", charInfo.charid, tonumber(DRPSoda.Price))
                     TriggerClientEvent("DRP_Soda:getSoda", src)
                 else
                     TriggerClientEvent("DRP_Core:Error", src, "Soda Machine", tostring("You don't have enough Cash!"), 2500, false, "leftCenter")
