@@ -89,6 +89,7 @@ RegisterServerEvent("DRP_Auction:PurchaseChecker")
 AddEventHandler("DRP_Auction:PurchaseChecker", function(price)
     local src = source
     local character = exports["drp_id"]:GetCharacterData(src)
+    print(price)
     TriggerEvent("DRP_Bank:GetCharacterMoney", character.charid, function(characterMoney)
         if characterMoney.data[1].bank >= price then
             TriggerClientEvent("DRP_Auction:PurchaseVehicle", src)
@@ -98,17 +99,10 @@ AddEventHandler("DRP_Auction:PurchaseChecker", function(price)
     end)
 end)
 
-RegisterServerEvent("DRP_Auction:Purchase")
-AddEventHandler("DRP_Auction:Purchase", function()
-    local src = source
-    local character = exports["drp_id"]:GetCharacterData(src)
-    print("Please wait for this functionality")
-end)
-
 AddEventHandler("DRP_Auction:GetVehicles", function(callback)
 	local character = exports["drp_id"]:GetCharacterData(src)
 	exports["externalsql"]:AsyncQueryCallback({
-		query ="SELECT * FROM `vehicle_auction`",
+        query ="SELECT * FROM `vehicle_auction`"
     }, function(allVehiclesData)
         callback(allVehiclesData["data"])
     end)

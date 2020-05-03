@@ -1,7 +1,9 @@
 vehicles = {}
 vehicleKeys = {}
 thisVehicleInfo = {}
-
+---------------------------------------------------------------------------
+-- Request Vehicle Menu
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:RequestOpenMenu")
 AddEventHandler("DRP_Garages:RequestOpenMenu", function(menu)
 	local src = source
@@ -21,7 +23,9 @@ AddEventHandler("DRP_Garages:RequestOpenMenu", function(menu)
 	end)
 	vehicles = {}
 end)
-
+---------------------------------------------------------------------------
+-- Get Selected Vehicle Data
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:GetSelectedVehicleData")
 AddEventHandler("DRP_Garages:GetSelectedVehicleData", function(vehicle_id, type)
 	local src = source
@@ -53,7 +57,9 @@ AddEventHandler("DRP_Garages:GetSelectedVehicleData", function(vehicle_id, type)
 	end)
 	thisVehicleInfo = {}
 end)
-
+---------------------------------------------------------------------------
+-- Request To Store Vehicle
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:RequestStoreVehicle")
 AddEventHandler("DRP_Garages:RequestStoreVehicle", function(plate)
 	local src = source
@@ -225,7 +231,7 @@ AddEventHandler("DRP_Garages:GiveKeys", function(id, plate)
     table.insert(vehicleKeys, {owner = src, net = id, vehiclePlate = vehPlate})
 end)
 ---------------------------------------------------------------------------
--- Check Vehicle Owner
+-- Check Vehicle Owner For Keys
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:CheckVehicleOwner")
 AddEventHandler("DRP_Garages:CheckVehicleOwner", function(netid, plate)
@@ -243,8 +249,9 @@ AddEventHandler("DRP_Garages:CheckVehicleOwner", function(netid, plate)
     end
     TriggerClientEvent("DRP_Garages:ToggleExternalLock", src, netid, false)
 end)
-
--- For Impound Command
+---------------------------------------------------------------------------
+-- Get Impound Vehicles
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:GetVehiclesForImpound")
 AddEventHandler("DRP_Garages:GetVehiclesForImpound", function(plate, impoundslot)
 	local src = source
@@ -267,8 +274,9 @@ AddEventHandler("DRP_Garages:GetVehiclesForImpound", function(plate, impoundslot
 		end
 	end)
 end)
-
--- for garage command
+---------------------------------------------------------------------------
+-- Get Garage Vehicles
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Garages:GetVehicles")
 AddEventHandler("DRP_Garages:GetVehicles", function()
 	local src = source
@@ -294,7 +302,8 @@ end)
 AddEventHandler("playerDropped", function()
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	if not character then
+	print(json.encode(character))
+	if character ~= false then
 		exports["externalsql"]:AsyncQueryCallback({
 			query = "UPDATE vehicles SET `state` = :state WHERE `char_id` = :charid",
 				data = {
@@ -309,11 +318,13 @@ AddEventHandler("playerDropped", function()
 			end
 			print("Player left, now changing vehicles to go back into your Garage!")
 		end)
+	else
+		print("No Character Data to remove from Garages!")
 	end
-else
-	print("No Character Data to remove from Garages!")
 end)
-
+---------------------------------------------------------------------------
+-- Exports
+---------------------------------------------------------------------------
 function GetAllCharacterVehicles(charid)
 	for a = 1, #vehicles do 
 		if vehicles[a].char_id == charid then

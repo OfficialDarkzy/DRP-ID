@@ -1,70 +1,65 @@
-if DRPGarages.Auction then
-    Citizen.CreateThread(function()
-        for _, item in pairs(DRPAuction.SellLocation) do
-            item.blip = AddBlipForCoord(item.x, item.y, item.z)
-            SetBlipSprite (item.blip, 76)
-            SetBlipDisplay(item.blip, 4)
-            SetBlipScale  (item.blip, 0.8)
-            SetBlipColour (item.blip, 50)
-            SetBlipAsShortRange(item.blip, true)
-            BeginTextCommandSetBlipName("STRING")
-            AddTextComponentString("Auction")
-            EndTextCommandSetBlipName(item.blip)
+Citizen.CreateThread(function()
+    for _, item in pairs(DRPAuction.SellLocation) do
+        item.blip = AddBlipForCoord(item.x, item.y, item.z)
+        SetBlipSprite (item.blip, 76)
+        SetBlipDisplay(item.blip, 4)
+        SetBlipScale  (item.blip, 0.8)
+        SetBlipColour (item.blip, 50)
+        SetBlipAsShortRange(item.blip, true)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString("Auction")
+        EndTextCommandSetBlipName(item.blip)
+    end
+    local sleepTimer = 1000
+    while true do
+        local ped = PlayerPedId()
+        local coords = GetEntityCoords(ped, false)
+        for a = 1, #DRPAuction.SellLocation do
+            local distance = Vdist(coords.x, coords.y, coords.z, DRPAuction.SellLocation[a].x, DRPAuction.SellLocation[a].y, DRPAuction.SellLocation[a].z)
+            if distance <= 10.0 then
+                sleepTimer = 5
+                if distance <= 5.0 then
+                    exports['drp_core']:DrawText3Ds(DRPAuction.SellLocation[a].x, DRPAuction.SellLocation[a].y, DRPAuction.SellLocation[a].z + 1, tostring("~b~[E] - ~r~[Open Sell Menu]"))
+                    if IsControlJustPressed(1, 38) then
+                        if IsPedInAnyVehicle(ped, false) then
+                            CheckVehicleOwnership(GetVehiclePedIsUsing(ped))
+                        else
+                            TriggerEvent("DRP_Core:Error", "Car Auction", tostring("You need to be in a Vehicle"), 2500, true, "leftCenter")
+                        end
+                    end
+                end
+            end
         end
-        while true do
-            local sleepTimer = 1000
-            local ped = PlayerPedId()
-            local coords = GetEntityCoords(ped, false)
-            for a = 1, #DRPAuction.SellLocation do
-                local distance = Vdist(coords.x, coords.y, coords.z, DRPAuction.SellLocation[a].x, DRPAuction.SellLocation[a].y, DRPAuction.SellLocation[a].z)
-                if distance <= 10.0 then
+        for a = 1, #DRPAuction.VehicleLocations, 1 do
+            if DRPAuction.VehicleLocations[a]["vehId"] ~= nil then
+                local vehCoords = GetEntityCoords(DRPAuction.VehicleLocations[a]["vehId"])
+                local distance = Vdist(coords, vehCoords, true)
+                if distance <= 2.0 then
                     sleepTimer = 5
-                    if distance <= 5.0 then
-                        exports['drp_core']:DrawText3Ds(DRPAuction.SellLocation[a].x, DRPAuction.SellLocation[a].y, DRPAuction.SellLocation[a].z + 1, tostring("~b~[E] - ~r~[Open Sell Menu]"))
-                        if IsControlJustPressed(1, 38) then
-                            if IsPedInAnyVehicle(ped, false) then
-                                CheckVehicleOwnership(GetVehiclePedIsUsing(ped))
-                            else
-                                TriggerEvent("DRP_Core:Error", "Car Auction", tostring("You need to be in a Vehicle"), 2500, true, "leftCenter")
-                            end
+                    exports['drp_core']:DrawText3Ds(vehCoords.x, vehCoords.y, vehCoords.z, "[E] "..DRPAuction.VehicleLocations[a]["price"])
+                    if IsControlJustPressed(1, 38) then
+                        if IsPedInVehicle(ped, DRPAuction.VehicleLocations[a]["vehId"], false) then
+                            TriggerServerEvent("DRP_Auction:PurchaseChecker", DRPAuction.VehicleLocations[a]["price"])
+                        else
+                            TriggerEvent("DRP_Core:Error", "Car Auction", tostring("You need to be in the Vehicle"), 2500, true, "leftCenter")
                         end
                     end
                 end
             end
-            for a = 1, #DRPAuction.VehicleLocations, 1 do
-                if DRPAuction.VehicleLocations[a]["vehId"] ~= nil then
-                    local vehCoords = GetEntityCoords(DRPAuction.VehicleLocations[a]["vehId"])
-                    local distance = Vdist(coords, vehCoords, true)
-                    if distance <= 2.0 then
-                        sleepTimer = 5
-                        exports['drp_core']:DrawText3Ds(vehCoords.x, vehCoords.y, vehCoords.z, "[E] "..DRPAuction.VehicleLocations[a]["price"])
-                        if IsControlJustPressed(1, 38) then
-                            if IsPedInVehicle(ped, DRPAuction.VehicleLocations[a]["vehId"], false) then
-                                TriggerServerEvent("DRP_Auction:PurchaseChecker", DRPAuction.VehicleLocations[a]["price"])
-                            else
-                                TriggerEvent("DRP_Core:Error", "Car Auction", tostring("You need to be in the Vehicle"), 2500, true, "leftCenter")
-                            end
-                        end
-                    end
-                end
-            end
-            Citizen.Wait(sleepTimer)
         end
-    end)
-end
+        Citizen.Wait(sleepTimer)
+    end
+end)
 
 
 RegisterNetEvent("DRP_Auction:PurchaseVehicle")
 AddEventHandler("DRP_Auction:PurchaseVehicle", function()
     local ped = PlayerPedId()
     local vehiclePedIsIn = GetVehiclePedIsUsing(ped)
-    for a = 1, #DRPAuction.VehicleLocations, 1 do
-        if DRPAuction.VehicleLocations[a]["vehId"] ~= nil then
-            TriggerServerEvent("", DRPAuction.VehicleLocations[a]["vehId"])
-        end
-    end
-    SetEntityAsMissionEntity(vehiclePedIsIn, true, true)
-    deleteCar(vehiclePedIsIn)
+    FreezeEntityPosition(vehiclePedIsIn, false)
+    SetEntityInvincible(vehiclePedIsIn, false)
+    -- SetEntityAsMissionEntity(vehiclePedIsIn, true, true)
+    -- deleteCar(vehiclePedIsIn)
 end)
 
 RegisterNetEvent("DRP_Auction:SellVehicle")
@@ -113,7 +108,6 @@ end
 function SpawnVehicles(data)
     local vehiclePosition = DRPAuction.VehicleLocations
     for a = 1, #data, 1 do
-
         local allVehicleMods = data[a]["vehicleMods"]
 
         local model = allVehicleMods["model"]

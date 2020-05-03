@@ -34,14 +34,18 @@ client_scripts {
     'managers/managers.lua',
     'managers/entityier.lua',
     'managers/utils.lua',
-    'vehiclestore/client.lua'
+    'vehiclestore/client.lua',
+    'auction/auctionconfig.lua',
+    'auction/client.lua',
 }
 
 server_scripts {
     'config.lua',
     'vehiclestore/config.lua',
     'server.lua',
-    'vehiclestore/server.lua'
+    'vehiclestore/server.lua',
+    'auction/auctionconfig.lua',
+    'auction/server.lua',
 }
 
 export "SpawnJobVehicle"
