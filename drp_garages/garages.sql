@@ -16,9 +16,9 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `modelLabel` varchar(50) DEFAULT NULL,
   `state` varchar(50) DEFAULT NULL,
-  `garage_slot` TINYINT(4) NOT NULL DEFAULT '0',
-  `impound_slot` TINYINT(4) NOT NULL DEFAULT '0',
-  `fuel_level` TINYINT(4) NOT NULL DEFAULT '0',
+  `garage_slot` tinyint(4) NOT NULL DEFAULT '0',
+  `impound_slot` tinyint(4) NOT NULL DEFAULT '0',
+  `fuel_level` tinyint(4) NOT NULL DEFAULT '0',
   `vehicleMods` longtext,
   `plate` varchar(50) DEFAULT NULL,
   `charactername` varchar(50) NOT NULL,
@@ -26,7 +26,21 @@ CREATE TABLE IF NOT EXISTS `vehicles` (
   PRIMARY KEY (`id`),
   KEY `vehicles_ibfk_01` (`char_id`),
   CONSTRAINT `vehicles_ibfk_01` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin2;
+) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=latin2;
+
+-- Data exporting was unselected.
+
+-- Dumping structure for table drp.vehicle_auction
+CREATE TABLE IF NOT EXISTS `vehicle_auction` (
+  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `sellername` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `vehicleMods` longtext COLLATE utf8_bin,
+  `price` int(11) DEFAULT '0',
+  `char_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`),
+  KEY `FK_vehicle_auction_characters` (`char_id`),
+  CONSTRAINT `FK_vehicle_auction_characters` FOREIGN KEY (`char_id`) REFERENCES `characters` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
 
 -- Data exporting was unselected.
 
