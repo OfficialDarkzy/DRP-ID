@@ -247,6 +247,7 @@ function UpdateVehicle(veh)
 		drawNotification("Can't update this Vehicle!")
 	end
 end
+exports("UpdateVehicle", UpdateVehicle)
 ---------------------------------------------------------------------------
 -- Function for spawning vehicle
 ---------------------------------------------------------------------------
