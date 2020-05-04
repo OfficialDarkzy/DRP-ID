@@ -303,7 +303,6 @@ end)
 AddEventHandler("playerDropped", function()
 	local src = source
 	local character = exports["drp_id"]:GetCharacterData(src)
-	print(json.encode(character))
 	if character == false then
 		return
 		print("no character data")
