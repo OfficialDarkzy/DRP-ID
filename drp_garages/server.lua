@@ -306,6 +306,7 @@ AddEventHandler("playerDropped", function()
 	print(json.encode(character))
 	if character == false then
 		return
+		print("no character data")
 	else
 		exports["externalsql"]:AsyncQueryCallback({
 			query = "UPDATE vehicles SET `state` = :state WHERE `char_id` = :charid",
@@ -321,8 +322,6 @@ AddEventHandler("playerDropped", function()
 			end
 			print("Player left, now changing vehicles to go back into your Garage!")
 		end)
-	else
-		print("No Character Data to remove from Garages!")
 	end
 end)
 ---------------------------------------------------------------------------
