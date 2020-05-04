@@ -56,6 +56,12 @@ RegisterNUICallback("TrainStationPreview", function(data, callback)
 	callback("ok")
 end)
 ---------------------------------------------------------------------------
+RegisterNUICallback("SandyShorePreview", function(data, callback)
+	local pos = {x = data.spawn[1], y = data.spawn[2], z = data.spawn[3]}
+	TriggerEvent("DRP_ID:SpawnSelectionCameraChange", pos)
+	callback("ok")
+end)
+---------------------------------------------------------------------------
 RegisterNUICallback("SpawnLocation", function(data, callback)
 	if data.locationName == "" then
 		TriggerEvent("DRP_Core:Error", "Characters", "You need to select a spawn zone first before just spawning...", 2500, false, "rightCenter")

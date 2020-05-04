@@ -121,6 +121,16 @@ const DRP_Characters = new Vue({
         .catch(error => {});
     },
 
+    SandyShorePreview() {
+      axios
+        .post(`http://${this.ResourceName}/SandyShorePreview`, {
+          ped: this.ped,
+          spawn: [1816.91, 3660.19, 34.28] // These Coords Need Changing
+        })
+        .then(response => {})
+        .catch(error => {});
+    },
+
     UpdateCharacters(characters) {
       this.characters = characters;
       if (this.showCharacterCreator == false) {
