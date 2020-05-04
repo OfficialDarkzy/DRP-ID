@@ -225,5 +225,42 @@ DRPGarages.Garages = {
 		},
 		ignoreBlip = false
 	},
+	Garage_LSIAParking = {	-- Los Santos International Airport Parking Structure West
+		Garage_slot = 9,
+		Pos = {x = -1035.22, y = -2595.1, z = 14.21}, -- Blip Coords
 
+		SpawnPoint = {
+			Pos = {x = -1035.22, y = -2595.1, z = 14.21}, -- Marker coords
+			Color = {r = 255, g = 0, b = 0},
+			Size  = {x = 0.7, y = 0.7, z = 0.7},
+			Marker = 20,
+		},
+
+		VehicleSpawnPoints = {
+			{ coords = vector3(-1038.29, -2598.15, 14.02), h = 238.96, radius = 2.5 },
+			{ coords = vector3(-1040.31, -2601.39, 14.42), h = 238.92, radius = 2.5 },
+			{ coords = vector3(-1042.12, -2604.56, 14.88), h = 240.34, radius = 2.5 },
+			{ coords = vector3(-1043.91, -2607.87, 15.37), h = 240.34, radius = 2.5 },
+		},
+		ignoreBlip = false
+	},
+	Garage_Route68 = {	-- Route 68 Hotel Parking
+		Garage_slot = 10,
+		Pos = {x = 1134.62, y = 2663.44, z = 38.14}, -- Blip Coords
+
+		SpawnPoint = {
+			Pos = {x = 1134.62, y = 2663.44, z = 38.14}, -- Marker coords
+			Color = {r = 255, g = 0, b = 0},
+			Size  = {x = 0.7, y = 0.7, z = 0.7},
+			Marker = 20,
+		},
+
+		VehicleSpawnPoints = {
+			{ coords = vector3(1131.48, 2647.95, 37.24), h = 0, radius = 2.5 },
+			{ coords = vector3(1127.67, 2647.95, 37.24), h = 0, radius = 2.5 },
+			{ coords = vector3(1124.02, 2647.95, 37.24), h = 0, radius = 2.5 },
+			{ coords = vector3(1120.52, 2647.95, 37.24), h = 0, radius = 2.5 },
+		},
+		ignoreBlip = false
+	},
 }
