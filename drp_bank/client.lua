@@ -1,17 +1,27 @@
 local atmOpen = false
+local bankOpen = false
 local laundering = false
 ---------------------------------------------------------------------------
 -- Triggers ATM menu to open
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Bank:OpenMenu")
-AddEventHandler("DRP_Bank:OpenMenu", function(name, balance, cash)
+AddEventHandler("DRP_Bank:OpenMenu", function(name, balance, cash, menuName)
     SetNuiFocus(true, true)
-    SendNUIMessage({
-        type = "open_atm_menu",
-        name = name,
-        balance = balance,
-        cash = cash
-    })
+    if menuName == "bank" then
+        SendNUIMessage({
+            type = "open_bank_menu",
+            name = name,
+            balance = balance,
+            cash = cash
+        })
+    else
+        SendNUIMessage({
+            type = "open_atm_menu",
+            name = name,
+            balance = balance,
+            cash = cash
+        })
+    end
 end)
 ---------------------------------------------------------------------------
 -- Closes ATM menu and cancels animation
@@ -28,21 +38,18 @@ RegisterNUICallback("closeatm", function(data, callback)
     ClearPedTasksImmediately(ped)
     sleeper = false
 end)
+
+RegisterNUICallback("closebank", function(data, callback)
+    SetNuiFocus(false, false)
+    bankOpen = false
+    callback("ok")
+end)
 ---------------------------------------------------------------------------
 -- Handles distance to atm models with offset position
 ---------------------------------------------------------------------------
 local sleeper = 0
 Citizen.CreateThread(function()
     Citizen.Wait(100)
-    local banks = DRPBankConfig.Banks
-    for _, item in pairs(banks) do
-        item.blip = AddBlipForCoord(item.x, item.y, item.z)
-        SetBlipSprite(item.blip, item.id)
-        SetBlipAsShortRange(item.blip, true)
-        BeginTextCommandSetBlipName("STRING")
-        AddTextComponentString(item.name)
-        EndTextCommandSetBlipName(item.blip)
-    end
     while true do
         local atm_models = DRPBankConfig.AtmModels
         sleeper = 1000
@@ -61,7 +68,7 @@ Citizen.CreateThread(function()
                         atmOpen = true
                         TaskStartScenarioAtPosition(ped, "PROP_HUMAN_ATM", atmOffset.x, atmOffset.y, atmOffset.z + 1.0, atmHeading, -1, 0, 0)
                         Citizen.Wait(5000)
-                        TriggerServerEvent("DRP_Bank:RequestATMInfo")
+                        TriggerServerEvent("DRP_Bank:RequestBankInfo", "atm")
                     end
                     break
                 end
@@ -72,15 +79,45 @@ Citizen.CreateThread(function()
         Citizen.Wait(sleeper)
     end
 end)
+
+Citizen.CreateThread(function()
+    local banks = DRPBankConfig.Banks
+    for _, item in pairs(banks) do
+        item.blip = AddBlipForCoord(item.x, item.y, item.z)
+        SetBlipSprite(item.blip, item.id)
+        SetBlipAsShortRange(item.blip, true)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString(item.name)
+        EndTextCommandSetBlipName(item.blip)
+    end
+    while true do
+        Citizen.Wait(0)
+        local ped = PlayerPedId()
+        local pedCoords = GetEntityCoords(ped, false)
+        for a = 1, #banks do
+            local distance = Vdist2(pedCoords.x, pedCoords.y, pedCoords.z, banks[a].x, banks[a].y, banks[a].z)
+            if distance <= 10 then
+                DrawMarker(27, banks[a].x, banks[a].y, banks[a].z - 0.9, 0, 0, 0, 0, 0, 0, 1.501, 1.5001, 0.5001, 0, 220,20,60, 0, 0, 0, 1)
+                if distance <= 3 then
+                    exports['drp_core']:DrawText3Ds(banks[a].x, banks[a].y, banks[a].z, tostring("~b~[E] - ~g~To open Bank Account"))
+                    if IsControlJustPressed(1, 38) then
+                        bankOpen = true
+                        TriggerServerEvent("DRP_Bank:RequestBankInfo", "bank")
+                    end
+                end
+            end
+        end
+    end
+end)
 ---------------------------------------------------------------------------
 -- NUI Functions
 ---------------------------------------------------------------------------
-RegisterNUICallback("depositatm", function(data, cb)
+RegisterNUICallback("deposit", function(data, cb)
     TriggerServerEvent("DRP_Bank:DepositMoney", data.amount)
     cb("ok")
 end)
 
-RegisterNUICallback("withdrawatm", function(data, cb)
+RegisterNUICallback("withdraw", function(data, cb)
     TriggerServerEvent("DRP_Bank:WithdrawMoney", data.amount)
     cb("ok")
 end)
@@ -98,7 +135,7 @@ end)
 RegisterNetEvent("DRP_Bank:ActionCallback")
 AddEventHandler("DRP_Bank:ActionCallback", function(status, message, balance, cash)
     SendNUIMessage({
-        type = "update_atm_menu",
+        type = "update_menus",
         status = status,
         message = message,
         balance = balance,

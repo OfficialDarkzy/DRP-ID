@@ -5,7 +5,8 @@ games { 'rdr3', 'gta5' }
 
 
 dependencies {
-    "externalsql"
+	"externalsql",
+	"drp_id",
 }
 
 ui_page 'ui/index.html'

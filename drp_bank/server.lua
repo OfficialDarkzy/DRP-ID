@@ -1,9 +1,10 @@
-RegisterServerEvent("DRP_Bank:RequestATMInfo")
-AddEventHandler("DRP_Bank:RequestATMInfo", function()
+RegisterServerEvent("DRP_Bank:RequestBankInfo")
+AddEventHandler("DRP_Bank:RequestBankInfo", function(menuName)
     local src = source
+    local menuName = menuName
     local CharacterData = exports["drp_id"]:GetCharacterData(src)
         TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
-        TriggerClientEvent("DRP_Bank:OpenMenu", src, CharacterData.name, characterMoney.data[1].bank, characterMoney.data[1].cash)
+        TriggerClientEvent("DRP_Bank:OpenMenu", src, CharacterData.name, characterMoney.data[1].bank, characterMoney.data[1].cash, menuName)
     end)
 end)
 ---------------------------------------------------------------------------

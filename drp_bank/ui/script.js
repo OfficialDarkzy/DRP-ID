@@ -9,7 +9,8 @@ const ATMMenu = new Vue({
     ResourceName: "drp_bank",
 
     // Booleans
-    showMenu: false,
+    showATMMenu: false,
+    showBankMenu: false,
     loading: false,
 
     // Rules
@@ -18,6 +19,14 @@ const ATMMenu = new Vue({
       v => (!!v && RegExp("^(0|[1-9][0-9]*)$").test(v)) || "Not a number",
       v => (!!v && v >= 1) || "Input must be greater than 0",
       v => (!!v && v[0] != 0) || "Input must not begin with a 0"
+    ],
+
+    atmWithDrawInputRules: [
+      v => !!v || "Input invalid",
+      v => (!!v && RegExp("^(0|[1-9][0-9]*)$").test(v)) || "Not a number",
+      v => (!!v && v >= 1) || "Input must be greater than 0",
+      v => (!!v && v[0] != 0) || "Input must not begin with a 0",
+      v => (!!v && v <= 250) || "Input must not be greater than 250",
     ],
 
     // Character Information
@@ -33,19 +42,41 @@ const ATMMenu = new Vue({
   },
 
   methods: {
-    OpenMenu(name, balance, cash) {
-      this.showMenu = true;
+    OpenATMMenu(name, balance, cash) {
+      this.showATMMenu = true;
       this.character_name = name;
       this.account = balance;
       this.cash = cash;
     },
 
-    CloseMenu() {
+    OpenBankMenu(name, balance, cash) {
+      this.showBankMenu = true;
+      this.character_name = name;
+      this.account = balance;
+      this.cash = cash;
+    },
+
+    CloseATMMenu() {
       axios
         .post(`http://${this.ResourceName}/closeatm`, {})
         .then(response => {
           console.log("closing menu!");
-          this.showMenu = false;
+          this.showATMMenu = false;
+          this.$refs.depositForm.reset();
+          this.$refs.withdrawForm.reset();
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    CloseBankMenu() {
+      axios
+        .post(`http://${this.ResourceName}/closebank`, {})
+        .then(response => {
+          console.log("closing menu!");
+          this.showBankMenu = false;
           this.$refs.depositForm.reset();
           this.$refs.withdrawForm.reset();
           console.log(response);
@@ -59,7 +90,7 @@ const ATMMenu = new Vue({
       if (this.depositFormValid) {
         this.loading = true;
         axios
-          .post(`http://${this.ResourceName}/depositatm`, {
+          .post(`http://${this.ResourceName}/deposit`, {
             amount: this.depositAmount
           })
           .then(response => {
@@ -76,7 +107,7 @@ const ATMMenu = new Vue({
       if (this.withdrawFormValid) {
         this.loading = true;
         axios
-          .post(`http://${this.ResourceName}/withdrawatm`, {
+          .post(`http://${this.ResourceName}/withdraw`, {
             amount: this.withdrawAmount
           })
           .then(response => {
@@ -136,8 +167,10 @@ document.onreadystatechange = () => {
       ///////////////////////////////////////////////////////////////////////////
 
       if (event.data.type == "open_atm_menu") {
-        ATMMenu.OpenMenu(event.data.name, event.data.balance, event.data.cash);
-      } else if (event.data.type == "update_atm_menu") {
+        ATMMenu.OpenATMMenu(event.data.name, event.data.balance, event.data.cash);
+      } else if (event.data.type == "open_bank_menu") {
+        ATMMenu.OpenBankMenu(event.data.name, event.data.balance, event.data.cash);
+      } else if (event.data.type == "update_menus") {
         ATMMenu.UpdateMenu(
           event.data.status,
           event.data.message,
