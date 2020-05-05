@@ -90,13 +90,14 @@ Citizen.CreateThread(function()
         AddTextComponentString(item.name)
         EndTextCommandSetBlipName(item.blip)
     end
+    local sleeper = 1000
     while true do
-        Citizen.Wait(0)
         local ped = PlayerPedId()
         local pedCoords = GetEntityCoords(ped, false)
         for a = 1, #banks do
             local distance = Vdist2(pedCoords.x, pedCoords.y, pedCoords.z, banks[a].x, banks[a].y, banks[a].z)
             if distance <= 10 then
+                sleeper = 5
                 DrawMarker(27, banks[a].x, banks[a].y, banks[a].z - 0.9, 0, 0, 0, 0, 0, 0, 1.501, 1.5001, 0.5001, 0, 220,20,60, 0, 0, 0, 1)
                 if distance <= 3 then
                     exports['drp_core']:DrawText3Ds(banks[a].x, banks[a].y, banks[a].z, tostring("~b~[E] - ~g~To open Bank Account"))
@@ -107,6 +108,7 @@ Citizen.CreateThread(function()
                 end
             end
         end
+        Citizen.Wait(sleeper)
     end
 end)
 ---------------------------------------------------------------------------
@@ -116,7 +118,7 @@ RegisterNUICallback("deposit", function(data, cb)
     TriggerServerEvent("DRP_Bank:DepositMoney", data.amount)
     cb("ok")
 end)
-
+---------------------------------------------------------------------------
 RegisterNUICallback("withdraw", function(data, cb)
     TriggerServerEvent("DRP_Bank:WithdrawMoney", data.amount)
     cb("ok")
@@ -126,12 +128,37 @@ RegisterNUICallback("depositall", function(data, cb) -- Data is going to be nil
     TriggerServerEvent("DRP_Bank:DepositMoney", data.cashTotal) 
     cb("ok")
 end)
+---------------------------------------------------------------------------
+RegisterNUICallback("quick5", function(data, cb) -- Data is going to be nil
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 5) -- im seeeuper smert omgurd :P
+    cb("ok")
+end)
+---------------------------------------------------------------------------
+RegisterNUICallback("quick10", function(data, cb) -- Data is going to be nil
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 10) -- im seeeuper smert omgurd :P
+    cb("ok")
+end)
+---------------------------------------------------------------------------
+RegisterNUICallback("quick25", function(data, cb) -- Data is going to be nil
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 25) -- im seeeuper smert omgurd :P
+    cb("ok")
+end)
+---------------------------------------------------------------------------
+RegisterNUICallback("quick50", function(data, cb) -- Data is going to be nil
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 50) -- im seeeuper smert omgurd :P
+    cb("ok")
+end)
+---------------------------------------------------------------------------
+RegisterNUICallback("quick100", function(data, cb) -- Data is going to be nil
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 100) -- im seeeuper smert omgurd :P
+    cb("ok")
+end)
 
 RegisterNUICallback("quick250", function(data, cb) -- Data is going to be nil
     TriggerServerEvent("DRP_Bank:WithdrawMoney", 250) -- im seeeuper smert omgurd :P
     cb("ok")
 end)
-
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Bank:ActionCallback")
 AddEventHandler("DRP_Bank:ActionCallback", function(status, message, balance, cash)
     SendNUIMessage({
@@ -145,7 +172,7 @@ AddEventHandler("DRP_Bank:ActionCallback", function(status, message, balance, ca
         TriggerEvent("DRP_Core:Error", "The Bank", message, 5000, false, "leftCenter")
     end
 end)
-
+---------------------------------------------------------------------------
 function textDisplay(string)
     SetTextComponentFormat("STRING")
     AddTextComponentString(string)

@@ -56,7 +56,7 @@
                 <v-layout row>
                   <v-flex xs12>
                     <v-btn
-                      color="green"
+                      color="blue"
                       block
                       dark
                       :loading="loading"
@@ -64,7 +64,7 @@
                       >Deposit (Enter Amount)
                     </v-btn>
                     <v-btn
-                      color="green"
+                      color="blue"
                       block
                       dark
                       :loading="loading"
@@ -75,48 +75,69 @@
                 </v-layout>
               </v-form>
             </v-container>
+
+            <center><h3 style="color: white">Cash Withdrawals</h3></center>
+
             <v-container grid-list-md>
-              <v-form ref="withdrawForm" v-model="withdrawFormValid">
                 <v-layout row>
-                  <v-flex xs12>
-                    <v-text-field
-                      label="Amount"
-                      type="number"
-                      :rules="atmWithDrawInputRules"
-                      v-model="withdrawAmount"
-                      dark
-                      color="white"
-                      prefix="$"
-                      :disabled="loading"
-                      :loading="loading"
-                      min="1"
-                    ></v-text-field>
-                  </v-flex>
-                </v-layout>
-                <v-layout row>
-                  <v-flex xs12>
+                  <v-flex xs6>
                     <v-btn
-                      color="green"
-                      block
-                      dark
-                      :loading="loading"
-                      @click="WithdrawMoney()"
-                      >Withdraw
-                    </v-btn>
+                    color="blue"
+                    block
+                    dark
+                    :loading="loading"
+                    @click="Quick5()"
+                    >Quick $5
+                  </v-btn>
                     <v-btn
-                      color="green"
+                    color="blue"
+                    block
+                    dark
+                    :loading="loading"
+                    @click="Quick10()"
+                    >Quick $10
+                  </v-btn>
+                    <v-btn
+                    color="blue"
+                    block
+                    dark
+                    :loading="loading"
+                    @click="Quick25()"
+                    >Quick $25
+                  </v-btn>
+                </v-flex>
+                  <v-flex xs6>
+                    <v-btn
+                    color="blue"
+                    block
+                    dark
+                    :loading="loading"
+                    @click="Quick50()"
+                    >Quick $50
+                  </v-btn>
+                    <v-btn
+                    color="blue"
+                    block
+                    dark
+                    :loading="loading"
+                    @click="Quick100()"
+                    >Quick $100
+                  </v-btn>
+                    <v-btn
+                      color="blue"
                       block
                       dark
                       :loading="loading"
                       @click="Quick250()"
-                      >Quick $250</v-btn
-                    >
+                      >Quick $250
+                    </v-btn>
                   </v-flex>
                 </v-layout>
               </v-form>
             </v-container>
           </div>
         </div>
+
 
         <!-- YO BRO THIS IS THE BANKING UI -->
         <div id="ATM_Menu_Base" v-show="showBankMenu">
@@ -163,7 +184,7 @@
                 <v-layout row>
                   <v-flex xs12>
                     <v-btn
-                      color="green"
+                      color="blue"
                       block
                       dark
                       :loading="loading"
@@ -171,7 +192,7 @@
                       >Deposit (Enter Amount)
                     </v-btn>
                     <v-btn
-                      color="green"
+                      color="blue"
                       block
                       dark
                       :loading="loading"
@@ -183,7 +204,7 @@
               </v-form>
             </v-container>
             <v-container grid-list-md>
-              <v-form ref="withdrawBankForm" v-model="withdrawFormValid">
+              <v-form ref="withdrawForm" v-model="withdrawFormValid">
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field
@@ -203,34 +224,19 @@
                 <v-layout row>
                   <v-flex xs12>
                     <v-btn
-                      color="green"
+                      color="blue"
                       block
                       dark
                       :loading="loading"
                       @click="WithdrawMoney()"
                       >Withdraw
                     </v-btn>
-                    <v-btn
-                      color="green"
-                      block
-                      dark
-                      :loading="loading"
-                      @click="Quick250()"
-                      >Quick $250</v-btn
-                    >
                   </v-flex>
                 </v-layout>
               </v-form>
             </v-container>
           </div>
         </div>
-
-
-
-
-
-
-
       </v-content>
     </v-app>
 

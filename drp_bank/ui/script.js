@@ -21,14 +21,6 @@ const ATMMenu = new Vue({
       v => (!!v && v[0] != 0) || "Input must not begin with a 0"
     ],
 
-    atmWithDrawInputRules: [
-      v => !!v || "Input invalid",
-      v => (!!v && RegExp("^(0|[1-9][0-9]*)$").test(v)) || "Not a number",
-      v => (!!v && v >= 1) || "Input must be greater than 0",
-      v => (!!v && v[0] != 0) || "Input must not begin with a 0",
-      v => (!!v && v <= 250) || "Input must not be greater than 250",
-    ],
-
     // Character Information
     character_name: "",
     account: 0,
@@ -78,9 +70,7 @@ const ATMMenu = new Vue({
           console.log("closing menu!");
           this.showBankMenu = false;
           this.$refs.depositForm.reset();
-          
           this.$refs.withdrawForm.reset();
-          this.$refs.withdrawBankForm.reset();
           console.log(response);
         })
         .catch(error => {
@@ -102,7 +92,6 @@ const ATMMenu = new Vue({
             console.log(error);
           });
         this.$refs.depositForm.reset();
-        this.$refs.withdrawBankForm.reset();
       }
     },
 
@@ -120,8 +109,67 @@ const ATMMenu = new Vue({
             console.log(error);
           });
         this.$refs.withdrawForm.reset();
-        this.$refs.withdrawBankForm.reset();
       }
+    },
+
+    Quick5() {
+      this.loading = true;
+      axios
+        .post(`http://${this.ResourceName}/quick5`, {})
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    Quick10() {
+      this.loading = true;
+      axios
+        .post(`http://${this.ResourceName}/quick10`, {})
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    Quick25() {
+      this.loading = true;
+      axios
+        .post(`http://${this.ResourceName}/quick25`, {})
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    Quick50() {
+      this.loading = true;
+      axios
+        .post(`http://${this.ResourceName}/quick50`, {})
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    Quick100() {
+      this.loading = true;
+      axios
+        .post(`http://${this.ResourceName}/quick100`, {})
+        .then(response => {
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
     },
 
     Quick250() {
@@ -157,7 +205,6 @@ const ATMMenu = new Vue({
       }
       this.$refs.depositForm.reset();
       this.$refs.withdrawForm.reset();
-      this.$refs.withdrawBankForm.reset();
       this.loading = false;
     }
   }
