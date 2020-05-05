@@ -100,7 +100,7 @@ Citizen.CreateThread(function()
                 sleeper = 5
                 DrawMarker(27, banks[a].x, banks[a].y, banks[a].z - 0.9, 0, 0, 0, 0, 0, 0, 1.501, 1.5001, 0.5001, 0, 220,20,60, 0, 0, 0, 1)
                 if distance <= 3 then
-                    exports['drp_core']:DrawText3Ds(banks[a].x, banks[a].y, banks[a].z, tostring("~b~[E] - ~g~To open Bank Account"))
+                    exports['drp_core']:DrawText3Ds(banks[a].x, banks[a].y, banks[a].z, tostring("~b~[E] - ~g~To Open Bank Account"))
                     if IsControlJustPressed(1, 38) then
                         bankOpen = true
                         TriggerServerEvent("DRP_Bank:RequestBankInfo", "bank")
