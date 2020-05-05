@@ -192,6 +192,46 @@ AddEventHandler("DRP_ID:SaveCharacterLocation", function(x,y,z)
 	end)
 end)
 ---------------------------------------------------------------------------
+-- Get Death Status
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_Death:GetDeathStatus")
+AddEventHandler("DRP_Death:GetDeathStatus", function()
+    local src = source
+    local character = exports["drp_id"]:GetCharacterData(src)
+    exports["externalsql"]:AsyncQueryCallback({
+    query = "SELECT * FROM `characters` WHERE `id` = :charid",
+        data = {
+            charid = character.charid
+        }
+    }, function(deadResults)
+        TriggerClientEvent("DRP_Death:IsDeadStatus", src, deadResults["data"])
+    end)
+end)
+---------------------------------------------------------------------------
+-- Add To Database If The Player Died so they can't just relog :)
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_Death:Revived")
+AddEventHandler("DRP_Death:Revived", function(boolValue)
+    local src = source
+    local character = exports["drp_id"]:GetCharacterData(src)
+    local deadValue = 0
+    -- Basic If Statement To Check Bool Value Status And Update Variable Where Needed --
+    if boolValue then
+        deadValue = 1
+    else
+        deadValue = 0
+    end
+    ------------------------------------------------------------------------------------
+    exports["externalsql"]:AsyncQueryCallback({
+        query = "UPDATE characters SET `isDead` = :deadValue WHERE `id` = :charid",
+            data = {
+                deadValue = deadValue,
+                charid = character.charid
+            }
+        }, function(updateResults)
+    end)
+end)
+---------------------------------------------------------------------------
 -- Get Character Data Function Usage exports["drp_id"]:GetCharacterData(source)
 ---------------------------------------------------------------------------
 function GetCharacterData(id)
