@@ -78,7 +78,9 @@ const ATMMenu = new Vue({
           console.log("closing menu!");
           this.showBankMenu = false;
           this.$refs.depositForm.reset();
+          
           this.$refs.withdrawForm.reset();
+          this.$refs.withdrawBankForm.reset();
           console.log(response);
         })
         .catch(error => {
@@ -100,6 +102,7 @@ const ATMMenu = new Vue({
             console.log(error);
           });
         this.$refs.depositForm.reset();
+        this.$refs.withdrawBankForm.reset();
       }
     },
 
@@ -117,6 +120,7 @@ const ATMMenu = new Vue({
             console.log(error);
           });
         this.$refs.withdrawForm.reset();
+        this.$refs.withdrawBankForm.reset();
       }
     },
 
@@ -153,6 +157,7 @@ const ATMMenu = new Vue({
       }
       this.$refs.depositForm.reset();
       this.$refs.withdrawForm.reset();
+      this.$refs.withdrawBankForm.reset();
       this.loading = false;
     }
   }
