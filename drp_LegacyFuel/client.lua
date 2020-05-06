@@ -348,10 +348,8 @@ if Config.EnableHUD then
 				fuel = tostring(math.ceil(GetVehicleFuelLevel(vehicle)))
 
 				displayHud = true
-				DisplayRadar(true)
 			else
 				displayHud = false
-				DisplayRadar(false)
 
 				Citizen.Wait(500)
 			end
