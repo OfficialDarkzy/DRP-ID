@@ -93,6 +93,13 @@ function DoesJobExist(job)
     return false
 end
 ---------------------------------------------------------------------------
+-- Get Labels from Job Usage exports["drp_jobcore"]:GetJobLabels(job)
+---------------------------------------------------------------------------
+function GetJobLabels(job)
+    return JobsCoreConfig.StaticJobLabels[job]
+end
+exports("GetJobLabels", GetJobLabels)
+---------------------------------------------------------------------------
 -- Set Player Job Function this is NOT an export. Should not be triggered on its own, request job does that all for you
 ---------------------------------------------------------------------------
 function SetPlayerJob(player, job, label, otherData)
