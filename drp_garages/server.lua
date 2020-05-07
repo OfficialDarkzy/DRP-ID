@@ -47,7 +47,7 @@ AddEventHandler("DRP_Garages:GetSelectedVehicleData", function(vehicle_id, type)
 				local ImpoundCost = DRPGarages.CarImpoundPrice
 				if tonumber(characterMoney.data[1].bank) >= tonumber(ImpoundCost) then
 					TriggerClientEvent("DRP_Core:Success", src, "Impound", tostring("Vehicle has been Released!"), 2500, false, "leftCenter")
-					TriggerEvent("DRP_Bank:RemoveBankMoney", src, character.charid, ImpoundCost)
+					TriggerEvent("DRP_Bank:RemoveBankMoney", character, ImpoundCost)
 					TriggerClientEvent("DRP_Garages:CreateImpoundVehicle", src, thisVehicleInfo)
 				else
 					TriggerClientEvent("DRP_Core:Error", src, "Impound", tostring("You don't have enough Cash!"), 2500, false, "leftCenter")
@@ -90,18 +90,18 @@ end)
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_CarWash:CheckMoney")
 AddEventHandler("DRP_CarWash:CheckMoney", function(cost)
-    local src = source
-    TriggerEvent("DRP_ID:GetCharacterData", src, function(CharacterData)
-        TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
-            local carWashCost = cost
-            if tonumber(characterMoney.data[1].cash) >= tonumber(carWashCost) then
-				TriggerClientEvent("DRP_CarWash:YesCleanCar", src, true)
-                TriggerEvent("DRP_Bank:RemoveCashMoney", src, CharacterData.charid, carWashCost)
-            else
-                TriggerClientEvent("DRP_Core:Error", src, "Car Wash", tostring("You don't have enough Cash!"), 2500, false, "leftCenter")
-            end
-        end)
-    end)
+	local src = source
+	local CharacterData = exports["drp_id"]:GetCharacterData(src)
+	
+	TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
+		local carWashCost = cost
+		if tonumber(characterMoney.data[1].cash) >= tonumber(carWashCost) then
+			TriggerClientEvent("DRP_CarWash:YesCleanCar", src, true)
+			TriggerEvent("DRP_Bank:RemoveCashMoney", CharacterData, carWashCost)
+		else
+			TriggerClientEvent("DRP_Core:Error", src, "Car Wash", tostring("You don't have enough Cash!"), 2500, false, "leftCenter")
+		end
+	end)
 end)
 ---------------------------------------------------------------------------
 -- Update Vehicle Mods On Car (Called everytime car is stored)
