@@ -42,7 +42,7 @@ AddEventHandler("DRP_vehicleshop:PurchaseVehicle", function(model, price, plate,
 	local CharacterData = exports["drp_id"]:GetCharacterData(src)
 
 	TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
-		TriggerEvent("DRP_Bank:RemoveBankMoney", src, CharacterData.charid, price)
+		TriggerEvent("DRP_Bank:RemoveBankMoney", CharacterData, price)
 			local garage_slot = 1 -- Centrum garage
 
 			if price == 0 or price == 1 then
@@ -89,7 +89,7 @@ AddEventHandler("DRP_vehicleshop:ResellVehicle", function(vehicleData, plate)
 		end
 		if plate == allVehicleMods.plate then
 			TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
-				TriggerEvent("DRP_Bank:AddBankMoney", CharacterData.charid, resellPrice)
+				TriggerEvent("DRP_Bank:AddBankMoney", CharacterData, resellPrice)
 					exports["externalsql"]:AsyncQueryCallback({
 						query = "DELETE FROM `vehicles` WHERE `plate` = :plate",
 						data = {

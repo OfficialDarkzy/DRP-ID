@@ -92,7 +92,7 @@ AddEventHandler("DRP_Auction:PurchaseChecker", function(price)
     TriggerEvent("DRP_Bank:GetCharacterMoney", character.charid, function(characterMoney)
         if characterMoney.data[1].bank >= price then
             TriggerClientEvent("DRP_Auction:PurchaseVehicle", src)
-            TriggerEvent("DRP_Bank:RemoveBankMoney", src, character.charid, price)
+            TriggerEvent("DRP_Bank:RemoveBankMoney", character, price)
 
         else
             TriggerClientEvent("DRP_Core:Error", src, "Car Auction", tostring("You do not have enough Money!"), 2500, true, "leftCenter")
