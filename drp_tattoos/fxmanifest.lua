@@ -5,8 +5,13 @@ fx_version 'adamant'
 games { 'gta5' }
 
 dependencies {
+	"externalsql",
     "drp_core",
-    "NativeUI"
+    "NativeUI",
+    "drp_id",
+    "drp_notifications",
+    "drp_bank",
+    "drp_clothing"
 }
 
 client_script "@NativeUI/NativeUI.lua"

@@ -10,7 +10,10 @@ games { 'gta5' }
 dependencies {
     'drp_id',
     'externalsql',
-    'drp_LegacyFuel'
+    'drp_LegacyFuel',
+	"drp_bank",	
+	"drp_notifications",
+	"drp_progressBars",
 }
 
 ui_page 'ui/index.html'

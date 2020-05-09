@@ -4,6 +4,12 @@
 fx_version 'adamant'
 games { 'gta5' }
 
+dependencies {
+   "drp_id",
+   "drp_notifications",
+   "drp_bank"
+}
+
 client_script "client.lua"
 client_script "config.lua"
 
