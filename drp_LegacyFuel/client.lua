@@ -5,6 +5,7 @@ local currentCost = 0.0
 local currentCash = 1000
 local fuelSynced = false
 local inBlacklisted = false
+local startFuel = 0.0
 
 function ManageFuelUsage(vehicle)
 	if not DecorExistOn(vehicle, Config.FuelDecor) then
@@ -81,9 +82,24 @@ Citizen.CreateThread(function()
 	end
 end)
 
+RegisterNetEvent("fuel:removeFuelorAddPetrolcan")
+AddEventHandler("fuel:removeFuelorAddPetrolcan", function(vehicle)
+	local ped = PlayerPedId()
+		
+	if not vehicle and not HasPedGotWeapon(ped, 883325847) then
+		GiveWeaponToPed(ped, 883325847, 4500, false, true)
+	elseif not vehicle then
+		SetPedAmmo(ped, 883325847, 4500)
+	else
+		SetFuel(vehicle, startFuel)
+		startFuel = 0.0
+	end
+end)
+
 AddEventHandler('fuel:startFuelUpTick', function(pumpObject, ped, vehicle)
 	currentFuel = GetVehicleFuelLevel(vehicle)
-
+	startFuel = currentFuel
+	
 	while isFueling do
 		Citizen.Wait(500)
 
@@ -118,7 +134,7 @@ AddEventHandler('fuel:startFuelUpTick', function(pumpObject, ped, vehicle)
 	end
 
 	if pumpObject then
-		TriggerServerEvent('fuel:pay', Round(currentCost))
+		TriggerServerEvent('fuel:pay', Round(currentCost), vehicle)
 	end
 
 	currentCost = 0.0
@@ -224,8 +240,6 @@ Citizen.CreateThread(function()
 							DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.PurchaseJerryCan)
 
 							if IsControlJustReleased(0, 38) then
-								GiveWeaponToPed(ped, 883325847, 4500, false, true)
-
 								TriggerServerEvent('fuel:petrolcanpay', Config.JerryCanCost)
 							end
 						else
@@ -237,7 +251,6 @@ Citizen.CreateThread(function()
 
 									if IsControlJustReleased(0, 38) then
 										TriggerServerEvent('fuel:petrolcanpay', Round(refillCost), true)
-										SetPedAmmo(ped, 883325847, 4500)
 									end
 								else
 									DrawText3Ds(stringCoords.x, stringCoords.y, stringCoords.z + 1.2, Config.Strings.NotEnoughCashJerryCan)
