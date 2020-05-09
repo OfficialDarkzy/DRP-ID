@@ -34,7 +34,6 @@ Citizen.CreateThread(function()
 		end
 	end
 	while true do
-
 		local waitTime = 1000
 		for _, garage in pairs(DRPGarages.Garages) do
 			local ped = PlayerPedId()
@@ -128,7 +127,9 @@ AddEventHandler("DRP_Garages:CreatePersonalVehicle", function(data)
 		end
 	end
 end)
-
+---------------------------------------------------------------------------
+-- Create Impound Vehicle Event
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Garages:CreateImpoundVehicle")
 AddEventHandler("DRP_Garages:CreateImpoundVehicle", function(data)
 	for a = 1, #data, 1 do
@@ -147,7 +148,9 @@ AddEventHandler("DRP_Garages:CreateImpoundVehicle", function(data)
 		end
 	end
 end)
-
+---------------------------------------------------------------------------
+-- Store Vehicle Event
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Garages:StoreVehicle")
 AddEventHandler("DRP_Garages:StoreVehicle", function()
 	Citizen.CreateThread(function()
@@ -159,8 +162,9 @@ AddEventHandler("DRP_Garages:StoreVehicle", function()
 		drawNotification("Vehicle ~g~Stored~s~.")
 	end)
 end)
-
--- Event for impound command
+---------------------------------------------------------------------------
+-- Impount Event
+---------------------------------------------------------------------------
 RegisterNetEvent('DRP_Garages:ImpoundVehicle')
 AddEventHandler('DRP_Garages:ImpoundVehicle', function(data, impoundslot, owned)
 	local playerPed = PlayerPedId()
@@ -185,7 +189,9 @@ AddEventHandler('DRP_Garages:ImpoundVehicle', function(data, impoundslot, owned)
 		end
 	end
 end)
-
+---------------------------------------------------------------------------
+-- Give Keys Event
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Garages:GiveKeysToVehicleInfront")
 AddEventHandler("DRP_Garages:GiveKeysToVehicleInfront", function()
 	local ped = PlayerPedId()
@@ -217,7 +223,7 @@ RegisterNUICallback("store_vehicle", function(data, callback)
 	callback("ok")
 end)
 ---------------------------------------------------------------------------
--- FUNCTIONS
+-- Store Vehicle Function
 ---------------------------------------------------------------------------
 function storeVehicle()
 	Citizen.CreateThread(function()
@@ -235,6 +241,8 @@ function storeVehicle()
 		end
 	end)
 end
+---------------------------------------------------------------------------
+-- Update Vehicle Function
 ---------------------------------------------------------------------------
 function UpdateVehicle(veh)
 	if DoesEntityExist(veh) then
@@ -287,7 +295,8 @@ function SpawnJobVehicle(vehicle, plate, spawnPointx, spawnPointy, spawnPointz, 
 	TriggerServerEvent("DRP_Garages:GiveKeys", id, plate)
 end
 ---------------------------------------------------------------------------
--- Function for spawning impound vehicle
+-- Spawn Impound Vehicle Function
+---------------------------------------------------------------------------
 function SpawnImpoundVehicle(vehicle, plate, vehmods, fuelLevel)
     loadModel(vehicle)
 
@@ -305,7 +314,8 @@ function SpawnImpoundVehicle(vehicle, plate, vehmods, fuelLevel)
     TriggerServerEvent("DRP_Garages:ImpoundStateChanger", plate, 'OUT')
 end
 ---------------------------------------------------------------------------
--- Looking for a empty parking spot
+-- Find a Vehicle Spawm Point Function
+---------------------------------------------------------------------------
 function VehicleSpawnPoint()
     local spawnPoints = this_Garage.VehicleSpawnPoints
     local found, foundSpawnPoint = false, nil
