@@ -7,12 +7,12 @@ games { 'rdr3', 'gta5' }
 dependencies {
 	"externalsql",
 	"drp_id",
+	"drp_notifications",
 }
 
 ui_page 'ui/index.html'
 
-files {
-	
+files {	
 	"ui/index.html",
 	"ui/libraries/axios.min.js",
 	"ui/libraries/vue.min.js",

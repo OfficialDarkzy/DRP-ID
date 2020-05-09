@@ -5,6 +5,14 @@ description 'Legacy Fuel'
 
 version '1.3' 
 
+dependencies {
+   "externalsql",
+   "drp_id",
+   "drp_garages",
+   "drp_notifications",
+   "drp_bank"
+}
+
 server_scripts {
 	'config.lua',
 	'server.lua'

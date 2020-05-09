@@ -7,7 +7,9 @@ games { 'rdr3', 'gta5' }
 
 dependencies {
    "externalsql",
-   "drp_id"
+   "drp_id",
+   "drp_notifications",
+   "drp_bank"
 }
 
 client_script "client.lua"
