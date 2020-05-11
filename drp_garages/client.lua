@@ -48,7 +48,7 @@ Citizen.CreateThread(function()
 			local distance = Vdist2(pedCoords.x, pedCoords.y, pedCoords.z, garage.SpawnPoint.Pos.x, garage.SpawnPoint.Pos.y, garage.SpawnPoint.Pos.z)
 
 			if distance < 100.0 then
-				waitTime = 2
+				waitTime = 5
 				DrawMarker(garage.SpawnPoint.Marker, garage.SpawnPoint.Pos.x, garage.SpawnPoint.Pos.y, garage.SpawnPoint.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, garage.SpawnPoint.Size.x, garage.SpawnPoint.Size.y, garage.SpawnPoint.Size.z, garage.SpawnPoint.Color.r, garage.SpawnPoint.Color.g, garage.SpawnPoint.Color.b, 100, false, true, 2, false, false, false, false)
 				if isInMarker and not IsPedInAnyVehicle(ped, true) then
 					drawTxt3D(garage.SpawnPoint.Pos.x, garage.SpawnPoint.Pos.y, garage.SpawnPoint.Pos.z - 0.25, "Press [~g~E~s~] to open the garage system")
@@ -75,7 +75,7 @@ Citizen.CreateThread(function()
 				local distance = Vdist2(pedCoords.x, pedCoords.y, pedCoords.z, data.Impound.Pos.x, data.Impound.Pos.y, data.Impound.Pos.z)
 
 				if distance < 100.0 then
-					waitTime = 2
+					waitTime = 5
 					DrawMarker(data.Impound.Marker, data.Impound.Pos.x, data.Impound.Pos.y, data.Impound.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, data.Impound.Size.x, data.Impound.Size.y, data.Impound.Size.z, data.Impound.Color.r, data.Impound.Color.g, data.Impound.Color.b, 100, false, true, 2, false, false, false, false)
 					if isInMarker and not IsPedInAnyVehicle(ped, true) then
 						drawTxt3D(data.Impound.Pos.x, data.Impound.Pos.y, data.Impound.Pos.z - 0.25, "Press [~g~E~s~] to open the Impound system")
@@ -176,7 +176,6 @@ AddEventHandler('DRP_Garages:ImpoundVehicle', function(data, impoundslot, owned)
 
 	if DoesEntityExist(vehicle) then
 		if owned then
-			print('Owned: True')
 			local plate = GetVehicleNumberPlateText(vehicle)
 			local fuel_level = exports["drp_LegacyFuel"]:GetFuel(veh)
 			deleteCar(vehicle)
@@ -184,7 +183,6 @@ AddEventHandler('DRP_Garages:ImpoundVehicle', function(data, impoundslot, owned)
 			TriggerServerEvent("DRP_Garages:ImpoundStateChanger", plate, 'IMPOUND', impoundslot)
 			drawNotification('Impounded Vehicle With License Plate: ~y~'.. plate)
 		else
-			print('Owned: False')
 			deleteCar(vehicle)
 		end
 	end
