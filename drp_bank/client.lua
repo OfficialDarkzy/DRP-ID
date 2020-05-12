@@ -47,17 +47,16 @@ end)
 ---------------------------------------------------------------------------
 -- Handles distance to atm models with offset position
 ---------------------------------------------------------------------------
-local sleeper = 0
+local sleeper = 1000
 Citizen.CreateThread(function()
-    Citizen.Wait(100)
+    local atm_models = DRPBankConfig.AtmModels
     while true do
-        local atm_models = DRPBankConfig.AtmModels
         sleeper = 1000
         local ped = PlayerPedId()
         local pedPos = GetEntityCoords(ped, false)
         for a = 1, #atm_models do
             local atm = GetClosestObjectOfType(pedPos.x, pedPos.y, pedPos.z, 3.0, GetHashKey(atm_models[a]), false, 1, 1)
-                if atm ~= 0 and not atmOpen then
+            if atm ~= 0 and not atmOpen then
                 sleeper = 7
                 local atmOffset = GetOffsetFromEntityInWorldCoords(atm, 0.0, -0.7, 0.0)
                 local atmHeading = GetEntityHeading(atm)
@@ -90,7 +89,6 @@ Citizen.CreateThread(function()
         AddTextComponentString(item.name)
         EndTextCommandSetBlipName(item.blip)
     end
-    local sleeper = 1000
     while true do
         local ped = PlayerPedId()
         local pedCoords = GetEntityCoords(ped, false)

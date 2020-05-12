@@ -4,15 +4,15 @@
 fx_version 'adamant'
 games { 'gta5' }
 
-dependencies {
-	"externalsql",
-    "drp_core",
-    "NativeUI",
-    "drp_id",
-    "drp_notifications",
-    "drp_bank",
-    "drp_clothing"
-}
+-- dependencies {
+-- 	"externalsql",
+--     "drp_core",
+--     "NativeUI",
+--     "drp_id",
+--     "drp_notifications",
+--     "drp_bank",
+--     "drp_clothing"
+-- }
 
 client_script "@NativeUI/NativeUI.lua"
 client_script 'client/tattoosList/list.lua'

@@ -4,11 +4,11 @@ fx_version 'adamant'
 games { 'rdr3', 'gta5' }
 
 
-dependencies {
-	"externalsql",
-	"drp_id",
-	"drp_notifications",
-}
+-- dependencies {
+-- 	"externalsql",
+-- 	"drp_id",
+-- 	"drp_notifications",
+-- }
 
 ui_page 'ui/index.html'
 

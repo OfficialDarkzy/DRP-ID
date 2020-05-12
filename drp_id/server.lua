@@ -5,29 +5,25 @@ character = {}
 RegisterServerEvent("DRP_ID:RequestOpenMenu")
 AddEventHandler("DRP_ID:RequestOpenMenu", function()
 	local src = source
-	TriggerEvent("DRP_Core:GetPlayerData", src, function(results)
-		exports["externalsql"]:AsyncQueryCallback({
-			query = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
-			data = {playerid = results.playerid}
-		}, function(characters)
-			local characters = characters["data"]
-			TriggerClientEvent("DRP_ID:OpenMenu", src, characters)
-		end)
-	end)
+	local playerData = exports["drp_core"]:GetPlayerData(src)
+	local characters = exports["externalsql"]:AsyncQuery({
+		query = [[SELECT * FROM `characters` WHERE `playerid` = :playerid]],
+		data = {playerid = playerData.playerid}
+	})
+	local characters = characters["data"]
+	TriggerClientEvent("DRP_ID:OpenMenu", src, characters)
 end)
 ---------------------------------------------------------------------------
 -- UPDATE NUI EVENT
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_ID:UpdateCharactersInUI", function(player)
-	TriggerEvent("DRP_Core:GetPlayerData", player, function(results)
-		exports["externalsql"]:AsyncQueryCallback({
-			query = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
-			data = {playerid = results.playerid}
-		}, function(characters)
-			local characters = characters["data"]
-			TriggerClientEvent("DRP_ID:UpdateMenuCharacters", player, characters)
-		end)
-	end)
+	local playerData = exports["drp_core"]:GetPlayerData(player)
+	local characters = exports["externalsql"]:AsyncQuery({
+		query = [[SELECT * FROM `characters` WHERE `playerid` = :playerid]],
+		data = {playerid = playerData.playerid}
+	})
+	local characters = characters["data"]
+	TriggerClientEvent("DRP_ID:UpdateMenuCharacters", player, characters)
 end)
 ---------------------------------------------------------------------------
 -- CREATE CHARACTER EVENT
@@ -35,42 +31,36 @@ end)
 RegisterServerEvent("DRP_ID:CreateCharacter")
 AddEventHandler("DRP_ID:CreateCharacter", function(newCharacterData)
 	local src = source
-	TriggerEvent("DRP_Core:GetPlayerData", src, function(playerData)
-		exports["externalsql"]:AsyncQueryCallback({
-			query = "SELECT * FROM `characters` WHERE `playerid` = :playerid",
-			data = {
-				playerid = playerData.playerid
-			}
-		}, function(characters)
-			Wait(500)
-			local characterCount = #characters["data"]
-			if characterCount < DRPCharacters.MaxCharacters then
-				exports["externalsql"]:AsyncQueryCallback({
-					query = [[
-						INSERT INTO characters
-						(`name`, `age`, `dob`, `gender`, `cash`, `bank`, `dirtyCash`, `licenses`, `playerid`)
-						VALUES
-						(:name, :age, :dob, :gender, :cash, :bank, :dirtycash, :licenses, :playerid)
-					]],
-					data = {
-						name = newCharacterData.name,
-						age = newCharacterData.age,
-						dob = newCharacterData.dob,
-						gender = newCharacterData.gender,
-						cash = DRPCharacters.StarterCash,
-						bank = DRPCharacters.StarterBank,
-						dirtycash = DRPCharacters.StartDirtyCash,				
-						licenses = json.encode({}),
-						playerid = playerData.playerid
-					}
-				}, function(createdResults)
-					TriggerEvent("DRP_ID:UpdateCharactersInUI", src)
-				end)
-			else
-				TriggerClientEvent("DRP_Core:Error", src, "Characters", "You have ran out of Character spaces, the max is "..DRPCharacters.MaxCharacters.."", 2500, false, "leftCenter")
-			end
-		end)
-	end)
+	local playerData = exports["drp_core"]:GetPlayerData(src)
+	local characters = exports["externalsql"]:AsyncQuery({
+		query = [[SELECT * FROM `characters` WHERE `playerid` = :playerid]],
+		data = {playerid = playerData.playerid}
+	})
+	local characterCount = #characters["data"]
+	if characterCount < DRPCharacters.MaxCharacters then
+	exports["externalsql"]:AsyncQuery({
+		query = [[
+			INSERT INTO characters
+			(`name`, `age`, `dob`, `gender`, `cash`, `bank`, `dirtyCash`, `licenses`, `playerid`)
+			VALUES
+			(:name, :age, :dob, :gender, :cash, :bank, :dirtycash, :licenses, :playerid)
+		]],
+		data = {
+			name = newCharacterData.name,
+			age = newCharacterData.age,
+			dob = newCharacterData.dob,
+			gender = newCharacterData.gender,
+			cash = DRPCharacters.StarterCash,
+			bank = DRPCharacters.StarterBank,
+			dirtycash = DRPCharacters.StartDirtyCash,				
+			licenses = json.encode({}),
+			playerid = playerData.playerid
+		}
+	})
+		TriggerEvent("DRP_ID:UpdateCharactersInUI", src)
+	else
+		TriggerClientEvent("DRP_Core:Error", src, "Characters", "You have ran out of Character spaces, the max is "..DRPCharacters.MaxCharacters.."", 2500, false, "leftCenter")
+	end
 end)
 ---------------------------------------------------------------------------
 -- SELECT CHARACTER EVENT
@@ -86,7 +76,6 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 		}
 	}, function(characterInfo)
 		TriggerEvent("DRP_Clothing:AddCharacterClothing", character_id)
-		Wait(1000)
 		exports["externalsql"]:AsyncQueryCallback({
 			query = "SELECT * FROM `character_clothing` WHERE `char_id` = :character_id",
 			data = {
@@ -123,17 +112,13 @@ RegisterServerEvent("DRP_ID:LastKnownPosition")
 AddEventHandler("DRP_ID:LastKnownPosition", function(ped)
 	local src = source
 	local character = GetCharacterData(src)
-
-	exports["externalsql"]:AsyncQueryCallback({
+	local characterData = exports["externalsql"]:AsyncQuery({
 		query = "SELECT * FROM `characters` WHERE `id` = :character_id",
-		data = {
-			character_id = character.charid
-		}
-	}, function(characterData)
-		local lastKnownLocation = json.decode(characterData["data"][1].lastLocation)
-		local spawn = { x = lastKnownLocation[1],  y = lastKnownLocation[2], z = lastKnownLocation[3] }
-		TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, ped, spawn, true)
-	end)
+		data = {character_id = character.charid}
+	})
+	local lastKnownLocation = json.decode(characterData["data"][1].lastLocation)
+	local spawn = { x = lastKnownLocation[1],  y = lastKnownLocation[2], z = lastKnownLocation[3] }
+	TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, ped, spawn, true)
 end)
 ---------------------------------------------------------------------------
 -- Get Character Vehicles Event
@@ -141,15 +126,12 @@ end)
 RegisterServerEvent("DRP_ID:GetCharacterVehicles")
 AddEventHandler("DRP_ID:GetCharacterVehicles", function(character_id)
 	local src = source
-	exports["externalsql"]:AsyncQueryCallback({
+	local charactervehicle = exports["externalsql"]:AsyncQuery({
 		query = "SELECT * FROM `vehicles` WHERE `char_id` = :character_id",
-		data = {
-			character_id = character_id
-		}
-	}, function(charactervehicle)
-		local data = charactervehicle["data"]
-		TriggerClientEvent('DRP_ID:OpenVehicleList', src, data)
-	end)
+		data = {character_id = character_id}
+	})
+	local data = charactervehicle["data"]
+	TriggerClientEvent('DRP_ID:OpenVehicleList', src, data)
 end)
 ---------------------------------------------------------------------------
 -- Delete Character Event
@@ -157,14 +139,11 @@ end)
 RegisterServerEvent("DRP_ID:DeleteCharacter")
 AddEventHandler("DRP_ID:DeleteCharacter", function(character_id)
 	local src = source
-	exports["externalsql"]:AsyncQueryCallback({
+	exports["externalsql"]:AsyncQuery({
 		query = "DELETE FROM `characters` WHERE `id` = :character_id",
-		data = {
-			character_id = character_id
-		}
-	}, function(results)
-		TriggerEvent("DRP_ID:UpdateCharactersInUI", src)
-	end)
+		data = {character_id = character_id}
+	})
+	TriggerEvent("DRP_ID:UpdateCharactersInUI", src)
 end)
 ---------------------------------------------------------------------------
 -- Drop Player Event (Using Disconnect Button)
@@ -182,14 +161,13 @@ AddEventHandler("DRP_ID:SaveCharacterLocation", function(x,y,z)
 	local src = source
 	local character = GetCharacterData(src)
 	local lastPos = "{"..x..", "..y..", "..z.."}"
-	exports["externalsql"]:AsyncQueryCallback({
-		query = "UPDATE characters SET `lastLocation` = :lastLocation WHERE `id` = :char_id",
+	exports["externalsql"]:AsyncQuery({
+		query = [[UPDATE characters SET `lastLocation` = :lastLocation WHERE `id` = :char_id]],
 		data = {
 			lastLocation = lastPos,
 			char_id = character.charid
 		}
-	}, function(results)
-	end)
+	})
 end)
 ---------------------------------------------------------------------------
 -- Get Death Status
@@ -198,14 +176,11 @@ RegisterServerEvent("DRP_Death:GetDeathStatus")
 AddEventHandler("DRP_Death:GetDeathStatus", function()
     local src = source
     local character = exports["drp_id"]:GetCharacterData(src)
-    exports["externalsql"]:AsyncQueryCallback({
-    query = "SELECT * FROM `characters` WHERE `id` = :charid",
-        data = {
-            charid = character.charid
-        }
-    }, function(deadResults)
-        TriggerClientEvent("DRP_Death:IsDeadStatus", src, deadResults["data"])
-    end)
+    local deadResults = exports["externalsql"]:AsyncQuery({
+    query = [[SELECT * FROM `characters` WHERE `id` = :charid]],
+        data = {charid = character.charid}
+    })
+	TriggerClientEvent("DRP_Death:IsDeadStatus", src, deadResults["data"])
 end)
 ---------------------------------------------------------------------------
 -- Add To Database If The Player Died so they can't just relog :)
@@ -222,14 +197,10 @@ AddEventHandler("DRP_Death:Revived", function(boolValue)
         deadValue = 0
     end
     ------------------------------------------------------------------------------------
-    exports["externalsql"]:AsyncQueryCallback({
-        query = "UPDATE characters SET `isDead` = :deadValue WHERE `id` = :charid",
-            data = {
-                deadValue = deadValue,
-                charid = character.charid
-            }
-        }, function(updateResults)
-    end)
+    exports["externalsql"]:AsyncQuery({
+		query = "UPDATE characters SET `isDead` = :deadValue WHERE `id` = :charid",
+		data = {deadValue = deadValue, charid = character.charid}
+	})
 end)
 ---------------------------------------------------------------------------
 -- Get Character Data Function Usage exports["drp_id"]:GetCharacterData(source)

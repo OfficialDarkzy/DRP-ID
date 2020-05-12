@@ -4,9 +4,9 @@ fx_version 'adamant'
 games { 'rdr3', 'gta5' }
 
 
-dependencies {
-	"externalsql"
-}
+-- dependencies {
+-- 	"externalsql"
+-- }
 
 client_script "gui.lua"
 client_script "client.lua"

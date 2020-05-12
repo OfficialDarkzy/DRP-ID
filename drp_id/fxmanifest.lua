@@ -4,10 +4,10 @@
 fx_version 'adamant'
 games { 'rdr3', 'gta5' }
 
-dependencies {
-	"externalsql",
-	"drp_core"
-}
+-- dependencies {
+-- 	"externalsql",
+-- 	"drp_core"
+-- }
 
 ui_page "ui/index.html"
 
@@ -21,10 +21,11 @@ files {
 	"ui/style.css"
 }
 
-server_script "config.lua"
+shared_script "shared/shared.lua"
+shared_script "shared/config.lua"
+
 server_script "server.lua"
 
-client_script "config.lua"
 client_script "NUICallbacks.lua"
 client_script "characterOnLoadEvents.lua"
 client_script "client.lua"
