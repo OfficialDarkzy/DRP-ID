@@ -5,7 +5,18 @@ local playersJob = {}
 RegisterServerEvent("DRP_JobCore:StartUp")
 AddEventHandler("DRP_JobCore:StartUp", function()
     local src = source
-    table.insert(playersJob, {source = src, job = "UNEMPLOYED", jobLabel = "Unemployed"})
+    local character = exports["drp_id"]:GetCharacterData(src)
+    local characterJob = exports["externalsql"]:AsyncQuery({
+		query = "SELECT job FROM `characters` WHERE `id` = :character_id",
+		data = {character_id = character.charid}
+    })
+    local job = string.upper(characterJob["data"][1].job)
+    local jobLabel = GetJobLabels(job)
+    if DoesJobExist(job) then
+        table.insert(playersJob, {source = src, job = job, jobLabel = jobLabel})
+    else
+        print("job does not exist, please refer to the config to see if you have defined this job correctly!")
+    end
 end)
 ---------------------------------------------------------------------------
 -- Check if player left, then remove their data in the table
@@ -103,6 +114,14 @@ exports("GetJobLabels", GetJobLabels)
 -- Set Player Job Function this is NOT an export. Should not be triggered on its own, request job does that all for you
 ---------------------------------------------------------------------------
 function SetPlayerJob(player, job, label, otherData)
+    local job = job
+    local character = exports["drp_id"]:GetCharacterData(player)
+    -- Handling the job in the database, this will update the job which is all it needs as the other functions do the rest
+    exports["externalsql"]:AsyncQuery({
+        query = "UPDATE `characters` SET `job` = :job WHERE `id` = :charid",
+        data = {job = job, charid = character.charid}
+    })
+    -- Handling the table data via a loop
     for a = 1, #playersJob do
         if playersJob[a].source == player then
             playersJob[a].job = job

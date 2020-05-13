@@ -23,14 +23,15 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `dirtyCash` bigint(20) NOT NULL,
   `paycheck` bigint(11) NOT NULL DEFAULT '0',
   `licenses` text NOT NULL,
-  `phonenumber` mediumint(11) DEFAULT NULL,
+  `phonenumber` mediumint(11) NOT NULL,
+  `job` varchar(50) NOT NULL DEFAULT 'UNEMPLOYED',
   `isDead` int(11) NOT NULL DEFAULT '0',
   `lastLocation` varchar(255) DEFAULT '{433.42, -628.88, 28.72}',
   `playerid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `player_id` (`playerid`) USING BTREE,
   CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`playerid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=0 DEFAULT CHARSET=utf8;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 
