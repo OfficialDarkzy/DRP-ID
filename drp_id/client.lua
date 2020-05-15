@@ -3,6 +3,7 @@
 ---------------------------------------------------------------------------
 local characterSpawnedIn = false
 local firstSpawn = true
+local allEventsLoaded = false
 ---------------------------------------------------------------------------
 -- NUI EVENTS
 ---------------------------------------------------------------------------
@@ -97,7 +98,15 @@ end)
 ---------------------------------------------------------------------------
 -- Return Functions
 ---------------------------------------------------------------------------
+function loadedAllEventsCorrectly()
+	allEventsLoaded = true
+end
+
 function SpawnedInAndLoaded()
-	return characterSpawnedIn
+	if allEventsLoaded then
+		return characterSpawnedIn
+	else
+		return false
+	end
 end
 exports("SpawnedInAndLoaded", SpawnedInAndLoaded)
