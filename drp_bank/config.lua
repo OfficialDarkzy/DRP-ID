@@ -2,6 +2,9 @@ DRPBankConfig = {}
 DRPBankConfig.LaunderLocations = {}
 DRPBankConfig.Banks = {}
 DRPBankConfig.AtmModels = {}
+
+
+
 DRPBankConfig.AtmModels = {"prop_fleeca_atm", "prop_atm_01", "prop_atm_02", "prop_atm_03"}
 DRPBankConfig.Banks = {
     {name="Bank", id=108, x=150.266, y=-1040.203, z=29.374},

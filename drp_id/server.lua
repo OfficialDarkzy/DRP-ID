@@ -69,41 +69,35 @@ RegisterServerEvent("DRP_ID:SelectCharacter")
 AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 	local src = source
 	local model = nil
-	exports["externalsql"]:AsyncQueryCallback({
-		query = "SELECT * FROM `characters` WHERE `id` = :character_id",
-		data = {
-			character_id = character_id
-		}
-	}, function(characterInfo)
-		TriggerEvent("DRP_Clothing:AddCharacterClothing", character_id)
-		exports["externalsql"]:AsyncQueryCallback({
-			query = "SELECT * FROM `character_clothing` WHERE `char_id` = :character_id",
-			data = {
-				character_id = character_id
-			}
-		}, function(characterModel)
-			local lastKnownLocation = json.decode(characterInfo["data"][1].lastLocation)
-			table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age})
-			local spawnInHotel = true
-			if json.encode(characterModel["data"]) ~= "[]" then
-				if DRPCharacters.SpawnSelection then
-					CloseAllCameras(src)
-					TriggerClientEvent("DRP_ID:SpawnSelection", src, characterModel["data"][1].model, lastKnownLocation)
-				else
-					CloseAllCameras(src)
-					TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, lastKnownLocation, spawnInHotel)
-				end
-			else
-				if DRPCharacters.SpawnSelection then
-					CloseAllCameras(src)
-					TriggerClientEvent("DRP_ID:SpawnSelection", src, "mp_m_freemode_01", lastKnownLocation)
-				else
-					CloseAllCameras(src)
-					TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, "mp_m_freemode_01", lastKnownLocation, spawnInHotel)
-				end
-			end
-		end)
-	end)
+	local characterInfo = exports["externalsql"]:AsyncQuery({
+		query = [[SELECT * FROM `characters` WHERE `id` = :character_id]],
+		data = {character_id = character_id}
+	})
+	TriggerEvent("DRP_Clothing:AddCharacterClothing", character_id)
+	local characterModel = exports["externalsql"]:AsyncQuery({
+		query = [[SELECT * FROM `character_clothing` WHERE `char_id` = :character_id]],
+		data = {character_id = character_id}
+	})
+	local lastKnownLocation = json.decode(characterInfo["data"][1].lastLocation)
+	table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age})
+	local spawnInHotel = true
+	if json.encode(characterModel["data"]) ~= "[]" then
+		if DRPCharacters.SpawnSelection then
+			CloseAllCameras(src)
+			TriggerClientEvent("DRP_ID:SpawnSelection", src, characterModel["data"][1].model, lastKnownLocation)
+		else
+			CloseAllCameras(src)
+			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, lastKnownLocation, spawnInHotel)
+		end
+	else
+		if DRPCharacters.SpawnSelection then
+			CloseAllCameras(src)
+			TriggerClientEvent("DRP_ID:SpawnSelection", src, "mp_m_freemode_01", lastKnownLocation)
+		else
+			CloseAllCameras(src)
+			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, "mp_m_freemode_01", lastKnownLocation, spawnInHotel)
+		end
+	end
 end)
 ---------------------------------------------------------------------------
 -- Spawn Character At Last Known Location
@@ -113,11 +107,11 @@ AddEventHandler("DRP_ID:LastKnownPosition", function(ped)
 	local src = source
 	local character = GetCharacterData(src)
 	local characterData = exports["externalsql"]:AsyncQuery({
-		query = "SELECT * FROM `characters` WHERE `id` = :character_id",
+		query = [[SELECT * FROM `characters` WHERE `id` = :character_id]],
 		data = {character_id = character.charid}
 	})
 	local lastKnownLocation = json.decode(characterData["data"][1].lastLocation)
-	local spawn = { x = lastKnownLocation[1],  y = lastKnownLocation[2], z = lastKnownLocation[3] }
+	local spawn = { x = lastKnownLocation[1], y = lastKnownLocation[2], z = lastKnownLocation[3] }
 	TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, ped, spawn, true)
 end)
 ---------------------------------------------------------------------------
@@ -127,7 +121,7 @@ RegisterServerEvent("DRP_ID:GetCharacterVehicles")
 AddEventHandler("DRP_ID:GetCharacterVehicles", function(character_id)
 	local src = source
 	local charactervehicle = exports["externalsql"]:AsyncQuery({
-		query = "SELECT * FROM `vehicles` WHERE `char_id` = :character_id",
+		query = [[SELECT * FROM `vehicles` WHERE `char_id` = :character_id]],
 		data = {character_id = character_id}
 	})
 	local data = charactervehicle["data"]
@@ -140,7 +134,7 @@ RegisterServerEvent("DRP_ID:DeleteCharacter")
 AddEventHandler("DRP_ID:DeleteCharacter", function(character_id)
 	local src = source
 	exports["externalsql"]:AsyncQuery({
-		query = "DELETE FROM `characters` WHERE `id` = :character_id",
+		query = [[DELETE FROM `characters` WHERE `id` = :character_id]],
 		data = {character_id = character_id}
 	})
 	TriggerEvent("DRP_ID:UpdateCharactersInUI", src)
@@ -175,7 +169,7 @@ end)
 RegisterServerEvent("DRP_Death:GetDeathStatus")
 AddEventHandler("DRP_Death:GetDeathStatus", function()
     local src = source
-    local character = exports["drp_id"]:GetCharacterData(src)
+    local character = GetCharacterData(src)
     local deadResults = exports["externalsql"]:AsyncQuery({
     query = [[SELECT * FROM `characters` WHERE `id` = :charid]],
         data = {charid = character.charid}
@@ -188,7 +182,7 @@ end)
 RegisterServerEvent("DRP_Death:Revived")
 AddEventHandler("DRP_Death:Revived", function(boolValue)
     local src = source
-    local character = exports["drp_id"]:GetCharacterData(src)
+    local character = GetCharacterData(src)
     local deadValue = 0
     -- Basic If Statement To Check Bool Value Status And Update Variable Where Needed --
     if boolValue then
@@ -198,7 +192,7 @@ AddEventHandler("DRP_Death:Revived", function(boolValue)
     end
     ------------------------------------------------------------------------------------
     exports["externalsql"]:AsyncQuery({
-		query = "UPDATE characters SET `isDead` = :deadValue WHERE `id` = :charid",
+		query = [[UPDATE characters SET `isDead` = :deadValue WHERE `id` = :charid]],
 		data = {deadValue = deadValue, charid = character.charid}
 	})
 end)

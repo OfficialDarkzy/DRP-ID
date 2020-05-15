@@ -36,7 +36,7 @@
           </div>
           <div id="ATM_Menu_Body">
             <v-container grid-list-md>
-              <v-form ref="depositForm" v-model="depositFormValid">
+              <v-form @submit.prevent ref="depositForm" v-model="depositFormValid">
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field
@@ -164,7 +164,7 @@
           </div>
           <div id="ATM_Menu_Body">
             <v-container grid-list-md>
-              <v-form ref="depositForm" v-model="depositFormValid">
+              <v-form @submit.prevent ref="depositForm" v-model="depositFormValid">
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field
@@ -204,7 +204,7 @@
               </v-form>
             </v-container>
             <v-container grid-list-md>
-              <v-form ref="withdrawForm" v-model="withdrawFormValid">
+              <v-form @submit.prevent ref="withdrawForm" v-model="withdrawFormValid">
                 <v-layout row>
                   <v-flex xs12>
                     <v-text-field

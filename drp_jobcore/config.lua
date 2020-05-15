@@ -6,7 +6,6 @@ JobsCoreConfig.StaticJobLabels = {}
 JobsCoreConfig.Jobs = {"UNEMPLOYED", "POLICE", "STATE", "SHERIFF", "TAXI DRIVER", "MECHANIC"} -- Always Update This When You Are Adding New Jobs AND THIS IS ALL THE JOBS EVEN IF THEY ARE NOT INSTALLED ON YOUR SERVER
 ---------------------------------------------------------------------------
 ---------------------------------------------------------------------------
----------------------------------------------------------------------------
 -- Static Jobs
 ---------------------------------------------------------------------------
 JobsCoreConfig.StaticJobLabels = { ["UNEMPLOYED"] = "Unemployed", ["POLICE"] = "Police", ["STATE"] = "State", ["SHERIFF"] = "Sheriff", ["TAXI DRIVER"] = "Taxi Driver", ["MECHANIC"] = "Mechanic"}
