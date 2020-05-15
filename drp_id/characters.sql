@@ -14,23 +14,24 @@
 -- Dumping structure for table drp.characters
 CREATE TABLE IF NOT EXISTS `characters` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `age` int(255) DEFAULT NULL,
-  `dob` varchar(50) COLLATE utf8_bin DEFAULT NULL,
-  `gender` varchar(255) COLLATE utf8_bin DEFAULT NULL,
-  `cash` bigint(20) DEFAULT NULL,
-  `bank` bigint(20) DEFAULT NULL,
-  `dirtyCash` bigint(20) DEFAULT NULL,
-  `paycheck` bigint(11) DEFAULT NULL,
-  `phonenumber` mediumint(11) DEFAULT NULL,
-  `job` varchar(50) COLLATE utf8_bin DEFAULT NULL,
+  `name` varchar(255) NOT NULL,
+  `age` int(255) NOT NULL,
+  `dob` varchar(50) NOT NULL,
+  `gender` varchar(255) NOT NULL,
+  `cash` bigint(20) NOT NULL,
+  `bank` bigint(20) NOT NULL,
+  `dirtyCash` bigint(20) NOT NULL,
+  `paycheck` bigint(11) NOT NULL DEFAULT '0',
+  `licenses` text NOT NULL,
+  `phonenumber` mediumint(11) NOT NULL,
+  `job` varchar(50) NOT NULL DEFAULT 'UNEMPLOYED',
   `isDead` int(11) NOT NULL DEFAULT '0',
-  `lastLocation` varchar(255) CHARACTER SET utf8 DEFAULT '{433.42, -628.88, 28.72}',
-  `playerid` int(11) DEFAULT NULL,
+  `lastLocation` varchar(255) DEFAULT '{433.42, -628.88, 28.72}',
+  `playerid` int(11) NOT NULL,
   PRIMARY KEY (`id`),
   KEY `player_id` (`playerid`) USING BTREE,
   CONSTRAINT `characters_ibfk_1` FOREIGN KEY (`playerid`) REFERENCES `users` (`id`) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+) ENGINE=InnoDB AUTO_INCREMENT=1 DEFAULT CHARSET=utf8;
 
 -- Data exporting was unselected.
 
