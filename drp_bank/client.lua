@@ -24,28 +24,7 @@ AddEventHandler("DRP_Bank:OpenMenu", function(name, balance, cash, menuName)
     end
 end)
 ---------------------------------------------------------------------------
--- Closes ATM menu and cancels animation
----------------------------------------------------------------------------
-RegisterNUICallback("closeatm", function(data, callback)
-    SetNuiFocus(false, false)
-    local ped = PlayerPedId()
-    local pedPos = GetEntityCoords(ped, false)
-    local pedHead = GetEntityHeading(ped)
-    TaskStartScenarioAtPosition(ped, "PROP_HUMAN_ATM", pedPos.x, pedPos.y, pedPos.z + 1.0, pedHead, 0, 0, 0)
-    atmOpen = false
-    callback("ok")
-    Citizen.Wait(5000)
-    ClearPedTasksImmediately(ped)
-    sleeper = false
-end)
-
-RegisterNUICallback("closebank", function(data, callback)
-    SetNuiFocus(false, false)
-    bankOpen = false
-    callback("ok")
-end)
----------------------------------------------------------------------------
--- Handles distance to atm models with offset position
+-- ATM UI Thread
 ---------------------------------------------------------------------------
 local sleeper = 1000
 Citizen.CreateThread(function()
@@ -78,7 +57,9 @@ Citizen.CreateThread(function()
         Citizen.Wait(sleeper)
     end
 end)
-
+---------------------------------------------------------------------------
+-- Banks UI Thread
+---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     local banks = DRPBankConfig.Banks
     for _, item in pairs(banks) do
@@ -110,7 +91,26 @@ Citizen.CreateThread(function()
     end
 end)
 ---------------------------------------------------------------------------
--- NUI Functions
+-- NUI Callbacks
+---------------------------------------------------------------------------
+RegisterNUICallback("closeatm", function(data, callback)
+    SetNuiFocus(false, false)
+    local ped = PlayerPedId()
+    local pedPos = GetEntityCoords(ped, false)
+    local pedHead = GetEntityHeading(ped)
+    TaskStartScenarioAtPosition(ped, "PROP_HUMAN_ATM", pedPos.x, pedPos.y, pedPos.z + 1.0, pedHead, 0, 0, 0)
+    atmOpen = false
+    callback("ok")
+    Citizen.Wait(5000)
+    ClearPedTasksImmediately(ped)
+    sleeper = false
+end)
+---------------------------------------------------------------------------
+RegisterNUICallback("closebank", function(data, callback)
+    SetNuiFocus(false, false)
+    bankOpen = false
+    callback("ok")
+end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("deposit", function(data, cb)
     TriggerServerEvent("DRP_Bank:DepositMoney", data.amount)
@@ -156,6 +156,8 @@ RegisterNUICallback("quick250", function(data, cb) -- Data is going to be nil
     TriggerServerEvent("DRP_Bank:WithdrawMoney", 250) -- im seeeuper smert omgurd :P
     cb("ok")
 end)
+---------------------------------------------------------------------------
+-- NUI Event
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Bank:ActionCallback")
 AddEventHandler("DRP_Bank:ActionCallback", function(status, message, balance, cash)

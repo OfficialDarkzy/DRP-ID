@@ -153,7 +153,7 @@ end)
 RegisterServerEvent("DRP_ID:SaveCharacterLocation")
 AddEventHandler("DRP_ID:SaveCharacterLocation", function(x,y,z)
 	local src = source
-	local character = GetCharacterData(src)
+	local character = exports["drp_id"]:GetCharacterData(src)
 	local lastPos = "{"..x..", "..y..", "..z.."}"
 	exports["externalsql"]:AsyncQuery({
 		query = [[UPDATE characters SET `lastLocation` = :lastLocation WHERE `id` = :char_id]],
@@ -169,7 +169,7 @@ end)
 RegisterServerEvent("DRP_Death:GetDeathStatus")
 AddEventHandler("DRP_Death:GetDeathStatus", function()
     local src = source
-    local character = GetCharacterData(src)
+    local character = exports["drp_id"]:GetCharacterData(src)
     local deadResults = exports["externalsql"]:AsyncQuery({
     query = [[SELECT * FROM `characters` WHERE `id` = :charid]],
         data = {charid = character.charid}
@@ -182,7 +182,7 @@ end)
 RegisterServerEvent("DRP_Death:Revived")
 AddEventHandler("DRP_Death:Revived", function(boolValue)
     local src = source
-    local character = GetCharacterData(src)
+    local character = exports["drp_id"]:GetCharacterData(src)
     local deadValue = 0
     -- Basic If Statement To Check Bool Value Status And Update Variable Where Needed --
     if boolValue then
