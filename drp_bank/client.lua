@@ -26,9 +26,9 @@ end)
 ---------------------------------------------------------------------------
 -- ATM UI Thread
 ---------------------------------------------------------------------------
-local sleeper = 1000
 Citizen.CreateThread(function()
     local atm_models = DRPBankConfig.AtmModels
+    local sleeper = 1000
     while true do
         sleeper = 1000
         local ped = PlayerPedId()
@@ -70,6 +70,7 @@ Citizen.CreateThread(function()
         AddTextComponentString(item.name)
         EndTextCommandSetBlipName(item.blip)
     end
+    local sleeper = 1000
     while true do
         local ped = PlayerPedId()
         local pedCoords = GetEntityCoords(ped, false)

@@ -9,7 +9,6 @@ OnCharacterLoadEvents = function(spawnInHotel)
 	TriggerServerEvent("DRP_Auction:GetVehicleList")
 	TriggerServerEvent("DRP_Housing:InitializePlayer", spawnInHotel)
 	TriggerServerEvent("DRP_Farming:SyncData") -- If Farming Is Installed
-	TriggerServerEvent("DRP_Doors:StartSync") -- If Doors is Installed
 	TriggerServerEvent("DRP_Tattoos:GetTattoos") -- If Tattoos is Installed
 	TriggerServerEvent("DRP_Gang:StartUpGangs") -- If Gangs is Installed
 	TriggerServerEvent("DRP_Inventory:WeaponChecker") -- If Inventory Is Installed giving players weapons on load

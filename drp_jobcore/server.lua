@@ -5,6 +5,7 @@ playersJob = {}
 RegisterServerEvent("DRP_JobCore:StartUp")
 AddEventHandler("DRP_JobCore:StartUp", function()
     local src = source
+    local otherJobData
     local character = exports["drp_id"]:GetCharacterData(src)
     local characterJob = exports["externalsql"]:AsyncQuery({
 		query = "SELECT job FROM `characters` WHERE `id` = :character_id",
@@ -13,7 +14,18 @@ AddEventHandler("DRP_JobCore:StartUp", function()
     local job = string.upper(characterJob["data"][1].job)
     local jobLabel = GetJobLabels(job)
     if DoesJobExist(job) then
-        table.insert(playersJob, {source = src, job = job, jobLabel = jobLabel})
+        if jobLabel == "Police" or jobLabel == "Sheriff" or jobLabel == "State" then
+            local jobData = exports["externalsql"]:AsyncQuery({
+                query = "SELECT * FROM police WHERE `char_id` = :charid",
+                data = {
+                    charid = character.charid
+                }
+            })
+            otherJobData = {rank = jobData.data[1].rank, department = jobData.data[1].department}
+        else
+            otherJobData = false
+        end
+        table.insert(playersJob, {source = src, job = job, jobLabel = jobLabel, otherJobData = otherJobData})
     else
         print("job does not exist, please refer to the config to see if you have defined this job correctly!")
     end
