@@ -23,7 +23,7 @@ CREATE TABLE IF NOT EXISTS `characters` (
   `dirtyCash` bigint(20) NOT NULL,
   `paycheck` bigint(11) NOT NULL DEFAULT '0',
   `licenses` text NOT NULL,
-  `phonenumber` mediumint(11) NOT NULL,
+  `phonenumber` mediumint(11) DEFAULT NULL,
   `job` varchar(50) NOT NULL DEFAULT 'UNEMPLOYED',
   `isDead` int(11) NOT NULL DEFAULT '0',
   `lastLocation` varchar(255) DEFAULT '{433.42, -628.88, 28.72}',
