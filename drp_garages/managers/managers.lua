@@ -82,6 +82,7 @@ VehicleData = function(vehicle)
 		modLivery         = GetVehicleMod(vehicle, 48)
     }
 end
+exports("VehicleData", VehicleData)
 
 SetVehicleMods = function(vehicle, props)
 	SetVehicleModKit(vehicle, 0)
@@ -325,6 +326,7 @@ SetVehicleMods = function(vehicle, props)
 		SetVehicleMod(vehicle, 48, props.modLivery, false)
 	end
 end
+exports("SetVehicleMods", SetVehicleMods)
 
 GetVehicles = function()
 	local vehicles = {}
@@ -359,6 +361,7 @@ GetAllClosestVehicles = function(coords)
 
 	return closestVehicle, closestDistance
 end
+exports("GetAllClosestVehicles", GetAllClosestVehicles)
 
 GetVehiclesInArea = function (coords, area)
     local vehicles       = GetVehicles()
