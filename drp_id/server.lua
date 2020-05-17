@@ -1,5 +1,29 @@
 character = {}
 ---------------------------------------------------------------------------
+-- Get Character Data Function Usage exports["drp_id"]:GetCharacterData(source)
+---------------------------------------------------------------------------
+function GetCharacterData(id)
+	for a = 1, #character do
+		if character[a].id == id then
+			return(character[a])
+		end
+	end
+	return false
+end
+exports("GetCharacterData", GetCharacterData)
+---------------------------------------------------------------------------
+-- Get Character Name Function Usage exports["drp_id"]:GetCharacterName(source)
+---------------------------------------------------------------------------
+function GetCharacterName(id)
+	for a = 1, #character do
+		if character[a].id == id then
+			return(character[a].name)
+		end
+	end
+	return false
+end
+exports("GetCharacterName", GetCharacterName)
+---------------------------------------------------------------------------
 -- START CHARACTER NUI
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_ID:RequestOpenMenu")
@@ -169,7 +193,7 @@ end)
 RegisterServerEvent("DRP_Death:GetDeathStatus")
 AddEventHandler("DRP_Death:GetDeathStatus", function()
     local src = source
-    local character = exports["drp_id"]:GetCharacterData(src)
+    local character = GetCharacterData(src)
     local deadResults = exports["externalsql"]:AsyncQuery({
     query = [[SELECT * FROM `characters` WHERE `id` = :charid]],
         data = {charid = character.charid}
@@ -182,44 +206,18 @@ end)
 RegisterServerEvent("DRP_Death:Revived")
 AddEventHandler("DRP_Death:Revived", function(boolValue)
     local src = source
-    local character = exports["drp_id"]:GetCharacterData(src)
+	local character = GetCharacterData(src)
     local deadValue = 0
-    -- Basic If Statement To Check Bool Value Status And Update Variable Where Needed --
-    if boolValue then
-        deadValue = 1
-    else
-        deadValue = 0
-    end
-    ------------------------------------------------------------------------------------
-    exports["externalsql"]:AsyncQuery({
-		query = [[UPDATE characters SET `isDead` = :deadValue WHERE `id` = :charid]],
+		if boolValue then
+			deadValue = 1
+		else
+			deadValue = 0
+		end
+    local deadValue = exports["externalsql"]:AsyncQuery({
+	query = [[UPDATE characters SET `isDead` = :deadValue WHERE `id` = :charid]],
 		data = {deadValue = deadValue, charid = character.charid}
 	})
 end)
----------------------------------------------------------------------------
--- Get Character Data Function Usage exports["drp_id"]:GetCharacterData(source)
----------------------------------------------------------------------------
-function GetCharacterData(id)
-	for a = 1, #character do
-		if character[a].id == id then
-			return(character[a])
-		end
-	end
-	return false
-end
-exports("GetCharacterData", GetCharacterData)
----------------------------------------------------------------------------
--- Get Character Name Function Usage exports["drp_id"]:GetCharacterName(source)
----------------------------------------------------------------------------
-function GetCharacterName(id)
-	for a = 1, #character do
-		if character[a].id == id then
-			return(character[a].name)
-		end
-	end
-	return false
-end
-exports("GetCharacterName", GetCharacterName)
 ---------------------------------------------------------------------------
 -- Chat Commands
 ---------------------------------------------------------------------------

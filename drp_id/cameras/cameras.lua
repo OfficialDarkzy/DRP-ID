@@ -21,6 +21,8 @@ local cameraRotations = {
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:StartSkyCamera")
 AddEventHandler("DRP_ID:StartSkyCamera", function()
+    local ped = PlayerPedId()
+    SetPlayerInvisibleLocally(ped, true)
     local randomIndex = math.random(1, #cameraRotations)
     selectedCameraRot = randomIndex
     spawnedCamera = CreateCam("DEFAULT_SCRIPTED_CAMERA", 1)
@@ -34,6 +36,8 @@ end)
 RegisterNetEvent("DRP_ID:StopSkyCamera")
 AddEventHandler("DRP_ID:StopSkyCamera", function()
     if startCameraRotations then
+        local ped = PlayerPedId()
+        SetPlayerInvisibleLocally(ped, false)
         startCameraRotations = false
         RenderScriptCams(0, 1, 1500, 1, 1)
         DestroyCam(spawnedCamera, false)
