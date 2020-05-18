@@ -19,6 +19,7 @@ function GenerateRandomPlate()
 	
 	return plate
 end
+exports("GenerateRandomPlate", GenerateRandomPlate)
 
 RegisterNetEvent("DRP_vehicleshop:ReGeneratePlate")
 AddEventHandler("DRP_vehicleshop:ReGeneratePlate", function(vehmodel, color, price)
