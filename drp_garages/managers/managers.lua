@@ -1,8 +1,8 @@
+
 VehicleData = function(vehicle)
     local color1, color2               = GetVehicleColours(vehicle)
 	local pearlescentColor, wheelColor = GetVehicleExtraColours(vehicle)
 	local extras = {}
-
 	for id=0, 12 do
 		if DoesExtraExist(vehicle, id) then
 			local state = IsVehicleExtraTurnedOn(vehicle, id) == 1
@@ -36,11 +36,11 @@ VehicleData = function(vehicle)
 			IsVehicleNeonLightEnabled(vehicle, 3)
 		},
 
-		interiorColor	  = table.pack(GetVehicleInteriorColour(vehicle)),
 		xenonColor 		  = table.pack(GetVehicleXenonLightsColour(vehicle)),
 		neonColor         = table.pack(GetVehicleNeonLightsColour(vehicle)),
 		tyreSmokeColor    = table.pack(GetVehicleTyreSmokeColor(vehicle)),
 
+		extras			  = extras,
 		modSpoilers       = GetVehicleMod(vehicle, 0),
 		modFrontBumper    = GetVehicleMod(vehicle, 1),
 		modRearBumper     = GetVehicleMod(vehicle, 2),
@@ -150,10 +150,6 @@ SetVehicleMods = function(vehicle, props)
 
 	if props.xenonColor ~= nil then
 		SetVehicleXenonLightsColour(vehicle, props.xenonColor[1])
-	end
-
-	if props.interiorColor ~nil then 
-		SetVehicleInteriorColour(vehicle, props.interiorColor[1])
 	end
 
 	if props.neonColor ~= nil then
