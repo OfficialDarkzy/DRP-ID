@@ -203,7 +203,7 @@ end)
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_Bank:GetCharacterMoney", function(charid, callback)
 		exports["externalsql"]:AsyncQueryCallback({
-			query = "SELECT * FROM `characters` WHERE `id` = :char_id",
+			query = "SELECT bank, cash FROM `characters` WHERE `id` = :char_id",
 			data = {
 				char_id = charid
 			}
