@@ -1,6 +1,7 @@
 local atmOpen = false
 local bankOpen = false
 local laundering = false
+local transactionLog = {}
 ---------------------------------------------------------------------------
 -- Triggers ATM menu to open
 ---------------------------------------------------------------------------
@@ -114,47 +115,47 @@ RegisterNUICallback("closebank", function(data, callback)
 end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("deposit", function(data, cb)
-    TriggerServerEvent("DRP_Bank:DepositMoney", data.amount)
+    TriggerServerEvent("DRP_Bank:DepositMoney", data.amount, data.type)
     cb("ok")
 end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("withdraw", function(data, cb)
-    TriggerServerEvent("DRP_Bank:WithdrawMoney", data.amount)
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", data.amount, data.type)
     cb("ok")
 end)
 
 RegisterNUICallback("depositall", function(data, cb) -- Data is going to be nil
-    TriggerServerEvent("DRP_Bank:DepositMoney", data.cashTotal) 
+    TriggerServerEvent("DRP_Bank:DepositMoney", data.cashTotal, data.type) 
     cb("ok")
 end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("quick5", function(data, cb) -- Data is going to be nil
-    TriggerServerEvent("DRP_Bank:WithdrawMoney", 5) -- im seeeuper smert omgurd :P
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 5, data.type) -- im seeeuper smert omgurd :P
     cb("ok")
 end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("quick10", function(data, cb) -- Data is going to be nil
-    TriggerServerEvent("DRP_Bank:WithdrawMoney", 10) -- im seeeuper smert omgurd :P
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 10, data.type) -- im seeeuper smert omgurd :P
     cb("ok")
 end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("quick25", function(data, cb) -- Data is going to be nil
-    TriggerServerEvent("DRP_Bank:WithdrawMoney", 25) -- im seeeuper smert omgurd :P
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 25, data.type) -- im seeeuper smert omgurd :P
     cb("ok")
 end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("quick50", function(data, cb) -- Data is going to be nil
-    TriggerServerEvent("DRP_Bank:WithdrawMoney", 50) -- im seeeuper smert omgurd :P
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 50, data.type) -- im seeeuper smert omgurd :P
     cb("ok")
 end)
 ---------------------------------------------------------------------------
 RegisterNUICallback("quick100", function(data, cb) -- Data is going to be nil
-    TriggerServerEvent("DRP_Bank:WithdrawMoney", 100) -- im seeeuper smert omgurd :P
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 100, data.type) -- im seeeuper smert omgurd :P
     cb("ok")
 end)
 
 RegisterNUICallback("quick250", function(data, cb) -- Data is going to be nil
-    TriggerServerEvent("DRP_Bank:WithdrawMoney", 250) -- im seeeuper smert omgurd :P
+    TriggerServerEvent("DRP_Bank:WithdrawMoney", 250, data.type) -- im seeeuper smert omgurd :P
     cb("ok")
 end)
 ---------------------------------------------------------------------------
@@ -172,6 +173,19 @@ AddEventHandler("DRP_Bank:ActionCallback", function(status, message, balance, ca
     if status == false then
         TriggerEvent("DRP_Core:Error", "The Bank", message, 5000, false, "leftCenter")
     end
+end)
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_Bank:setBankTransactions")
+AddEventHandler("DRP_Bank:setBankTransactions", function(values, spawned)
+    if spawned then
+        table.insert(transactionLog, values)
+    else
+        table.insert(transactionLog, 1, values)
+    end
+    if transactionLog[20] ~= nil and transactionLog[20] ~= {} then
+        table.remove(transactionLog, 20)
+    end    
+    SendNUIMessage({ type = 'update_transactions', values = transactionLog })
 end)
 ---------------------------------------------------------------------------
 function textDisplay(string)

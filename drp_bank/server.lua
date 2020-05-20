@@ -11,7 +11,7 @@ end)
 -- Withdrawing Money
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Bank:WithdrawMoney")
-AddEventHandler("DRP_Bank:WithdrawMoney", function(amount)
+AddEventHandler("DRP_Bank:WithdrawMoney", function(amount, type)
     local src = source
     local CharacterData = exports["drp_id"]:GetCharacterData(src)
     TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
@@ -37,6 +37,9 @@ AddEventHandler("DRP_Bank:WithdrawMoney", function(amount)
                     }
                 }, function(results)
                     TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance, newCashBalance)
+                    TriggerEvent("DRP_Bank:addLog", {CharacterData = CharacterData, type = type, types = "withdraw", amount = amount}, function(data)
+                        TriggerClientEvent("DRP_Bank:setBankTransactions", src, data[1])
+                    end)
                 end)
             end)
         else 
@@ -48,7 +51,7 @@ end)
 -- Depositing Money
 ---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Bank:DepositMoney")
-AddEventHandler("DRP_Bank:DepositMoney", function(amount)
+AddEventHandler("DRP_Bank:DepositMoney", function(amount, type)
     local src = source
     local CharacterData = exports["drp_id"]:GetCharacterData(src)
     TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
@@ -76,6 +79,9 @@ AddEventHandler("DRP_Bank:DepositMoney", function(amount)
                     }
                 }, function(results)
                     TriggerClientEvent("DRP_Bank:ActionCallback", src, true, "Success", newBankBalance, newCashBalance)
+                    TriggerEvent("DRP_Bank:addLog", {CharacterData = CharacterData, type = type, types = "deposit", amount = amount}, function(data)
+                        TriggerClientEvent("DRP_Bank:setBankTransactions", src, data[1])
+                    end)
                 end)
             end)
         else 
@@ -222,6 +228,61 @@ function GetCharacterMoney(charid, callback)
 		callback(results)
 	end)
 end
+---------------------------------------------------------------------------
+-- Bank And ATM Transactions Logging
+---------------------------------------------------------------------------
+-- Name: Name
+-- Type: 'Bank', 'Atm'
+-- Types: withdraw, deposit
+-- Amount: Amount
+AddEventHandler("DRP_Bank:addLog", function(values, callback)
+	exports["externalsql"]:AsyncQueryCallback({
+		query = [[
+		INSERT INTO bank_transactions
+			(`charactername`, `type`, `types`, `amount`, `char_id`)
+			VALUES
+			(:charactername, :type, :types, :amount, :char_id)
+		]],
+        data = {
+            charactername = values.CharacterData.name,
+			type = values.type,
+			types = values.types,
+			amount = values.amount,
+			char_id = values.CharacterData.charid
+		}
+    }, function(results)
+		if results["data"]["affectedRows"] > 0 then
+            local id = results["data"]["insertId"]
+            exports["externalsql"]:AsyncQueryCallback({
+                query = "SELECT * from bank_transactions WHERE `id` = :id",
+                data = { id = id }
+            }, function(results)
+				callback({results["data"][1]})
+            end)
+        else
+            print("No rows affected!.")
+        end
+    end)
+end)
+
+RegisterServerEvent("DRP_Bank:SetBankTransactionsOnSpawn")
+AddEventHandler("DRP_Bank:SetBankTransactionsOnSpawn", function()
+    local CharacterData = exports["drp_id"]:GetCharacterData(source)
+    TriggerEvent("DRP_Bank:getTransactionLogs", CharacterData.charid, function(logs)
+        for a = 1, #logs do
+            TriggerClientEvent("DRP_Bank:setBankTransactions", CharacterData.id, logs[a], true)
+        end
+    end)
+end)
+
+AddEventHandler("DRP_Bank:getTransactionLogs", function(charid, callback)
+	exports["externalsql"]:AsyncQueryCallback({
+		query = "SELECT type, types, amount FROM bank_transactions WHERE `char_id` = :charid ORDER BY time DESC LIMIT 120",
+		data = { charid = charid }
+	}, function(results)
+		callback(results["data"])
+	end)
+end)
 ---------------------------------------------------------------------------
 -- All Commands For Banking
 ---------------------------------------------------------------------------

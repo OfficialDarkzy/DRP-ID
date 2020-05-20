@@ -16,7 +16,8 @@
           <div id="ATM_Menu_Header">
             <div id="ATM_Character_Information">
               <div>Welcome, {{ character_name }}</div>
-              <div>Bank Balance: ${{ account }}: Cash Balance: ${{ cash }}</div>
+              <div>Cash Balance: $ {{ numberformat(cash) }}</div>
+              <div>Bank Balance: $ {{ numberformat(account) }}</div>
             </div>
             <v-icon dark x-large left>account_balance</v-icon>
             City ATM
@@ -60,7 +61,7 @@
                       block
                       dark
                       :loading="loading"
-                      @click="DepositMoney()"
+                      @click="DepositMoney('ATM')"
                       >Deposit (Enter Amount)
                     </v-btn>
                     <v-btn
@@ -68,7 +69,7 @@
                       block
                       dark
                       :loading="loading"
-                      @click="DepositAll()"
+                      @click="DepositAll('ATM')"
                       >Deposit All
                     </v-btn>
                   </v-flex>
@@ -141,11 +142,41 @@
 
         <!-- YO BRO THIS IS THE BANKING UI -->
         <div id="ATM_Menu_Base" v-show="showBankMenu">
+          <div v-if="page === 'bank'" class="tooltip">
+            <v-btn
+              color="orange"
+              slot="activator"
+              absolute
+              left
+              top
+              fab
+              dark
+              small
+              @click="page = 'transactions'">
+              <v-icon>account_balance</v-icon>
+            </v-btn>
+            <span class="tooltiptext">Transactions</span>
+          </div>
+          <v-btn
+            v-if="page === 'transactions'"
+            color="red" slot="activator"
+            absolute
+            left
+            top
+            fab
+            dark
+            small
+            @click="page = 'bank'">
+            <v-icon>exit_to_app</v-icon>
+          </v-btn>
           <div id="ATM_Menu_Header">
-            <div id="ATM_Character_Information">
-              <div>Welcome, {{ character_name }}</div>
-              <div>Bank Balance: ${{ account }}: Cash Balance: ${{ cash }}</div>
-            </div>
+              <div id="ATM_Character_Information">
+                <div v-if="page === 'bank'">
+                  <div>Welcome, {{ character_name }}</div>
+                  <div>Cash Balance: $ {{ numberformat(cash) }}</div>
+                  <div>Bank Balance: $ {{ numberformat(account) }}</div>
+                </div>
+              </div>
             <v-icon dark x-large left>account_balance</v-icon>
             City Bank
             <v-btn
@@ -158,83 +189,109 @@
               dark
               small
               @click="CloseBankMenu()"
+              v-if="page === 'bank'"
             >
               <v-icon>clear</v-icon>
             </v-btn>
           </div>
+
           <div id="ATM_Menu_Body">
-            <v-container grid-list-md>
-              <v-form @submit.prevent ref="depositForm" v-model="depositFormValid">
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-text-field
-                      label="Amount"
-                      type="number"
-                      :rules="inputRules"
-                      v-model="depositAmount"
-                      dark
-                      color="white"
-                      prefix="$"
-                      :disabled="loading"
-                      :loading="loading"
-                      min="1"
-                    ></v-text-field>
-                  </v-flex>
-                </v-layout>
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-btn
-                      color="blue"
-                      block
-                      dark
-                      :loading="loading"
-                      @click="DepositMoney()"
-                      >Deposit (Enter Amount)
-                    </v-btn>
-                    <v-btn
-                      color="blue"
-                      block
-                      dark
-                      :loading="loading"
-                      @click="DepositAll()"
-                      >Deposit All</v-btn
-                    >
-                  </v-flex>
-                </v-layout>
-              </v-form>
-            </v-container>
-            <v-container grid-list-md>
-              <v-form @submit.prevent ref="withdrawForm" v-model="withdrawFormValid">
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-text-field
-                      label="Amount"
-                      type="number"
-                      :rules="inputRules"
-                      v-model="withdrawAmount"
-                      dark
-                      color="white"
-                      prefix="$"
-                      :disabled="loading"
-                      :loading="loading"
-                      min="1"
-                    ></v-text-field>
-                  </v-flex>
-                </v-layout>
-                <v-layout row>
-                  <v-flex xs12>
-                    <v-btn
-                      color="blue"
-                      block
-                      dark
-                      :loading="loading"
-                      @click="WithdrawMoney()"
-                      >Withdraw
-                    </v-btn>
-                  </v-flex>
-                </v-layout>
-              </v-form>
-            </v-container>
+            <div v-if="page === 'bank'">
+              <v-container grid-list-md>
+                <v-form @submit.prevent ref="depositForm" v-model="depositFormValid">
+                  <v-layout row>
+                    <v-flex xs12>
+                      <v-text-field
+                        label="Amount"
+                        type="number"
+                        :rules="inputRules"
+                        v-model="depositAmount"
+                        dark
+                        color="white"
+                        prefix="$"
+                        :disabled="loading"
+                        :loading="loading"
+                        min="1"
+                      ></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                  <v-layout row>
+                    <v-flex xs12>
+                      <v-btn
+                        color="blue"
+                        block
+                        dark
+                        :loading="loading"
+                        @click="DepositMoney('Bank')"
+                        >Deposit (Enter Amount)
+                      </v-btn>
+                      <v-btn
+                        color="blue"
+                        block
+                        dark
+                        :loading="loading"
+                        @click="DepositAll('Bank')"
+                        >Deposit All</v-btn
+                      >
+                    </v-flex>
+                  </v-layout>
+                </v-form>
+              </v-container>
+              <v-container grid-list-md>
+                <v-form @submit.prevent ref="withdrawForm" v-model="withdrawFormValid">
+                  <v-layout row>
+                    <v-flex xs12>
+                      <v-text-field
+                        label="Amount"
+                        type="number"
+                        :rules="inputRules"
+                        v-model="withdrawAmount"
+                        dark
+                        color="white"
+                        prefix="$"
+                        :disabled="loading"
+                        :loading="loading"
+                        min="1"
+                      ></v-text-field>
+                    </v-flex>
+                  </v-layout>
+                  <v-layout row>
+                    <v-flex xs12>
+                      <v-btn
+                        color="blue"
+                        block
+                        dark
+                        :loading="loading"
+                        @click="WithdrawMoney('Bank')"
+                        >Withdraw
+                      </v-btn>
+                    </v-flex>
+                  </v-layout>
+                </v-form>
+              </v-container>
+            </div>
+            <div v-if="page === 'transactions'">
+              <v-container grid-list-xl>
+                <div v-for="(item, index) in transactions">
+                  <v-list id="scrollable" dark subheader two-line>
+                    <v-list-tile avatar @click="">
+                      <v-list-tile-avatar>
+                        <v-icon v-if="item.type === 'Bank'" class="grey lighten-1 black--text">account_balance</v-icon>
+                        <v-icon v-if="item.type === 'ATM'" class="grey lighten-1 black--text">credit_card</v-icon>
+                      </v-list-tile-avatar>          
+                      <v-list-tile-content>
+                        <v-list-tile-title v-if="item.types === 'withdraw'">Withdraw From {{ item.type }}</v-list-tile-title>
+                        <v-list-tile-title v-if="item.types === 'deposit'">Deposit From {{ item.type }}</v-list-tile-title>
+                      </v-list-tile-content>
+                      <v-list-tile-action>
+                        <div color="grey lighten-1">$ {{numberformat(item.amount)}}</div>
+                      </v-list-tile-action>
+                    </v-list-tile>
+                    <v-divider inset></v-divider>
+                  </v-list>
+                </div>
+              </v-container>
+            </div>
           </div>
         </div>
       </v-content>

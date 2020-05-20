@@ -13,6 +13,10 @@ const ATMMenu = new Vue({
     showBankMenu: false,
     loading: false,
 
+    pages: ["bank", "transactions"],
+    page: "bank",
+    transactions: [],
+
     // Rules
     inputRules: [
       v => !!v || "Input invalid",
@@ -78,12 +82,13 @@ const ATMMenu = new Vue({
         });
     },
 
-    DepositMoney() {
+    DepositMoney(type) {
       if (this.depositFormValid) {
         this.loading = true;
         axios
           .post(`http://${this.ResourceName}/deposit`, {
-            amount: this.depositAmount
+            amount: this.depositAmount,
+            type: type
           })
           .then(response => {
             console.log(response);
@@ -95,12 +100,13 @@ const ATMMenu = new Vue({
       }
     },
 
-    WithdrawMoney() {
+    WithdrawMoney(type) {
       if (this.withdrawFormValid) {
         this.loading = true;
         axios
           .post(`http://${this.ResourceName}/withdraw`, {
-            amount: this.withdrawAmount
+            amount: this.withdrawAmount,
+            type: type
           })
           .then(response => {
             console.log(response);
@@ -115,7 +121,9 @@ const ATMMenu = new Vue({
     Quick5() {
       this.loading = true;
       axios
-        .post(`http://${this.ResourceName}/quick5`, {})
+        .post(`http://${this.ResourceName}/quick5`, {
+          type: 'ATM'
+        })
         .then(response => {
           console.log(response);
         })
@@ -127,7 +135,9 @@ const ATMMenu = new Vue({
     Quick10() {
       this.loading = true;
       axios
-        .post(`http://${this.ResourceName}/quick10`, {})
+        .post(`http://${this.ResourceName}/quick10`, {
+          type: 'ATM'
+        })
         .then(response => {
           console.log(response);
         })
@@ -139,7 +149,9 @@ const ATMMenu = new Vue({
     Quick25() {
       this.loading = true;
       axios
-        .post(`http://${this.ResourceName}/quick25`, {})
+        .post(`http://${this.ResourceName}/quick25`, {
+          type: 'ATM'
+        })
         .then(response => {
           console.log(response);
         })
@@ -151,7 +163,9 @@ const ATMMenu = new Vue({
     Quick50() {
       this.loading = true;
       axios
-        .post(`http://${this.ResourceName}/quick50`, {})
+        .post(`http://${this.ResourceName}/quick50`, {
+          type: 'ATM'
+        })
         .then(response => {
           console.log(response);
         })
@@ -163,7 +177,9 @@ const ATMMenu = new Vue({
     Quick100() {
       this.loading = true;
       axios
-        .post(`http://${this.ResourceName}/quick100`, {})
+        .post(`http://${this.ResourceName}/quick100`, {
+          type: 'ATM'
+        })
         .then(response => {
           console.log(response);
         })
@@ -175,7 +191,9 @@ const ATMMenu = new Vue({
     Quick250() {
       this.loading = true;
       axios
-        .post(`http://${this.ResourceName}/quick250`, {})
+        .post(`http://${this.ResourceName}/quick250`, {
+          type: 'ATM'
+        })
         .then(response => {
           console.log(response);
         })
@@ -184,11 +202,12 @@ const ATMMenu = new Vue({
         });
     },
 
-    DepositAll() {
+    DepositAll(type) {
       this.loading = true;
       axios
         .post(`http://${this.ResourceName}/depositall`, {
-          cashTotal: this.cash
+          cashTotal: this.cash,
+          type: type
         })
         .then(response => {
           console.log(response);
@@ -206,6 +225,15 @@ const ATMMenu = new Vue({
       this.$refs.depositForm.reset();
       this.$refs.withdrawForm.reset();
       this.loading = false;
+    },
+
+    UpdateTransactions(values) {
+      this.transactions = values
+    },
+
+    numberformat(value) {
+      let val = (value/1).toFixed(0).split('.')
+      return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
     }
   }
 });
@@ -229,6 +257,8 @@ document.onreadystatechange = () => {
           event.data.balance,
           event.data.cash
         );
+      } else if (event.data.type == "update_transactions") {
+        ATMMenu.UpdateTransactions(event.data.values)
       }
     });
   }
