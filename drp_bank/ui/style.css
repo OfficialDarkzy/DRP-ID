@@ -23,6 +23,7 @@ html {
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
+  scrollbar-color: lightgray rgba(60, 62, 66, 0.8);
 }
 
 /*---------------------------------------------------------------------------
@@ -44,6 +45,8 @@ html {
 #ATM_Menu_Body {
   background-color: rgba(60, 62, 66, 0.8);
   padding: 20px;
+  overflow-y: auto;
+  height: 100%;
 }
 
 /*---------------------------------------------------------------------------
@@ -53,4 +56,37 @@ html {
   position: absolute;
   font-size: 15px;
   text-align: left;
+  margin-top: 20px;
+  margin-left: 10px;
+}
+
+/*---------------------------------------------------------------------------
+-- Tooltip
+---------------------------------------------------------------------------*/
+.tooltip {
+  position: absolute;
+  display: inline-flex;
+}
+
+.tooltiptext {
+  visibility: hidden;
+  width: 85px;
+  background-color: rgba(14, 14, 14, 0.5);
+  color: #fff;
+  text-align: center;
+  border-radius: 6px;
+  padding: 6px 0;
+  
+  /* Position the tooltip */
+  margin-left: 60;
+  margin-top: -11;
+  
+  /* Fade in tooltip - takes 1 second to go from 0% to 100% opac: */
+  opacity: 0;
+  transition: opacity 1s;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+  opacity: 1;
 }
