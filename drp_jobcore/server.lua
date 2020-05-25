@@ -48,7 +48,11 @@ end)
 RegisterCommand("job", function(source, args, raw)
     local src = source
     local myJob = GetPlayerJob(src)
-    TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Your job is "..myJob.jobLabel..""), 2500, false, "leftCenter")
+    if myJob == nil then
+        return
+    else
+        TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Your job is "..myJob.jobLabel..""), 2500, false, "leftCenter")
+    end
 end, false)
 ---------------------------------------------------------------------------
 -- Add Salary To Character
