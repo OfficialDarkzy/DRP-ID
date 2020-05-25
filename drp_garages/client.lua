@@ -272,6 +272,7 @@ function SpawnVehicle(vehicle, plate, vehmods, spawnPoint, fuelLevel)
 	TriggerServerEvent("DRP_Garages:GiveKeys", id, plate)
     TriggerServerEvent("DRP_Garages:StateChanger", plate, 'OUT')
 end
+exports("SpawnVehicle", SpawnVehicle)
 ---------------------------------------------------------------------------
 -- Function for spawning Job Vehicles
 ---------------------------------------------------------------------------
