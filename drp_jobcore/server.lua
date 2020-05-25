@@ -48,10 +48,10 @@ end)
 RegisterCommand("job", function(source, args, raw)
     local src = source
     local myJob = GetPlayerJob(src)
-    if myJob == nil then
-        return
-    else
+    if myJob ~= false then
         TriggerClientEvent("DRP_Core:Info", src, "Job Manager", tostring("Your job is "..myJob.jobLabel..""), 2500, false, "leftCenter")
+    else
+        TriggerClientEvent("DRP_Core:Error", src, "Job Manager", tostring("Please Wait While Job Offices Gets Your Data..."), 2500, false, "leftCenter")
     end
 end, false)
 ---------------------------------------------------------------------------
@@ -68,8 +68,12 @@ end)
 ---------------------------------------------------------------------------
 function GetPlayerJob(player)
     for a = 1, #playersJob do
-        if playersJob[a].source == player then
-            return playersJob[a]
+        if playersJob[a] ~= nil then
+            if playersJob[a].source == player then
+                return playersJob[a]
+            end
+        else
+            return false
         end
     end
     return false
