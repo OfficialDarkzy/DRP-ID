@@ -204,6 +204,21 @@ AddEventHandler("DRP_Bank:RemoveDirtyMoney", function(CharacterData, amount)
         end)
     end)
 end)
+
+AddEventHandler("DRP_Bank:AddMoneyToOtherPersons", function(charid, amount)
+    TriggerEvent("DRP_Bank:GetCharacterMoney", charid, function(characterMoney)
+        local totalBank = characterMoney["data"][1].bank
+        local newCashTotal = totalBank + amount
+        exports["externalsql"]:AsyncQueryCallback({
+            query = "UPDATE `characters` SET `cash` = :cash WHERE `id` = :charid",
+            data = {
+                cash = newCashTotal,
+                charid = charid
+            }
+        }, function(results)
+        end)
+    end)
+end)
 ---------------------------------------------------------------------------
 -- Get Character Money Data
 ---------------------------------------------------------------------------
@@ -311,3 +326,49 @@ RegisterCommand('bank', function(source, args, user)
         end)
     end)
 end, false)
+
+
+RegisterCommand('transfer', function(source, args, user)
+    local src = source
+    local character = exports["drp_id"]:GetCharacterData(src)
+    local personToTransferToo = tonumber(args[1])
+    local amountToTransfer = tonumber(args[2])
+    if personToTransferToo ~= nil then
+        if personToTransferToo == character.charid then
+            print("you cant transfer to yourself :)")
+        else
+            TriggerEvent("doesThisCharIdExist", personToTransferToo, function(data)
+                if data then
+                    if amountToTransfer == nil or amountToTransfer <= 0 then
+                        print("this is not right you actually need to say how much ya transfering")
+                    else
+                        TriggerEvent("DRP_Bank:RemoveBankMoney", character, amountToTransfer)
+                        TriggerEvent("DRP_Bank:AddMoneyToOtherPersons", personToTransferToo, amountToTransfer)
+                    end
+                else
+                    print("this person does not exists")
+                end
+            end)
+        end
+    else
+        print("you need to type someones charid in")
+    end
+end, false)
+
+AddEventHandler("doesThisCharIdExist", function(charid, callback)
+    if charid ~= nil then
+        exports["externalsql"]:AsyncQueryCallback({
+			query = "SELECT * FROM `characters` WHERE `id` = :charid",
+			data = {
+				charid = charid
+			}
+        }, function(results)
+            if json.encode(results["data"]) ~= "[]" then
+                print(json.encode(results["data"]))
+                callback(true)
+            else
+                callback(false)
+            end
+        end)
+    end
+end)
