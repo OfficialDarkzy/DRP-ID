@@ -67,6 +67,15 @@ AddEventHandler("DRP_ID:OpenVehicleList", function(characterVehicles)
 	})
 end)
 ---------------------------------------------------------------------------
+-- Change Character :)
+---------------------------------------------------------------------------
+Citizen.CreateThread(function()
+	while true do
+        print("this is coming soon :)")
+        Citizen.Wait(1000)
+    end
+end)
+---------------------------------------------------------------------------
 -- Save Characters Current Location (MIGHT MAKE A TOGGLE FOR THIS)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
