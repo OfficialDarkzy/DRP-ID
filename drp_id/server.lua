@@ -34,7 +34,12 @@ AddEventHandler("DRP_ID:RequestOpenMenu", function()
 		query = [[SELECT * FROM `characters` WHERE `playerid` = :playerid]],
 		data = {playerid = playerData.playerid}
 	})
-	local characters = characters["data"]
+    local characters = characters["data"]
+    for a = 1, #character do
+        if character[a].charid == characters.charid then
+            table.remove(character, a) 
+        end
+    end
 	TriggerClientEvent("DRP_ID:OpenMenu", src, characters)
 end)
 ---------------------------------------------------------------------------

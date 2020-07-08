@@ -6,6 +6,7 @@ DRPCharacters = {}
 --- Character Creation Config (Change to what you want.)
 ---------------------------------------------------------------------------
 DRPCharacters.SpawnSelection = true
+DRPCharacters.ChangeCharacterInGame = true
 ---------------------------------------------------------------------------
 --- Character Starting and Creation Information/Config (Change to what you want.)
 ---------------------------------------------------------------------------
@@ -34,3 +35,7 @@ DRPCharacters.SpawnSelectionLocations = {
     ["LS Garage"] = {x = 279.7169, y = -345.4529, z = 44.91983},
     ["Sandy Shores"] = {x = 1816.91, y = 3660.19, z = 34.28}
 }
+---------------------------------------------------------------------------
+--- Change Character Locations
+---------------------------------------------------------------------------
+DRPCharacters.ChangeCharacterInGameLocation = {name = "Character Changer", id = 89, blipSize = 1.0, colour = 1, x = -262.87, y = -901.23, z = 32.31}
