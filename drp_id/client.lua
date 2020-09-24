@@ -95,28 +95,28 @@ function createTheBlipzzzz(locationChange)
     EndTextCommandSetBlipName(blip)
 end
 
-Citizen.CreateThread(function()
-    if DRPCharacters.ChangeCharacterInGame then
-        local locationChange = DRPCharacters.ChangeCharacterInGameLocation
-        createTheBlipzzzz(locationChange)
-        local sleeper = 1000
-        while true do
-            local ped = PlayerPedId()
-            local coords = GetEntityCoords(ped, false)
-            local distance = Vdist2(coords.x, coords.y, coords.z, locationChange.x, locationChange.y, locationChange.z)
-            if distance <= 3.0 then
-                sleeper = 5
-                if IsControlJustPressed(1, 38) then
-                    countDownTimer = 5
-                end
-                if countDownTimer >= 1 then
-                    exports["drp_core"]:drawText("You have left:"..countDownTimer)
-                end
-            end
-            Citizen.Wait(sleeper)
-        end
-    end
-end)
+-- Citizen.CreateThread(function()
+--     if DRPCharacters.ChangeCharacterInGame then
+--         local locationChange = DRPCharacters.ChangeCharacterInGameLocation
+--         createTheBlipzzzz(locationChange)
+--         local sleeper = 1000
+--         while true do
+--             local ped = PlayerPedId()
+--             local coords = GetEntityCoords(ped, false)
+--             local distance = Vdist2(coords.x, coords.y, coords.z, locationChange.x, locationChange.y, locationChange.z)
+--             if distance <= 3.0 then
+--                 sleeper = 5
+--                 if IsControlJustPressed(1, 38) then
+--                     countDownTimer = 5
+--                 end
+--                 if countDownTimer >= 1 then
+--                     exports["drp_core"]:drawText("You have left:"..countDownTimer)
+--                 end
+--             end
+--             Citizen.Wait(sleeper)
+--         end
+--     end
+-- end)
 ---------------------------------------------------------------------------
 -- Save Characters Current Location (MIGHT MAKE A TOGGLE FOR THIS)
 ---------------------------------------------------------------------------
