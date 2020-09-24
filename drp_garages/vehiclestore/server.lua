@@ -48,25 +48,24 @@ AddEventHandler("DRP_vehicleshop:PurchaseVehicle", function(model, price, plate,
 			if price == 0 or price == 1 then
 				TriggerEvent("DRP_Admin:ManualBan", src, cheatengine, true) -- This Don't work yet :)
 			else
-				exports["externalsql"]:AsyncQueryCallback({
-					query = [[
-					INSERT INTO vehicles
-						(`modelLabel`, `state`, `vehicleMods`, `plate`, `garage_slot`, fuel_level, `charactername`, `char_id`)
-					VALUES
-						(:modelLabel, :state, :vehicleMods, :plate, :garage_slot, :fuel_level, :charactername, :charid)
-					]],
-					data = {
-						modelLabel = model,
-						state = "OUT",
-						vehicleMods = json.encode(vehicleMods),
-						plate = plate,
-						garage_slot = garage_slot,
-						fuel_level = fuel_level,
-						charactername = CharacterData.name,
-						charid = CharacterData.charid
-					}
-				}, function(vehicleAdd)
-			end)
+            exports["externalsql"]:AsyncQuery({
+                query = [[
+                INSERT INTO vehicles
+                    (`modelLabel`, `state`, `vehicleMods`, `plate`, `garage_slot`, fuel_level, `charactername`, `char_id`)
+                VALUES
+                    (:modelLabel, :state, :vehicleMods, :plate, :garage_slot, :fuel_level, :charactername, :charid)
+                ]],
+                data = {
+                    modelLabel = model,
+                    state = "OUT",
+                    vehicleMods = json.encode(vehicleMods),
+                    plate = plate,
+                    garage_slot = garage_slot,
+                    fuel_level = fuel_level,
+                    charactername = CharacterData.name,
+                    charid = CharacterData.charid
+                }
+            })
 		end
 	end)
 end)
