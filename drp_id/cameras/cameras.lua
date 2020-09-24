@@ -32,7 +32,7 @@ AddEventHandler("DRP_ID:StartSkyCamera", function()
     SetEntityCoords(ped, -505.09, -1224.11, 232.2, 0, 0, 0, 0)
 	FreezeEntityPosition(ped, true)
     SetEntityVisible(ped, false, false)
-    SetPlayerInvincible(PlayerId(), true)
+    SetPlayerInvincible(ped, true)
 end)
 ---------------------------------------------------------------------------
 -- Stop Selection Sky Cam
@@ -42,11 +42,10 @@ AddEventHandler("DRP_ID:StopSkyCamera", function()
     if startCameraRotations then
         local ped = PlayerPedId()
         SetPlayerInvisibleLocally(PlayerId(), false)
-        SetEntityVisible(playerPed, true)
+        SetEntityVisible(ped, true)
         SetPlayerInvincible(PlayerId(), false)
-        SetPedDefaultComponentVariation(playerPed)
-        FreezeEntityPosition(playerPed, false)
-        
+        SetPedDefaultComponentVariation(ped)
+        FreezeEntityPosition(ped, false)
         startCameraRotations = false
         RenderScriptCams(0, 1, 1500, 1, 1)
         DestroyCam(spawnedCamera, false)
