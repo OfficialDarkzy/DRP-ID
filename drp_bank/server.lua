@@ -1,3 +1,6 @@
+---------------------------------------------------------------------------
+-- Main Data Request
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Bank:RequestBankInfo")
 AddEventHandler("DRP_Bank:RequestBankInfo", function(menuName)
     local src = source
@@ -288,6 +291,7 @@ AddEventHandler("DRP_Bank:SetBankTransactionsOnSpawn", function()
         end
     end)
 end)
+
 
 AddEventHandler("DRP_Bank:getTransactionLogs", function(charid, callback)
 	exports["externalsql"]:AsyncQueryCallback({
