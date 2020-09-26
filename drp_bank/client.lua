@@ -107,6 +107,16 @@ end)
 ---------------------------------------------------------------------------
 Citizen.CreateThread(function()
     local accounts = DRPBankConfig.OpenNewAccount
+    for _, item in pairs(accounts) do
+        blip = AddBlipForCoord(item.x, item.y, item.z)
+        SetBlipSprite(blip, 408)
+        SetBlipAsShortRange(blip, true)
+        SetBlipColour(blip, 3)
+        SetBlipScale(blip, 0.7)
+        BeginTextCommandSetBlipName("STRING")
+        AddTextComponentString('Create Business Account')
+        EndTextCommandSetBlipName(blip)
+	end
     local sleeper = 1000
     while true do
         local ped = PlayerPedId()
