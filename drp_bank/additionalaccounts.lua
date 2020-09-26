@@ -11,25 +11,19 @@ AddEventHandler("DRP_Bank:CreateAnotherBankAccount", function()
             charid = character.charid
         }
     })
-    print(json.encode(results["data"]))
-
-    if results["data"] == "[]" then
-        print("you do not have an account open")
+    if #results["data"] < DRPBankConfig.MaxAmountOfBankAccounts then
+        print("you can open an account")
+        local results = exports["externalsql"]:AsyncQuery({
+            query = "SELECT * FROM `business_bankaccounts` WHERE `charidowner` = :charid",
+            data = {
+                charid = character.charid
+            }
+        })
+        local values = results["data"]
+        TriggerClientEvent("DRP_Bank:OpenNewAccount", src, character.name, values)
     else
-        if #results["data"] < DRPBankConfig.MaxAmountOfBankAccounts then
-            print("you can open an account")
-            local results = exports["externalsql"]:AsyncQuery({
-                query = "SELECT * FROM `business_bankaccounts` WHERE `charidowner` = :charid",
-                data = {
-                    charid = character.charid
-                }
-            })
-            local values = results["data"]
-            TriggerClientEvent("DRP_Bank:OpenNewAccount", src, character.name, values)
-        else
-            TriggerClientEvent("DRP_Core:Error", src, "Accounts", "You have too many Accounts open, or you are not allowed to open Accounts", 2500, false, "leftCenter")
-        end
-    end 
+        TriggerClientEvent("DRP_Core:Error", src, "Accounts", "You have too many Accounts open, or you are not allowed to open Accounts", 2500, false, "leftCenter")
+    end
 end)
 
 RegisterServerEvent("DRP_Bank:CreateAccount")
