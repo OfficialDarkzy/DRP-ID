@@ -22,7 +22,7 @@ files {
 }
 
 shared_script "shared/shared.lua"
-shared_script "shared/config.lua"
+shared_script "config/config.lua"
 
 server_script "server.lua"
 

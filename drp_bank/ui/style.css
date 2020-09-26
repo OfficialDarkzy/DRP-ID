@@ -13,7 +13,7 @@ html {
 }
 
 /*---------------------------------------------------------------------------
--- Menu Base
+-- Menu Bases
 ---------------------------------------------------------------------------*/
 #ATM_Menu_Base {
   position: absolute;
@@ -24,6 +24,17 @@ html {
   top: 50%;
   transform: translate(-50%, -50%);
   scrollbar-color: lightgray rgba(60, 62, 66, 0.8);
+}
+
+#AccountCreator_Menu_Base {
+    position: absolute;
+    width: 660px;
+    height: 500px;
+    max-height: 700px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    scrollbar-color: lightgray rgba(60, 62, 66, 0.8);
 }
 
 /*---------------------------------------------------------------------------
@@ -47,6 +58,7 @@ html {
   padding: 20px;
   overflow-y: auto;
   height: 100%;
+  color: white;
 }
 
 /*---------------------------------------------------------------------------

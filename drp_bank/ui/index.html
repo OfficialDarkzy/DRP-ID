@@ -294,6 +294,107 @@
             </div>
           </div>
         </div>
+
+
+
+        <!-- YO BRO THIS IS THE BANK ACCOUNT CREATOR -->
+        <div id="AccountCreator_Menu_Base" v-show="showAccountCreator">
+            <div id="ATM_Menu_Header">
+                <v-icon dark x-large left>account_balance</v-icon>
+                City Bank Account Creator Form
+                <div id="ATM_Character_Information">
+                    <div><b>Welcome, {{ character_name }}</b></div>
+                </div>
+              <v-btn
+                color="red"
+                slot="activator"
+                absolute
+                right
+                top
+                fab
+                dark
+                small
+                @click="CloseAccountCreator()"
+              >
+                <v-icon>clear</v-icon>
+              </v-btn>
+            </div>
+            <div id="ATM_Menu_Body">
+                <v-container grid-list-md>
+                    The Official form for creating your own Business Bank Accounts, please complete the form to requirements and if there is any issues you will be advised.
+                    <br>
+                    <br>
+                    <v-form @submit.prevent ref="accountForm" v-model="accountFormValid">
+                        <v-layout row>
+                            <v-flex xs6>
+                                <v-text-field
+                                    label="Account Name"
+                                    type="Label"
+                                    v-model="accountName"
+                                    dark
+                                    color="white"
+                                    prefix=""
+                                    :disabled="loading"
+                                    :loading="loading"
+                                    min="1"
+                                    >
+                                </v-text-field>
+                            </v-flex>
+                            <v-flex xs6>
+                                <v-text-field
+                                    label="Account Pin Code"
+                                    type="number"
+                                    :rules = "inputRules"
+                                    v-model="accountPinCode"
+                                    dark
+                                    color="white"
+                                    prefix=""
+                                    :disabled="loading"
+                                    :loading="loading"
+                                    min="1"
+                                    >
+                                </v-text-field>
+                            </v-flex>
+                        </v-layout>
+                        <v-flex xs12>
+                            <v-btn
+                                color="blue"
+                                block
+                                dark
+                                :loading="loading"
+                                @click="SubmitAccountForm()"
+                                >Submit Form
+                            </v-btn>
+                        </v-flex>
+                    </v-form>
+
+
+                    <v-container grid-list-xl>
+                        <center>Existing Open Accounts</center>
+                        <br>
+                        <br>
+                        <div v-for="(item, index) in businessAccounts">
+                          <v-list id="scrollable" dark subheader two-line>
+                            <v-list-tile avatar @click="">
+                              <v-list-tile-avatar>
+                                <v-icon class="grey lighten-1 black--text">account_balance</v-icon>
+                              </v-list-tile-avatar>          
+                              <v-list-tile-content>
+                                <v-list-tile-title >Account Number: <b>{{ item.accountnumber }}</b></v-list-tile-title>
+                                <v-list-tile-title >Account Name: <b>{{ item.accountname }}</b></v-list-tile-title>
+                              </v-list-tile-content>
+                              <v-list-tile-action>
+                                <div color="grey lighten-1">$ {{numberformat(item.amount)}}</div>
+                              </v-list-tile-action>
+                            </v-list-tile>
+                            <v-divider inset></v-divider>
+                          </v-list>
+                        </div>
+                      </v-container>
+
+                </v-container>
+            </div>
+          </div>
       </v-content>
     </v-app>
 

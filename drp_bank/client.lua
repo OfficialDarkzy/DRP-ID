@@ -24,6 +24,16 @@ AddEventHandler("DRP_Bank:OpenMenu", function(name, balance, cash, menuName)
         })
     end
 end)
+
+RegisterNetEvent("DRP_Bank:OpenNewAccount")
+AddEventHandler("DRP_Bank:OpenNewAccount", function(name, businessaccounts)
+    SetNuiFocus(true, true)
+    SendNUIMessage({
+        type = "open_account_creator",
+        name = name,
+        businessaccounts = businessaccounts
+    })
+end)
 ---------------------------------------------------------------------------
 -- ATM UI Thread
 ---------------------------------------------------------------------------
@@ -93,6 +103,31 @@ Citizen.CreateThread(function()
     end
 end)
 ---------------------------------------------------------------------------
+-- Business Bank Accounts
+---------------------------------------------------------------------------
+Citizen.CreateThread(function()
+    local accounts = DRPBankConfig.OpenNewAccount
+    local sleeper = 1000
+    while true do
+        local ped = PlayerPedId()
+        local pedCoords = GetEntityCoords(ped, false)
+        for a = 1, #accounts do
+            local distance = Vdist2(pedCoords.x, pedCoords.y, pedCoords.z, accounts[a].x, accounts[a].y, accounts[a].z)
+            if distance <= 10 then
+                sleeper = 5
+                DrawMarker(27, accounts[a].x, accounts[a].y, accounts[a].z - 0.9, 0, 0, 0, 0, 0, 0, 1.501, 1.5001, 0.5001, 0, 220,20,60, 0, 0, 0, 1)
+                if distance <= 3 then
+                    exports['drp_core']:DrawText3Ds(accounts[a].x, accounts[a].y, accounts[a].z, tostring("~b~[E] - ~b~ Create Another Bank Account"))
+                    if IsControlJustPressed(1, 38) then
+                        TriggerServerEvent("DRP_Bank:CreateAnotherBankAccount")
+                    end
+                end
+            end
+        end
+        Citizen.Wait(sleeper)
+    end
+end)
+---------------------------------------------------------------------------
 -- NUI Callbacks
 ---------------------------------------------------------------------------
 RegisterNUICallback("closeatm", function(data, callback)
@@ -111,6 +146,16 @@ end)
 RegisterNUICallback("closebank", function(data, callback)
     SetNuiFocus(false, false)
     bankOpen = false
+    callback("ok")
+end)
+---------------------------------------------------------------------------
+RegisterNUICallback("closeaccountcreator", function(data, callback)
+    SetNuiFocus(false, false)
+    callback("ok")
+end)
+---------------------------------------------------------------------------
+RegisterNUICallback("submitaccountform", function(data, callback)
+    TriggerServerEvent("DRP_Bank:CreateAccount", data)
     callback("ok")
 end)
 ---------------------------------------------------------------------------
@@ -173,6 +218,14 @@ AddEventHandler("DRP_Bank:ActionCallback", function(status, message, balance, ca
     if status == false then
         TriggerEvent("DRP_Core:Error", "The Bank", message, 5000, false, "leftCenter")
     end
+end)
+
+RegisterNetEvent("DRP_Bank:UpdateAccountMenu")
+AddEventHandler("DRP_Bank:UpdateAccountMenu", function(values)
+    SendNUIMessage({
+        type = "update_account",
+        values = values
+    })
 end)
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Bank:setBankTransactions")

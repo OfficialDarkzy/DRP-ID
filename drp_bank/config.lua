@@ -11,6 +11,11 @@ DRPBankConfig.Banks = {
     {name="Bank", id=108, x=-112.202, y=6469.295, z=31.626},
     {name="Bank", id=108, x=314.187, y=-278.621, z=54.170},
     {name="Bank", id=108, x=-351.534, y=-49.529, z=49.042},
-    {name="Bank", id=108, x=241.727, y=220.706, z=106.286},
+    {name="Bank", id=108, x=242.95, y=224.8, z=106.286},
     {name="Bank", id=108, x=1175.13, y=2706.08, z=38.09}
+}
+
+DRPBankConfig.MaxAmountOfBankAccounts = 2
+DRPBankConfig.OpenNewAccount = {
+    {x = 255.73, y = 209.39, z = 106.29}
 }

@@ -11,6 +11,7 @@ const ATMMenu = new Vue({
     // Booleans
     showATMMenu: false,
     showBankMenu: false,
+    showAccountCreator: false,
     loading: false,
 
     pages: ["bank", "transactions"],
@@ -30,9 +31,15 @@ const ATMMenu = new Vue({
     account: 0,
     cash: 0,
 
+    // Account Information
+    businessAccounts: [],
+
     // Inputs
     depositFormValid: false,
     withdrawFormValid: false,
+    accountFormValid: false,
+    accountName: "",
+    accountPinCode: 0,
     depositAmount: 0,
     withdrawAmount: 0
   },
@@ -50,6 +57,12 @@ const ATMMenu = new Vue({
       this.character_name = name;
       this.account = balance;
       this.cash = cash;
+    },
+
+    OpenAccountCreator(name, businessaccounts) {
+        this.showAccountCreator = true;
+        this.character_name = name;
+        this.businessAccounts = businessaccounts;
     },
 
     CloseATMMenu() {
@@ -82,6 +95,19 @@ const ATMMenu = new Vue({
         });
     },
 
+    CloseAccountCreator() {
+        axios
+        .post(`http://${this.ResourceName}/closeaccountcreator`, {})
+        .then(response => {
+          console.log("closing menu!");
+          this.showAccountCreator = false;
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
     DepositMoney(type) {
       if (this.depositFormValid) {
         this.loading = true;
@@ -98,6 +124,24 @@ const ATMMenu = new Vue({
           });
         this.$refs.depositForm.reset();
       }
+    },
+
+    SubmitAccountForm() {
+        if (this.accountFormValid) {
+            this.loading = true;
+            axios
+                .post(`http://${this.ResourceName}/submitaccountform`, {
+                name: this.accountName,
+                pin: this.accountPinCode
+                })
+                .then(response => {
+                    console.log(response);
+                })
+                .catch(error => {
+                    console.log(error);
+                });
+            this.$refs.withdrawForm.reset();
+        }
     },
 
     WithdrawMoney(type) {
@@ -231,6 +275,12 @@ const ATMMenu = new Vue({
       this.transactions = values
     },
 
+    UpdateAccounts(values) {
+        this.businessAccounts = values;
+        this.$refs.accountForm.reset();
+        this.loading = false;
+    },
+
     numberformat(value) {
       let val = (value/1).toFixed(0).split('.')
       return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
@@ -250,6 +300,8 @@ document.onreadystatechange = () => {
         ATMMenu.OpenATMMenu(event.data.name, event.data.balance, event.data.cash);
       } else if (event.data.type == "open_bank_menu") {
         ATMMenu.OpenBankMenu(event.data.name, event.data.balance, event.data.cash);
+      } else if (event.data.type == "open_account_creator") {
+        ATMMenu.OpenAccountCreator(event.data.name, event.data.businessaccounts);
       } else if (event.data.type == "update_menus") {
         ATMMenu.UpdateMenu(
           event.data.status,
@@ -258,7 +310,9 @@ document.onreadystatechange = () => {
           event.data.cash
         );
       } else if (event.data.type == "update_transactions") {
-        ATMMenu.UpdateTransactions(event.data.values)
+        ATMMenu.UpdateTransactions(event.data.values);
+      } else if (event.data.type == "update_account") {
+        ATMMenu.UpdateAccounts(event.data.values);
       }
     });
   }
