@@ -236,14 +236,12 @@ AddEventHandler("DRP_Bank:GetCharacterMoney", function(charid, callback)
 end)
 
 function GetCharacterMoney(charid, callback)
-		exports["externalsql"]:AsyncQueryCallback({
-			query = "SELECT * FROM `characters` WHERE `id` = :char_id",
-			data = {
-				char_id = charid
-			}
-		}, function(results)
-		callback(results)
-	end)
+    local callback = exports["externalsql"]:AsyncQuery({
+        query = "SELECT * FROM `characters` WHERE `id` = :char_id",
+        data = {
+            char_id = charid
+        }
+    })
 end
 ---------------------------------------------------------------------------
 -- Bank And ATM Transactions Logging

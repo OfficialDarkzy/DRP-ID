@@ -37,6 +37,17 @@ html {
     scrollbar-color: lightgray rgba(60, 62, 66, 0.8);
 }
 
+#BusinessAccount_Menu_Base {
+    position: absolute;
+    width: 860px;
+    height: 650px;
+    max-height: 700px;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+    scrollbar-color: lightgray rgba(60, 62, 66, 0.8);
+}
+
 /*---------------------------------------------------------------------------
 -- Menu Header
 ---------------------------------------------------------------------------*/

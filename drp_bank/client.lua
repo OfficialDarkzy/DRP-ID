@@ -164,6 +164,11 @@ RegisterNUICallback("closeaccountcreator", function(data, callback)
     callback("ok")
 end)
 ---------------------------------------------------------------------------
+RegisterNUICallback("closebusinessaccounts", function(data, callback)
+    SetNuiFocus(false, false)
+    callback("ok")
+end)
+---------------------------------------------------------------------------
 RegisterNUICallback("submitaccountform", function(data, callback)
     TriggerServerEvent("DRP_Bank:CreateAccount", data)
     callback("ok")

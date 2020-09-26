@@ -47,7 +47,7 @@ Citizen.CreateThread(function()
 			end
 			local distance = Vdist2(pedCoords.x, pedCoords.y, pedCoords.z, garage.SpawnPoint.Pos.x, garage.SpawnPoint.Pos.y, garage.SpawnPoint.Pos.z)
 
-			if distance < 100.0 then
+			if distance < 50.0 then
 				waitTime = 5
 				DrawMarker(garage.SpawnPoint.Marker, garage.SpawnPoint.Pos.x, garage.SpawnPoint.Pos.y, garage.SpawnPoint.Pos.z, 0.0, 0.0, 0.0, 0, 0.0, 0.0, garage.SpawnPoint.Size.x, garage.SpawnPoint.Size.y, garage.SpawnPoint.Size.z, garage.SpawnPoint.Color.r, garage.SpawnPoint.Color.g, garage.SpawnPoint.Color.b, 100, false, true, 2, false, false, false, false)
 				if isInMarker and not IsPedInAnyVehicle(ped, true) then

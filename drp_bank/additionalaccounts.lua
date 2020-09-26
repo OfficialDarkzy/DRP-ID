@@ -25,7 +25,9 @@ AddEventHandler("DRP_Bank:CreateAnotherBankAccount", function()
         TriggerClientEvent("DRP_Core:Error", src, "Accounts", "You have too many Accounts open, or you are not allowed to open Accounts", 2500, false, "leftCenter")
     end
 end)
-
+---------------------------------------------------------------------------
+-- Creeate Business Account
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Bank:CreateAccount")
 AddEventHandler("DRP_Bank:CreateAccount", function(data)
     local src = source
@@ -50,4 +52,20 @@ AddEventHandler("DRP_Bank:CreateAccount", function(data)
     })
     local values = results["data"]
     TriggerClientEvent("DRP_Bank:UpdateAccountMenu", src, values)
+end)
+---------------------------------------------------------------------------
+-- Access Business Accounts
+---------------------------------------------------------------------------
+RegisterServerEvent("DRP_Bank:AccessBusinessAccounts")
+AddEventHandler("DRP_Bank:AccessBusinessAccounts", function()
+    local src = source
+    local character = exports["drp_id"]:GetCharacterData(src)
+    local results = exports["externalsql"]:AsyncQuery({
+        query = "SELECT * FROM `business_bankaccounts` WHERE `charidowner` = :charid",
+        data = {
+            charid = character.charid
+        }
+    })
+    local values = results["data"]
+    TriggerClientEvent("DRP_Bank:BusinessAccounts", src, character.name, values)
 end)

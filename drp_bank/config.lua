@@ -19,3 +19,6 @@ DRPBankConfig.MaxAmountOfBankAccounts = 2
 DRPBankConfig.OpenNewAccount = {
     {x = 255.73, y = 209.39, z = 106.29}
 }
+DRPBankConfig.AccessBusinessAccounts = {
+    {x = 147.29, y = -1039.52, z = 29.38}
+}

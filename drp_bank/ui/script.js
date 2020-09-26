@@ -12,6 +12,7 @@ const ATMMenu = new Vue({
     showATMMenu: false,
     showBankMenu: false,
     showAccountCreator: false,
+    showBusinessAccounts: false,
     loading: false,
 
     pages: ["bank", "transactions"],
@@ -65,6 +66,11 @@ const ATMMenu = new Vue({
         this.businessAccounts = businessaccounts;
     },
 
+    OpenBusinessAccounts(name, businessaccounts) {
+        this.businessAccounts = businessaccounts;
+        this.showBusinessAccounts = true;
+    },
+
     CloseATMMenu() {
       axios
         .post(`http://${this.ResourceName}/closeatm`, {})
@@ -101,6 +107,18 @@ const ATMMenu = new Vue({
         .then(response => {
           console.log("closing menu!");
           this.showAccountCreator = false;
+          console.log(response);
+        })
+        .catch(error => {
+          console.log(error);
+        });
+    },
+
+    CloseBusinessAccounts() {
+        axios
+        .post(`http://${this.ResourceName}/closebusinessaccounts`, {})
+        .then(response => {
+          this.showBusinessAccounts = false;
           console.log(response);
         })
         .catch(error => {
@@ -313,6 +331,8 @@ document.onreadystatechange = () => {
         ATMMenu.UpdateTransactions(event.data.values);
       } else if (event.data.type == "update_account") {
         ATMMenu.UpdateAccounts(event.data.values);
+      } else if (event.data.type == "open_business_accounts") {
+        ATMMenu.OpenBusinessAccounts(event.data.name, event.data.businessaccounts)
       }
     });
   }
