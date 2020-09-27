@@ -3,7 +3,7 @@ local bankOpen = false
 local laundering = false
 local transactionLog = {}
 ---------------------------------------------------------------------------
--- Triggers ATM menu to open
+-- Triggers ATM/Bank menu to open
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Bank:OpenMenu")
 AddEventHandler("DRP_Bank:OpenMenu", function(name, balance, cash, menuName)
@@ -23,16 +23,6 @@ AddEventHandler("DRP_Bank:OpenMenu", function(name, balance, cash, menuName)
             cash = cash
         })
     end
-end)
-
-RegisterNetEvent("DRP_Bank:OpenNewAccount")
-AddEventHandler("DRP_Bank:OpenNewAccount", function(name, businessaccounts)
-    SetNuiFocus(true, true)
-    SendNUIMessage({
-        type = "open_account_creator",
-        name = name,
-        businessaccounts = businessaccounts
-    })
 end)
 ---------------------------------------------------------------------------
 -- ATM UI Thread

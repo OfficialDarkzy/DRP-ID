@@ -13,10 +13,10 @@ files {
 	"ui/style.css"
 }
 
-server_script "additionalaccounts.lua"
+server_script "businessaccounts/additionalaccounts.lua"
 server_script "config.lua"
 server_script "server.lua"
 
 client_script "config.lua"
 client_script "client.lua"
-client_script "businessaccounts.lua"
+client_script "businessaccounts/businessaccounts.lua"

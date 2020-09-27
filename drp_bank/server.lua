@@ -169,45 +169,47 @@ AddEventHandler("DRP_Bank:RemoveCashMoney", function(CharacterData, amount)
         end)
     end)
 end)
+-- ---------------------------------------------------------------------------
+-- -- Adding Dirty Money
+-- ---------------------------------------------------------------------------
+-- AddEventHandler("DRP_Bank:AddDirtyMoney", function(CharacterData, amount)
+--     if type(amount) == "number" then
+--         TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
+--             local newDirtyBalance = characterMoney.data[1].dirtyCash + tonumber(amount)
+--             exports["externalsql"]:AsyncQueryCallback({
+--                 query = "UPDATE `characters` SET `dirtyCash` = :dirtyCash WHERE `id` = :charid",
+--                 data = {
+--                     dirtyCash = newDirtyBalance,
+--                     charid = CharacterData.charid
+--                 }
+--             }, function(results)
+--                 TriggerClientEvent("DRP_Bank:ActionCallback", CharacterData.id, true, "Success", newBankBalance)
+--             end)
+--         end)
+--     end
+-- end)
+-- ---------------------------------------------------------------------------
+-- -- Removing Dirty Money
+-- ---------------------------------------------------------------------------
+-- AddEventHandler("DRP_Bank:RemoveDirtyMoney", function(CharacterData, amount)
+--         local src = source
+--         TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
+--         local moneyRemoved = 25
+--         local newDirtyBalance = characterMoney.data[1].dirtyCash - tonumber(amount)
+--         exports["externalsql"]:AsyncQueryCallback({
+--             query = "UPDATE `characters` SET `dirtyCash` = :dirtyCash WHERE `id` = :charid",
+--             data = {
+--                 dirtyCash = newDirtyBalance,
+--                 charid = CharacterData.charid
+--             }
+--         }, function(results)
+--             TriggerClientEvent("DRP_Bank:ActionCallback", CharacterData.id, true, "Success", newBankBalance)
+--         end)
+--     end)
+-- end)
 ---------------------------------------------------------------------------
--- Adding Dirty Money
+-- Adding Money to Another Character
 ---------------------------------------------------------------------------
-AddEventHandler("DRP_Bank:AddDirtyMoney", function(CharacterData, amount)
-    if type(amount) == "number" then
-        TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
-            local newDirtyBalance = characterMoney.data[1].dirtyCash + tonumber(amount)
-            exports["externalsql"]:AsyncQueryCallback({
-                query = "UPDATE `characters` SET `dirtyCash` = :dirtyCash WHERE `id` = :charid",
-                data = {
-                    dirtyCash = newDirtyBalance,
-                    charid = CharacterData.charid
-                }
-            }, function(results)
-                TriggerClientEvent("DRP_Bank:ActionCallback", CharacterData.id, true, "Success", newBankBalance)
-            end)
-        end)
-    end
-end)
----------------------------------------------------------------------------
--- Removing Dirty Money
----------------------------------------------------------------------------
-AddEventHandler("DRP_Bank:RemoveDirtyMoney", function(CharacterData, amount)
-        local src = source
-        TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
-        local moneyRemoved = 25
-        local newDirtyBalance = characterMoney.data[1].dirtyCash - tonumber(amount)
-        exports["externalsql"]:AsyncQueryCallback({
-            query = "UPDATE `characters` SET `dirtyCash` = :dirtyCash WHERE `id` = :charid",
-            data = {
-                dirtyCash = newDirtyBalance,
-                charid = CharacterData.charid
-            }
-        }, function(results)
-            TriggerClientEvent("DRP_Bank:ActionCallback", CharacterData.id, true, "Success", newBankBalance)
-        end)
-    end)
-end)
-
 AddEventHandler("DRP_Bank:AddMoneyToOtherPersons", function(charid, amount)
     TriggerEvent("DRP_Bank:GetCharacterMoney", charid, function(characterMoney)
         local totalBank = characterMoney["data"][1].bank
@@ -234,7 +236,7 @@ AddEventHandler("DRP_Bank:GetCharacterMoney", function(charid, callback)
     })
     callback(results)
 end)
-
+---------------------------------------------------------------------------
 function GetCharacterMoney(charid, callback)
     local callback = exports["externalsql"]:AsyncQuery({
         query = "SELECT * FROM `characters` WHERE `id` = :char_id",
@@ -279,7 +281,7 @@ AddEventHandler("DRP_Bank:addLog", function(values, callback)
         end
     end)
 end)
-
+---------------------------------------------------------------------------
 RegisterServerEvent("DRP_Bank:SetBankTransactionsOnSpawn")
 AddEventHandler("DRP_Bank:SetBankTransactionsOnSpawn", function()
     local CharacterData = exports["drp_id"]:GetCharacterData(source)
@@ -289,8 +291,7 @@ AddEventHandler("DRP_Bank:SetBankTransactionsOnSpawn", function()
         end
     end)
 end)
-
-
+---------------------------------------------------------------------------
 AddEventHandler("DRP_Bank:getTransactionLogs", function(charid, callback)
 	exports["externalsql"]:AsyncQueryCallback({
 		query = "SELECT type, types, amount FROM bank_transactions WHERE `char_id` = :charid ORDER BY time DESC LIMIT 120",
@@ -328,8 +329,7 @@ RegisterCommand('bank', function(source, args, user)
         end)
     end)
 end, false)
-
-
+---------------------------------------------------------------------------
 RegisterCommand('transfer', function(source, args, user)
     local src = source
     local character = exports["drp_id"]:GetCharacterData(src)
@@ -356,7 +356,7 @@ RegisterCommand('transfer', function(source, args, user)
         print("you need to type someones charid in")
     end
 end, false)
-
+---------------------------------------------------------------------------
 AddEventHandler("doesThisCharIdExist", function(charid, callback)
     if charid ~= nil then
         exports["externalsql"]:AsyncQueryCallback({

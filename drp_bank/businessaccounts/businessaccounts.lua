@@ -14,7 +14,21 @@ Citizen.CreateThread(function()
         Citizen.Wait(5)
     end
 end)
-
+---------------------------------------------------------------------------
+-- Opening New Bank Accounts
+---------------------------------------------------------------------------
+RegisterNetEvent("DRP_Bank:OpenNewAccount")
+AddEventHandler("DRP_Bank:OpenNewAccount", function(name, businessaccounts)
+    SetNuiFocus(true, true)
+    SendNUIMessage({
+        type = "open_account_creator",
+        name = name,
+        businessaccounts = businessaccounts
+    })
+end)
+---------------------------------------------------------------------------
+-- View Business Accounts UI
+---------------------------------------------------------------------------
 RegisterNetEvent("DRP_Bank:BusinessAccounts")
 AddEventHandler("DRP_Bank:BusinessAccounts", function(name, businessaccounts)
     SetNuiFocus(true, true)
@@ -24,3 +38,4 @@ AddEventHandler("DRP_Bank:BusinessAccounts", function(name, businessaccounts)
         businessaccounts = businessaccounts
     })
 end)
+
