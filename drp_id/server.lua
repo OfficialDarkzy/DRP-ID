@@ -206,6 +206,7 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 			CloseAllCameras(src)
 			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, "mp_m_freemode_01", lastKnownLocation, spawnInHotel)
 		end
+	end
 end)
 ---------------------------------------------------------------------------
 -- Spawn Character At Last Known Location
