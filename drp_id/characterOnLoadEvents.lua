@@ -11,7 +11,7 @@ OnCharacterLoadEvents = function(spawnInHotel)
 	TriggerServerEvent("DRP_Farming:SyncData") -- If Farming Is Installed
 	TriggerServerEvent("DRP_Tattoos:GetTattoos") -- If Tattoos is Installed
 	TriggerServerEvent("DRP_Gang:StartUpGangs") -- If Gangs is Installed
-	TriggerServerEvent("DRP_Inventory:WeaponChecker") -- If Inventory Is Installed giving players weapons on load
-	TriggerServerEvent("DRP_Bank:SetBankTransactionsOnSpawn") -- Sets bank Transacions on spawn
+    TriggerServerEvent("DRP_Inventory:WeaponChecker") -- If Inventory Is Installed giving players weapons on load
+    TriggerServerEvent("DRP_Bank:SetBankTransactionsOnSpawn") -- Sets bank Transacions on spawn
 	loadedAllEventsCorrectly()
 end

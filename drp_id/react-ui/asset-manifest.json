@@ -1,0 +1,17 @@
+{
+  "files": {
+    "main.css": "./static/css/main.css",
+    "main.js": "./static/js/main.js",
+    "index.html": "./index.html",
+    "static/js/main.js.LICENSE.txt": "./static/js/main.js.LICENSE.txt",
+    "static/media/discord.svg": "./static/media/discord.svg",
+    "static/media/play.svg": "./static/media/play.svg",
+    "static/media/plus.svg": "./static/media/plus.svg",
+    "static/media/teamspeak.svg": "./static/media/teamspeak.svg",
+    "static/media/trash.svg": "./static/media/trash.svg"
+  },
+  "entrypoints": [
+    "static/css/main.css",
+    "static/js/main.js"
+  ]
+}
