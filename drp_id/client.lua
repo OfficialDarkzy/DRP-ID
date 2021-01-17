@@ -10,8 +10,6 @@ local motd = "<u><b>Lorem ipsum </b> </br></u>Lorem ipsum dolor sit amet, consec
 ---------------------------------------------------------------------------
 RegisterNetEvent("DRP_ID:OpenMenu")
 AddEventHandler("DRP_ID:OpenMenu", function(characters)
-	TriggerEvent('ng_hud_cl:initialize')
-	TriggerEvent('ng_loading_cl:toggleLoadscreen')
 	SetNuiFocus(true, true)
 	SendNUIMessage({
 		type = "open_character_menu",
@@ -59,7 +57,6 @@ end)
 RegisterNetEvent("DRP_ID:CloseSpawnSelectionMenu")
 AddEventHandler("DRP_ID:CloseSpawnSelectionMenu", function()
 	SendNUIMessage({type = "close_spawnselection_menu"})
-	TriggerEvent('ng_hud_cl:showUI')
 end)
 ---------------------------------------------------------------------------
 -- Open Character Vehicle List
