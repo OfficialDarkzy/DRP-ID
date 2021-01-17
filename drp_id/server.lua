@@ -23,95 +23,6 @@ function GetCharacterName(id)
 	return false
 end
 exports("GetCharacterName", GetCharacterName)
-
----------------------------------------------------------------------------
--- Get Character Specific Data like: Gender, Age, Money etc.
----------------------------------------------------------------------------
-
-function GetCharacterAge(id)
-	for a = 1, #character do
-		if character[a].id == id then
-			return(character[a].age)
-		end
-	end
-	return false
-end
-exports("GetCharacterAge", GetCharacterAge)
-
-function GetCharacterDOB(id)
-	for a = 1, #character do
-		if character[a].id == id then
-			local character = GetCharacterData(id)
-			local characterData = exports["externalsql"]:AsyncQuery({
-				query = [[SELECT * FROM `characters` WHERE `id` = :character_id]],
-				data = {character_id = character.charid}
-			})
-			local dob = characterData["data"][1].dob
-			return dob
-		end
-	end
-	return false
-end
-exports("GetCharacterDOB", GetCharacterDOB)
-
-function GetCharacterGender(id)
-	for a = 1, #character do
-		if character[a].id == id then
-			return(character[a].gender)
-		end
-	end
-	return false
-end
-exports("GetCharacterGender", GetCharacterGender)
-
-function GetCharacterPhone(id)
-	for a = 1, #character do
-		if character[a].id == id then
-			local character = GetCharacterData(id)
-			local characterData = exports["externalsql"]:AsyncQuery({
-				query = [[SELECT * FROM `characters` WHERE `id` = :character_id]],
-				data = {character_id = character.charid}
-			})
-			local phonenumber = characterData["data"][1].phonenumber
-			return phonenumber
-		end
-	end
-	return false
-end
-exports("GetCharacterPhone", GetCharacterPhone)
-
-function GetCharacterCash(id)
-	for a = 1, #character do
-		if character[a].id == id then
-			local character = GetCharacterData(id)
-			local characterData = exports["externalsql"]:AsyncQuery({
-				query = [[SELECT * FROM `characters` WHERE `id` = :character_id]],
-				data = {character_id = character.charid}
-			})
-			local cash = characterData["data"][1].cash
-			return cash
-		end
-	end
-	return false
-end
-exports("GetCharacterCash", GetCharacterCash)
-
-function GetCharacterBank(id)
-	for a = 1, #character do
-		if character[a].id == id then
-			local character = GetCharacterData(id)
-			local characterData = exports["externalsql"]:AsyncQuery({
-				query = [[SELECT * FROM `characters` WHERE `id` = :character_id]],
-				data = {character_id = character.charid}
-			})
-			local bank = characterData["data"][1].bank
-			return bank
-		end
-	end
-	return false
-end
-exports("GetCharacterBank", GetCharacterBank)
-
 ---------------------------------------------------------------------------
 -- START CHARACTER NUI
 ---------------------------------------------------------------------------
@@ -123,12 +34,7 @@ AddEventHandler("DRP_ID:RequestOpenMenu", function()
 		query = [[SELECT * FROM `characters` WHERE `playerid` = :playerid]],
 		data = {playerid = playerData.playerid}
 	})
-    local characters = characters["data"]
-    for a = 1, #character do
-        if character[a].charid == characters.charid then
-            table.remove(character, a) 
-        end
-    end
+	local characters = characters["data"]
 	TriggerClientEvent("DRP_ID:OpenMenu", src, characters)
 end)
 ---------------------------------------------------------------------------
@@ -197,7 +103,7 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 		data = {character_id = character_id}
 	})
 	local lastKnownLocation = json.decode(characterInfo["data"][1].lastLocation)
-	table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age})
+	table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, job = characterInfo.data[1].job, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age, cash = characterInfo.data[1].cash, bank = characterInfo.data[1].bank})
 	local spawnInHotel = true
 	if json.encode(characterModel["data"]) ~= "[]" then
 		if DRPCharacters.SpawnSelection then

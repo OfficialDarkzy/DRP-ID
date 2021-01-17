@@ -9,20 +9,17 @@ games { 'rdr3', 'gta5' }
 -- 	"drp_core"
 -- }
 
-ui_page "ui/index.html"
+ui_page "react-ui/index.html"
 
 files {
-	"ui/index.html",
-	"ui/libraries/axios.min.js",
-	"ui/libraries/vue.min.js",
-	"ui/libraries/vuetify.css",
-	"ui/libraries/vuetify.js",
-	"ui/script.js",
-	"ui/style.css"
+	"react-ui/index.html",
+	"react-ui/asset-manifest.json",
+	"react-ui/static/js/main.js",
+	"react-ui/static/css/main.css",
 }
 
 shared_script "shared/shared.lua"
-shared_script "config/config.lua"
+shared_script "shared/config.lua"
 
 server_script "server.lua"
 
