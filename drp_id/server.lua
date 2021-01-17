@@ -192,14 +192,13 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 	table.insert(character, {id = src, charid = character_id, playerid = characterInfo.data[1].playerid, job = characterInfo.data[1].job, gender = characterInfo.data[1].gender, name = characterInfo.data[1].name, age = characterInfo.data[1].age, cash = characterInfo.data[1].cash, bank = characterInfo.data[1].bank})
 	local spawnInHotel = true
 	if json.encode(characterModel["data"]) ~= "[]" then
-		if DRPCharacters.SpawnSelection then
-			CloseAllCameras(src)
-			TriggerClientEvent("DRP_ID:SpawnSelection", src, characterModel["data"][1].model, lastKnownLocation)
-		else
-			CloseAllCameras(src)
-			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, lastKnownLocation, spawnInHotel)
-		end
-	else
+		-- if DRPCharacters.SpawnSelection then
+		-- 	CloseAllCameras(src)
+		-- 	TriggerClientEvent("DRP_ID:SpawnSelection", src, characterModel["data"][1].model, lastKnownLocation)
+		-- else
+		-- 	CloseAllCameras(src)
+		-- 	TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, characterModel["data"][1].model, lastKnownLocation, spawnInHotel)
+		-- end
 		if DRPCharacters.SpawnSelection then
 			CloseAllCameras(src)
 			TriggerClientEvent("DRP_ID:SpawnSelection", src, "mp_m_freemode_01", lastKnownLocation)
@@ -207,7 +206,6 @@ AddEventHandler("DRP_ID:SelectCharacter", function(character_id)
 			CloseAllCameras(src)
 			TriggerClientEvent("DRP_ID:LoadSelectedCharacter", src, "mp_m_freemode_01", lastKnownLocation, spawnInHotel)
 		end
-	end
 end)
 ---------------------------------------------------------------------------
 -- Spawn Character At Last Known Location
