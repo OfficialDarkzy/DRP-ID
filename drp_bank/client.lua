@@ -102,7 +102,7 @@ Citizen.CreateThread(function()
         SetBlipSprite(blip, 408)
         SetBlipAsShortRange(blip, true)
         SetBlipColour(blip, 3)
-        SetBlipScale(blip, 0.7)
+        SetBlipScale(blip, 0.6)
         BeginTextCommandSetBlipName("STRING")
         AddTextComponentString('Create Business Account')
         EndTextCommandSetBlipName(blip)
@@ -221,7 +221,8 @@ AddEventHandler("DRP_Bank:ActionCallback", function(status, message, balance, ca
         cash = cash
     })
     if status == false then
-        TriggerEvent("DRP_Core:Error", "The Bank", message, 5000, false, "leftCenter")
+        TriggerEvent("DRP_Core:Error", "The Bank", message, 5000, false, "centerTop")
+        -- TriggerEvent("DRP_Core:Error", locale:GetValue('BankTitle'), message, 5000, false, "centerTop")
     end
 end)
 

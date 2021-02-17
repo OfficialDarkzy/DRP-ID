@@ -22,7 +22,7 @@ AddEventHandler("DRP_Bank:CreateAnotherBankAccount", function()
         local values = results["data"]
         TriggerClientEvent("DRP_Bank:OpenNewAccount", src, character.name, values)
     else
-        TriggerClientEvent("DRP_Core:Error", src, "Accounts", "You have too many Accounts open, or you are not allowed to open Accounts", 2500, false, "leftCenter")
+        TriggerClientEvent("DRP_Core:Error", src,  "The Bank",  "Unfortunately, you are not eligible for Financing", 2500, true, "centerTop")
     end
 end)
 ---------------------------------------------------------------------------
@@ -42,7 +42,8 @@ AddEventHandler("DRP_Bank:CreateAccount", function(data)
             charid = character.charid
         }
     })
-    TriggerClientEvent("DRP_Core:Success", src, "Accounts", "Account "..accountName.." has been created", 2500, false, "leftCenter")
+    TriggerClientEvent("DRP_Core:Success", src,  "The Bank",  "Account" .. accountName .. ' has been created', 2500, true, "centerTop")
+    -- TriggerClientEvent("DRP_Core:Success", src, locale:GetValue('BankTitle'),locale:GetValue('BankAccount') .. accountName .. locale:GetValue('BankAccountCreated'), 2500, false, "centerTop")
 
     local results = exports["externalsql"]:AsyncQuery({
         query = "SELECT * FROM `business_bankaccounts` WHERE `charidowner` = :charid",

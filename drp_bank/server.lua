@@ -107,7 +107,9 @@ AddEventHandler("DRP_Bank:AddBankMoney", function(CharacterData, amount)
                 }
             }, function(results)
                 TriggerClientEvent("DRP_Bank:ActionCallback", CharacterData.id, true, "Success", newBankBalance)
-                TriggerClientEvent("DRP_Core:Info", CharacterData.id, "Bank", "An amount of $"..amount.." has been added to your Bank Account", 2500, false, "leftCenter")
+                TriggerClientEvent("DRP_Core:Info", CharacterData.id,  "The Bank",  "An amount of $ ".. amount .. " has been added to your Personal Account", 2500, true, "centerTop")
+
+                -- TriggerClientEvent("DRP_Core:Info", CharacterData.id, locale:GetValue('BankTitle'), locale:GetValue('BankAnAmount') .. amount .. locale:GetValue('BankAddedToPersonalAccount'),  2500, false, "centerTop")
             end)
         end)
     end
@@ -126,7 +128,9 @@ AddEventHandler("DRP_Bank:RemoveBankMoney", function(CharacterData, amount)
             }
         }, function(results)
             TriggerClientEvent("DRP_Bank:ActionCallback", CharacterData.id, true, "Success", newBankBalance)
-            TriggerClientEvent("DRP_Core:Info", CharacterData.id, "Bank", "An amount of $"..amount.." has been removed to your Bank Account", 2500, false, "leftCenter")
+            TriggerClientEvent("DRP_Core:Info", CharacterData.id,  "The Bank",  "An amount of $ ".. amount .. " has been removed from your Personal Account", 2500, true, "centerTop")
+            -- TriggerClientEvent("DRP_Core:Error", CharacterData.id, locale:GetValue('BankTitle'), locale:GetValue('BankAnAmount') .. amount .. locale:GetValue('BankRemovedFromPersonalAccount'),  2500, false, "centerTop")
+
         end)
     end)
 end)
@@ -145,7 +149,8 @@ AddEventHandler("DRP_Bank:AddCashMoney", function(CharacterData, amount)
                 }
             }, function(results)
                 TriggerClientEvent("DRP_Bank:ActionCallback", CharacterData.id, true, "Success", newBankBalance)
-                TriggerClientEvent("DRP_Core:Info", CharacterData.id, "Bank", "You picked up $"..amount.." cash", 2500, false, "leftCenter")
+                TriggerClientEvent("DRP_Core:Info", CharacterData.id,  "The Bank",  "You picked up $ ".. amount .. " Cash", 2500, true, "centerTop")
+                -- TriggerClientEvent("DRP_Core:Info", CharacterData.id, locale:GetValue('BankTitle'), locale:GetValue('BankAddedCashMoney') .. amount .. locale:GetValue('BankCash'),  2500, false, "centerTop")
             end)
         end)
     end
@@ -165,48 +170,11 @@ AddEventHandler("DRP_Bank:RemoveCashMoney", function(CharacterData, amount)
             }
         }, function(results)
             TriggerClientEvent("DRP_Bank:ActionCallback", CharacterData.id, true, "Success", newBankBalance)
-            TriggerClientEvent("DRP_Core:Info", CharacterData.id, "Bank", "You have spent $"..amount.." cash", 2500, false, "leftCenter")
+            TriggerClientEvent("DRP_Core:Success", CharacterData.id,  "The Bank",  "You have spent $" .. amount .. "", 2500, true, "centerTop")
+            -- TriggerClientEvent("DRP_Core:Success", CharacterData.id, locale:GetValue('BankTitle'), locale:GetValue('BankSpent') .. amount .. locale:GetValue('BankCash'),  2500, false, "centerTop")
         end)
     end)
 end)
--- ---------------------------------------------------------------------------
--- -- Adding Dirty Money
--- ---------------------------------------------------------------------------
--- AddEventHandler("DRP_Bank:AddDirtyMoney", function(CharacterData, amount)
---     if type(amount) == "number" then
---         TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
---             local newDirtyBalance = characterMoney.data[1].dirtyCash + tonumber(amount)
---             exports["externalsql"]:AsyncQueryCallback({
---                 query = "UPDATE `characters` SET `dirtyCash` = :dirtyCash WHERE `id` = :charid",
---                 data = {
---                     dirtyCash = newDirtyBalance,
---                     charid = CharacterData.charid
---                 }
---             }, function(results)
---                 TriggerClientEvent("DRP_Bank:ActionCallback", CharacterData.id, true, "Success", newBankBalance)
---             end)
---         end)
---     end
--- end)
--- ---------------------------------------------------------------------------
--- -- Removing Dirty Money
--- ---------------------------------------------------------------------------
--- AddEventHandler("DRP_Bank:RemoveDirtyMoney", function(CharacterData, amount)
---         local src = source
---         TriggerEvent("DRP_Bank:GetCharacterMoney", CharacterData.charid, function(characterMoney)
---         local moneyRemoved = 25
---         local newDirtyBalance = characterMoney.data[1].dirtyCash - tonumber(amount)
---         exports["externalsql"]:AsyncQueryCallback({
---             query = "UPDATE `characters` SET `dirtyCash` = :dirtyCash WHERE `id` = :charid",
---             data = {
---                 dirtyCash = newDirtyBalance,
---                 charid = CharacterData.charid
---             }
---         }, function(results)
---             TriggerClientEvent("DRP_Bank:ActionCallback", CharacterData.id, true, "Success", newBankBalance)
---         end)
---     end)
--- end)
 ---------------------------------------------------------------------------
 -- Adding Money to Another Character
 ---------------------------------------------------------------------------
@@ -228,13 +196,15 @@ end)
 -- Get Character Money Data
 ---------------------------------------------------------------------------
 AddEventHandler("DRP_Bank:GetCharacterMoney", function(charid, callback)
-    local results = exports["externalsql"]:AsyncQuery({
-        query = "SELECT bank, cash FROM `characters` WHERE `id` = :char_id",
-        data = {
-            char_id = charid
-        }
-    })
-    callback(results)
+    if charid ~= nil or false then
+        local results = exports["externalsql"]:AsyncQuery({
+            query = "SELECT bank, cash FROM `characters` WHERE `id` = :char_id",
+            data = {
+                char_id = charid
+            }
+        })
+        callback(results)
+    end
 end)
 ---------------------------------------------------------------------------
 function GetCharacterMoney(charid, callback)
