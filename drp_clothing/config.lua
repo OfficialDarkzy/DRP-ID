@@ -104,7 +104,6 @@ Citizen.CreateThread(function()
                     end
                 elseif(Vdist(pos.x, pos.y, pos.z, v.x, v.y, v.z) > 3.0)then
                     incircle = false
-                    waitTime = 1000
                     if clothing_menu then
                         save()
                     end
