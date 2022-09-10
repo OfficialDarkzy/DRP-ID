@@ -69,6 +69,7 @@ end)
 RegisterNetEvent("DRP_vehicleshop:OpenShopMenu")
 AddEventHandler("DRP_vehicleshop:OpenShopMenu", function(vehicles)
 	SetNuiFocus(true, true)
+    print(json.encode(vehicles[1].img))
     SendNUIMessage({
         type = "open_shop_menu",
 		vehicles = vehicles,

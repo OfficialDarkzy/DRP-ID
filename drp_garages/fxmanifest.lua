@@ -6,7 +6,6 @@
 fx_version 'bodacious'
 games { 'gta5' }
 
-
 -- dependencies {
 --     'drp_id',
 --     'externalsql',
@@ -25,7 +24,7 @@ files {
     'ui/libraries/vuetify.css',
     'ui/libraries/vuetify.js',
     'ui/style.css',
-    'ui/script.js'
+    'ui/script.js',
 }
 
 client_scripts {
@@ -37,7 +36,7 @@ client_scripts {
     'managers/managers.lua',
     'managers/entityier.lua',
     'managers/utils.lua',
-    'vehiclestore/client.lua'
+    'vehiclestore/client.lua',
 }
 
 server_scripts {
